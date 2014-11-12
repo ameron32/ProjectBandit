@@ -27,4 +27,5 @@ proguard/
 
 # Secret Keys
 strings_keys.xml
+com_crashlytics*.xml
 crashlytics.properties
