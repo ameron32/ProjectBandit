@@ -24,3 +24,7 @@ proguard/
 
 # Log Files
 *.log
+
+# Secret Keys
+strings_keys.xml
+crashlytics.properties
