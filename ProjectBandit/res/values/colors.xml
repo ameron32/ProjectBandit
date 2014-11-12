@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="debug_text">#BDBDBD</color>
+    <color name="debug_text_bg">#FFFFFF</color>
+    <color name="message_text_color">#005353</color>
+    <color name="message_game_text_color">#800000</color>
+    <color name="message_system_text_color">#FFFFFF</color>
+    <color name="chat_manager_background">#FFFFFF</color>
+    <color name="chat_manager_page_indicator_selected">#FF880000</color>
+    <color name="chat_manager_page_indicator_unselected">#FF888888</color>
+    <color name="link_text_color">#000080</color>
+    <color name="game_text_bg">#FFFFCC</color>
+    
+    <color name="colorPrimary">#C3C3C3</color>
+    <color name="colorPrimaryDark">#030303</color>
+    <color name="myPrimaryColor">#3F51B5</color>
+    <color name="myPrimaryDarkColor">#3F51B5</color>
+    <color name="myAccentColor">#3F51B5</color>
+    <color name="myDrawerBackground">#F2F2F2</color>
+    <color name="myWindowBackground">#DEDEDE</color>
+    <color name="myTextPrimaryColor">#000000</color>
+    <color name="myTextPrimaryHintColor">#666666</color>
+    <color name="myNavigationColor">#000000</color>
+    <color name="selected_gray">#ffdbdbdb</color>
+    
+    <color name="character_toolbar_selected_outline">#FFD700</color>
+
+</resources>
+
+
+<!--
+        Check Android Theme colors for color reference:
+        https://developer.android.com/training/material/images/ThemeColors.png
+
+        Refer also to Color palette for the UI colors you should use:
+        http://www.google.com/design/spec/style/color.html#color-ui-color-palette
+-->

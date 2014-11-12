@@ -1,0 +1,179 @@
+package com.ameron32.apps.projectbandit.object;
+
+import com.ameron32.apps.projectbandit.SaveObjectAsync;
+import com.ameron32.lib.recyclertableview.TableAdapter.Columnable;
+import com.parse.ParseClassName;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+
+@ParseClassName("Character") public class Character
+    extends ParseObject 
+    implements Columnable<String> {
+  
+  private String name = "Nameless";
+  private int currentHealth = 0;
+  private int maxHealth = 0;
+  private int currentLevel = 0;
+  private int currentXP = 0;
+  private boolean isGameCharacter = false;
+  
+  public static Character getFromName(
+      String name) {
+    try {
+      return ParseQuery.getQuery(Character.class).whereEqualTo("name", name).getFirst();
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+  
+  // public static Character create(String name) {
+  // return new Character().setName(name);
+  // }
+  //
+  // public static Character getFromParseObject(ParseObject character) {
+  // return ParseObject.createWithoutData(Character.class,
+  // character.getObjectId());
+  // }
+  //
+  // private static Character fromParseObject(ParseObject character) {
+  // final String objectId = character.getObjectId();
+  // final String name = character.getString("name");
+  // final int currentHealth = character.getInt("currentHealth");
+  // final int maxHealth = character.getInt("maxHealth");
+  // final int currentLevel = character.getInt("currentLevel");
+  // final int currentXP = character.getInt("currentXP");
+  //
+  // Character newCharacter = new Character();
+  // newCharacter.setName(name).setHealth(currentHealth,
+  // maxHealth).setXP(currentXP, currentLevel);
+  // newCharacter.setObjectId(objectId);
+  // return newCharacter;
+  // }
+  
+  public Character() {
+    
+  }
+  
+  public Character setName(String name) {
+    this.name = name;
+    return this;
+  }
+  
+  public Character setHealth(
+      int currentHealth, int maxHealth) {
+    this.currentHealth = currentHealth;
+    this.maxHealth = maxHealth;
+    return this;
+  }
+  
+  public Character setXP(int currentXP,
+      int currentLevel) {
+    this.currentLevel = currentLevel;
+    this.currentXP = currentXP;
+    return this;
+  }
+  
+  public Character setGameCharacter(
+      boolean isGameCharacter) {
+    this.isGameCharacter = isGameCharacter;
+    return this;
+  }
+  
+  public void send() {
+    applyToParseObject();
+    
+    new SaveObjectAsync(new SaveObjectAsync.OnSaveCallbacks() {
+      
+      @Override public void onComplete() {}
+      
+      @Override public void onBegin() {}
+    }).execute(this);
+  }
+  
+  public void send(
+      SaveObjectAsync.OnSaveCallbacks callback) {
+    applyToParseObject();
+    
+    new SaveObjectAsync(callback).execute(this);
+  }
+  
+  private void applyToParseObject() {
+    this.put("name", name);
+    this.put("currentHealth", currentHealth);
+    this.put("maxHealth", maxHealth);
+    this.put("currentLevel", currentLevel);
+    this.put("currentXP", currentXP);
+    this.put("isGameCharacter", isGameCharacter);
+  }
+  
+  
+  
+  private String getName() {
+    return this.getString("name");
+  }
+  
+  private int getCurrentHealth() {
+    return this.getInt("currentHealth");
+  }
+  
+  private int getMaxHealth() {
+    return this.getInt("maxHealth");
+  }
+  
+  private int getLevel() {
+    return this.getInt("currentLevel");
+  }
+  
+  private int getXP() {
+    return this.getInt("currentXP");
+  }
+  
+  public boolean isPlayable() {
+    return this.getBoolean("inGameCharacter");
+  }
+  
+  private int getGold() {
+    return this.getInt("currentGold");
+  }
+  
+  public String getUrlFullSize() {
+    return this.getString("profilePicFullSizeUrl");
+  }
+  
+  @Override public String get(
+      int columnPosition) {
+    switch (columnPosition) {
+    case 0:
+      return getName();
+    case 1:
+      return "playable:"
+          + isPlayable();
+    case 2:
+      if (isPlayable())
+      return getCurrentHealth() + "/"
+          + getMaxHealth();
+      else
+        return "";
+    case 3:
+      if (isPlayable())
+      return getLevel() + "["
+          + getXP() + "]";
+      else
+        return "";
+    case 4:
+      if (isPlayable())
+      return "$"+getGold();
+      else
+        return "";
+    default:
+      return "none";
+    }
+  }
+  
+  @Override public int getColumnCount() {
+    return 5;
+  }
+}

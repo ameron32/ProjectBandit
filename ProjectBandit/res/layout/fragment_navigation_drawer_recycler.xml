@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/myDrawerBackground" >
+    
+
+
+    <ImageView
+        android:id="@+id/imageview_character_image_full_size"
+        android:layout_width="360dp"
+        android:layout_height="160dp" />
+
+    <android.support.v7.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/lv_navigation_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/imageview_character_image_full_size"
+        android:background="@color/myDrawerBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scrollbars="vertical" />
+    
+    <ImageButton
+        android:id="@+id/imagebutton_navigation_drawer_up_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/borderlessButtonStyle"
+        android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha" />
+        
+    <ImageButton
+        android:id="@+id/imagebutton_navigation_drawer_logout"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/borderlessButtonStyle"
+        android:src="@drawable/ic_logout" />
+
+</RelativeLayout>
