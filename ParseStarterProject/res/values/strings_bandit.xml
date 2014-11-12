@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_fragment_detail">Fragment Detail</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_save">Save</string>
+    <string name="action_add">Add</string>
+    <string name="sliding_pane_titleClosed">Sliding pane closed</string>
+    <string name="sliding_pane_titleOpened">Sliding pane opened</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="retired_installation">This installation has been retired. Please reinstall the application, preferably from a more current version.</string>
+    <string name="retired_installation_refusal">You cannot refuse from this version. Isn\'t it funny that you thought you could? I know that I am slighly amused. Did you also know that technical support is only available to current installations of the app? Feel free to call. They won\'t help you either... unless you reinstall and upgrade.</string>
+
+</resources>

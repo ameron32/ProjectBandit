@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="debug_text">#BDBDBD</color>
+    <color name="debug_text_bg">#FFFFFF</color>
+    <color name="message_text_color">#005353</color>
+    <color name="chat_manager_background">#FFFFFF</color>
+    <color name="chat_manager_page_indicator_selected">#FF880000</color>
+    <color name="chat_manager_page_indicator_unselected">#FF888888</color>
+    <color name="link_text_color">#000080</color>
+</resources>

@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <android.support.v4.widget.SlidingPaneLayout
+        android:id="@+id/sliding_pane_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RelativeLayout
+            android:id="@+id/fragment_list"
+            android:layout_width="@dimen/sliding_bar_width"
+            android:layout_height="match_parent" />
+
+        <RelativeLayout
+            android:id="@+id/fragment_pane"
+            android:layout_width="580dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <RelativeLayout
+                android:id="@+id/fragment_list_2"
+                android:layout_width="@dimen/sliding_icon_bar_width"
+                android:layout_height="match_parent" />
+
+            <FrameLayout
+                android:id="@+id/content_pane"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/fragment_list_2"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp" />
+        </RelativeLayout>
+    </android.support.v4.widget.SlidingPaneLayout>
+
+    <FrameLayout
+        android:id="@+id/chat_container"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true" />
+
+    <ImageButton
+        android:id="@+id/button_toggle_show_hide"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:onClick="toggleShowHideChat"
+        android:src="@drawable/ic_bandit_clear" />
+
+</RelativeLayout>

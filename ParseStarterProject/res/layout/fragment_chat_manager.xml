@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#AAAAAA"
+    android:padding="2dp" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/chat_manager_background"
+        android:padding="4dp" >
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/linearlayout_spinner_holder"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true" />
+
+        <EditText
+            android:id="@+id/edittext_message_to_send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/button_toggle_show_hide"
+            android:ems="10"
+            android:hint="Message as"
+            android:maxLines="3"
+            android:textSize="@dimen/inputbox_text_size" >
+        </EditText>
+
+        <ImageButton
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/bSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/edittext_message_to_send"
+            android:src="@drawable/abc_ic_cab_done_holo_light" />
+
+        <ImageButton
+            android:id="@+id/button_toggle_show_hide"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:alpha="0.2"
+            android:onClick="toggleShowHideChat"
+            android:src="@drawable/ic_bandit_clear" />
+
+        <LinearLayout
+            android:id="@+id/linearlayout_spinner_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/edittext_message_to_send"
+            android:layout_alignParentLeft="true"
+            android:orientation="horizontal" >
+
+            <Spinner
+                android:id="@+id/spinner_character"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Spinner
+                android:id="@+id/spinner_action"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <com.viewpagerindicator.LinePageIndicator
+            android:id="@+id/titles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:padding="5dip"
+            app:lineWidth="5dp"
+            app:selectedColor="@color/chat_manager_page_indicator_selected"
+            app:strokeWidth="15dp"
+            app:unselectedColor="@color/chat_manager_page_indicator_unselected" />
+
+        <ProgressBar
+            android:id="@+id/progress_send"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:layout_alignLeft="@+id/edittext_message_to_send"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/edittext_message_to_send"
+            android:indeterminate="true"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+</RelativeLayout>
