@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/tv_type"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:text="type"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:text="name"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/tv_base_value"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:text="baseValue"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+    
+    <TextView
+        android:id="@+id/tv_durabilty_uses"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:text="uses"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+    
+
+</LinearLayout>
