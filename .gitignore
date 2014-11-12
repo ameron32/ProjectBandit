@@ -29,3 +29,6 @@ proguard/
 strings_keys.xml
 com_crashlytics*.xml
 crashlytics.properties
+
+# ButterKnife
+*ViewInjector.java
