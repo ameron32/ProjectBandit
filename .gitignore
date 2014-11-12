@@ -31,5 +31,5 @@ com_crashlytics*.xml
 crashlytics.properties
 
 # ButterKnife
-.apt*
+.apt_generated/
 *ViewInjector.java
