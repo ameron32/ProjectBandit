@@ -13,13 +13,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ameron32.apps.projectbandit.R;
+import com.ameron32.apps.projectbandit.content.CreateItemFragment;
+import com.ameron32.apps.projectbandit.content.CreateSetItemsFragment;
+import com.ameron32.apps.projectbandit.content.EquipmentHeadersTestFragment;
+import com.ameron32.apps.projectbandit.content.InventoryHeadersTestFragment;
+import com.ameron32.apps.projectbandit.content.IssueItemFragment;
 import com.ameron32.apps.projectbandit.core.ChatManagerFragment;
 import com.ameron32.apps.projectbandit.core.ContentFragment;
 import com.ameron32.apps.projectbandit.core.trial.DEMORCFragment;
-import com.ameron32.apps.projectbandit.core.trial.EquipmentHeadersTestFragment;
 import com.ameron32.apps.projectbandit.core.trial.EquipmentTestFragment;
 import com.ameron32.apps.projectbandit.core.trial.GameFragment;
-import com.ameron32.apps.projectbandit.core.trial.InventoryHeadersTestFragment;
 import com.ameron32.apps.projectbandit.core.trial.InventoryTestFragment;
 import com.ameron32.apps.projectbandit.core.trial.SectionContainerTestFragment;
 import com.ameron32.apps.projectbandit.core.trial.SkillsTestFragment;
@@ -76,9 +79,9 @@ public class ContentManager {
           ContentFragment.newInstance(/*1*/)));
       items.add(new ContentItem("GM:Chat", R.drawable.ic_gm, 
               ChatManagerFragment.newInstance(null, null)));
-      items.add(new ContentItem("GM:Test:Equipment1", R.drawable.ic_gm, 
+      items.add(new ContentItem("GM:Test:Equipment", R.drawable.ic_gm, 
           SectionContainerTestFragment.newInstance(EquipmentTestFragment.class, R.layout.section_character_equipment)));
-      items.add(new ContentItem("GM:Test:Inventory1", R.drawable.ic_gm, 
+      items.add(new ContentItem("GM:Test:Inventory", R.drawable.ic_gm, 
           SectionContainerTestFragment.newInstance(InventoryTestFragment.class, R.layout.section_character_inventory)));
       
       items.add(new ContentItem("GM:Test:Skills", R.drawable.ic_gm, 
@@ -88,9 +91,10 @@ public class ContentManager {
 //  TODO: alter functionality for CInventory... currently hard coded
       items.add(new ContentItem("GM:Test:CInventoryTable", R.drawable.ic_gm, 
           TableTestFragment.create("CInventory", R.layout.section_)));
-      
-      items.add(new ContentItem("Reset Fragment Test", R.drawable.ic_construction,
-          new DEMORCFragment()));
+     
+      items.add(new ContentItem("GM: Create Item", R.drawable.ic_gm, new CreateItemFragment()));
+      items.add(new ContentItem("GM: Create Item Set", R.drawable.ic_gm, new CreateSetItemsFragment()));
+      items.add(new ContentItem("GM: Issue Item", R.drawable.ic_gm, new IssueItemFragment()));
     }
     
     return items;

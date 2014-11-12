@@ -26,12 +26,18 @@ public class DEMORCFragment extends
       View view,
       Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    setOnPerformTaskListener(this);
-    setTaskWorker(this);
   }
 
-  @Override public int defineClickViewId() {
+  @Override public int provideClickViewId() {
     return R.id.button1;
+  }
+
+  @Override public OnPerformTaskListener provideOnPerformTaskListener() {
+    return this;
+  }
+
+  @Override public TaskWorker provideTaskWorker() {
+    return this;
   }
 
   @Override public void onPrePerformTask() {
@@ -54,4 +60,5 @@ public class DEMORCFragment extends
   private void toast(String message) {
     Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
   }
+
 }

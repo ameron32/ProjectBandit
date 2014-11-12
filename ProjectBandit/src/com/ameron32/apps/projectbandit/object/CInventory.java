@@ -87,7 +87,21 @@ import com.parse.ParseRelation;
     }
   }
   
+  private boolean isHeader = false;
+  @Override public void useAsHeaderView(boolean b) {
+    isHeader = b;
+  }
+  
+  @Override public boolean isHeaderView() {
+    return isHeader;
+  }
+
   @Override public int getColumnCount() {
     return columns.length;
+  }
+
+  @Override public String getColumnHeader(
+      int columnPosition) {
+    return columns[columnPosition];
   }
 }

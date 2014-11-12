@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.ameron32.apps.projectbandit.R;
 import com.ameron32.apps.projectbandit.adapter.fmwk.AbsMessageAdapter;
-import com.ameron32.apps.projectbandit.core.trial.FrameRecyclerView;
+import com.ameron32.apps.projectbandit.core.FrameRecyclerView;
 import com.ameron32.apps.projectbandit.manager.MessageManager;
 import com.ameron32.apps.projectbandit.manager.UserManager;
 import com.ameron32.apps.projectbandit.object.Message;

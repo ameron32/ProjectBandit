@@ -145,6 +145,8 @@ import com.parse.ParseQuery;
   
   @Override public String get(
       int columnPosition) {
+    if (isHeader) { return getColumnHeader(columnPosition); }
+    
     switch (columnPosition) {
     case 0:
       return getName();
@@ -175,5 +177,32 @@ import com.parse.ParseQuery;
   
   @Override public int getColumnCount() {
     return 5;
+  }
+  
+  @Override public String getColumnHeader(
+      int columnPosition) {
+    switch (columnPosition) {
+    case 0:
+      return "name";
+    case 1:
+      return "isPlayable";
+    case 2:
+      return "health/max";
+    case 3:
+      return "level[xp]";
+    case 4:
+      return "gold";
+    default:
+      return "none";
+    }
+  }
+  
+  private boolean isHeader = false;
+  @Override public void useAsHeaderView(boolean b) {
+    isHeader = b;
+  }
+  
+  @Override public boolean isHeaderView() {
+    return isHeader;
   }
 }

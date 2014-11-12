@@ -46,6 +46,8 @@ public abstract class ResettingContentFragment
       Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     initializeClickView();
+    setOnPerformTaskListener(provideOnPerformTaskListener());
+    setTaskWorker(provideTaskWorker());
   }
   
   private View mClickView;
@@ -53,10 +55,9 @@ public abstract class ResettingContentFragment
   /**
    * IMPORTANT: Must define a ClickView resource id that can be found within the Fragment's rootview
    */
-  public abstract int defineClickViewId();
   
   private void initializeClickView() {
-    View testView = getView().findViewById(defineClickViewId());
+    View testView = getView().findViewById(provideClickViewId());
     if (testView == null) {
       final String eMessage = "viewResourceId could not be found in this fragment's rootview";
       throw new InvalidParameterException(eMessage);
@@ -69,6 +70,10 @@ public abstract class ResettingContentFragment
       }
     });
   }
+  
+  public abstract int provideClickViewId();
+  public abstract OnPerformTaskListener provideOnPerformTaskListener();
+  public abstract TaskWorker provideTaskWorker();
   
   protected void onClickViewClick(View v) {
     if (listener != null) {
@@ -98,11 +103,11 @@ public abstract class ResettingContentFragment
     public void doTaskInBackground();
   }
   
-  public void setOnPerformTaskListener(OnPerformTaskListener listener) {
+  private void setOnPerformTaskListener(OnPerformTaskListener listener) {
     this.listener = listener;
   }
   
-  public void setTaskWorker(TaskWorker worker) {
+  private void setTaskWorker(TaskWorker worker) {
     this.worker = worker;
   }
   

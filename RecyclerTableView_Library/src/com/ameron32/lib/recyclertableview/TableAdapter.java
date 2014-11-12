@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 public class TableAdapter<T extends Object>
     extends RecyclerView.Adapter<TableAdapter.ViewHolder> {
+  private Columnable<T> mHeaderObject;
   private List<Columnable<T>> mDataset;
   private int mRowLayoutResource;
   private int mCellLayoutResource;
@@ -76,6 +77,15 @@ public class TableAdapter<T extends Object>
   // Create new rows
   @Override public TableAdapter.ViewHolder onCreateViewHolder(
       ViewGroup parent, int viewType) {
+    TableRowLayout trl = createRowView(parent, viewType);
+    
+    // return furnished viewholder
+    TableAdapter.ViewHolder vh = new ViewHolder(trl);
+    return vh;
+  }
+
+  private TableRowLayout createRowView(
+      ViewGroup parent, int viewType) {
     // inflate from template layout XML
     TableRowLayout trl = (TableRowLayout) LayoutInflater.from(parent.getContext()).inflate(mRowLayoutResource, parent, false);
     
@@ -85,10 +95,21 @@ public class TableAdapter<T extends Object>
     // inflate cells into row
     int firstRowColumnCount = mDataset.get(0).getColumnCount();
     trl.inflateColumns(firstRowColumnCount, mCellLayoutResource, parent);
+    return trl;
+  }
+  
+  public void setHeaderObject(Columnable<T> headerObject) {
+    // sanitize object?
+    mHeaderObject = headerObject;
+  }
+  
+  public TableRowLayout getHeaderRow(ViewGroup parent) {
+    // TODO: Header View Type?
+    final int HEADER_VIEW_TYPE = 0;
+    TableRowLayout trl = createRowView(parent, HEADER_VIEW_TYPE);
     
-    // return furnished viewholder
-    TableAdapter.ViewHolder vh = new ViewHolder(trl);
-    return vh;
+    populateRow(mHeaderObject, trl);
+    return trl;
   }
   
   /**
@@ -115,12 +136,22 @@ public class TableAdapter<T extends Object>
     columnCount = (columnCount < maxColumnCount) 
         ? columnCount : maxColumnCount;
     
+    Columnable<T> object = mDataset.get(position);
+    populateRow(object, holder.mTableRowLayoutView);
+  }
+  
+  private void populateRow(Columnable<T> object, TableRowLayout layout) {
     // loop through all cells, populating them with the appropriate data
+    int columnCount = object.getColumnCount();
     for (int i = 0; i < columnCount; i++) {
       final int columnPosition = i;
-      final String columnString = mDataset.get(position).get(columnPosition).toString();
-      
-      holder.mTableRowLayoutView.populateColumnTextView(columnPosition, columnString, mTextViewResourceId);
+      String columnString = null;
+      if (object.isHeaderView()) {
+        columnString = object.getColumnHeader(columnPosition);
+      } else {
+        columnString = object.get(columnPosition).toString();
+      }
+      layout.populateColumnTextView(columnPosition, columnString, mTextViewResourceId);
     }
   }
   
@@ -149,5 +180,11 @@ public class TableAdapter<T extends Object>
     public T get(int columnPosition);
     
     public int getColumnCount();
+    
+    public String getColumnHeader(int columnPosition);
+    
+    public void useAsHeaderView(boolean b);
+    
+    public boolean isHeaderView();
   }
 }

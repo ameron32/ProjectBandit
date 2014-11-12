@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.ameron32.apps.projectbandit.R;
+import com.ameron32.apps.projectbandit.content.EquipmentHeadersTestFragment;
+import com.ameron32.apps.projectbandit.content.InventoryHeadersTestFragment;
 import com.ameron32.apps.projectbandit.core.ContentFragment;
 
 

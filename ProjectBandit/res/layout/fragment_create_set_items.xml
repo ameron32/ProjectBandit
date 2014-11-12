@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.parse.parsepush.fragment.CreateSetItemsFragment" >
+    tools:context="com.ameron32.apps.projectbandit.content.CreateSetItemsFragment" >
 
     <Spinner
         android:id="@+id/s_set_template"

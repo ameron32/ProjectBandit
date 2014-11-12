@@ -32,9 +32,8 @@ public class ExpandedCoreActivity
     // TODO remove if unneeded
     implements
     NavigationDrawerFragment.NavigationDrawerCallbacks,
-    ChatManagerFragment.OnChatManagerListener
-    , OnResetCallbacks
-    {
+    ChatManagerFragment.OnChatManagerListener, OnResetCallbacks
+{
   
   private ChatManagerFragment chatFragment;
   private boolean hide = false;
@@ -201,8 +200,8 @@ public class ExpandedCoreActivity
 
   @Override public void onRequestReset(ResettingContentFragment fragment) {
     try {
-    FragmentManager fragmentManager = getSupportFragmentManager();
-    FragmentTransaction transaction = fragmentManager.beginTransaction();
+      FragmentManager fragmentManager = getSupportFragmentManager();
+      FragmentTransaction transaction = fragmentManager.beginTransaction();
       transaction.replace(R.id.container, fragment.getClass().newInstance());
       transaction.commit();
     } catch (InstantiationException e) {

@@ -5,15 +5,20 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.ameron32.apps.projectbandit.R;
 import com.ameron32.apps.projectbandit.adapter._QueryManager;
+import com.ameron32.apps.projectbandit.core.ChatManagerFragment;
 import com.ameron32.apps.projectbandit.manager.CharacterManager;
 import com.ameron32.apps.projectbandit.object.Character;
 import com.ameron32.lib.recyclertableview.TableAdapter;
+import com.ameron32.lib.recyclertableview.TableRowLayout;
 import com.ameron32.lib.recyclertableview.TableAdapter.Columnable;
 import com.ameron32.lib.recyclertableview.TableLayoutManager;
 import com.parse.FindCallback;
@@ -22,6 +27,10 @@ import com.parse.ParseObject;
 
 public class TableTestFragment extends
     SectionContainerTestFragment {
+  
+  private static final boolean TOAST = false;
+  private static final boolean LOG = true;
+  private static final String TAG = TableTestFragment.class.getSimpleName();
   
   public static TableTestFragment create(
       String parseClassName,
@@ -57,14 +66,41 @@ public class TableTestFragment extends
   }
   
   @InjectView(R.id.my_recycler_view) RecyclerView mRecyclerView;
+  @InjectView(R.id.my_recycler_header) FrameLayout mHeaderView;
   private TableLayoutManager mLayoutManager;
   private TableAdapter<String> mAdapter;
+  private Columnable<String> mColumningHeaderObject;
   
   @Override public void onViewCreated(
       View view,
       Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     ButterKnife.inject(this, view);
+    
+    mColumningHeaderObject = null;
+    try {
+      final String fullClassName = "com.ameron32.apps.projectbandit.object." + mParseClassName;
+      final Class parseClass = Class.forName(fullClassName);
+      final Object parseObject = parseClass.newInstance();
+      final ParseObject headerObject = (ParseObject) parseObject;
+      mColumningHeaderObject = (Columnable<String>) parseObject;
+      mColumningHeaderObject.useAsHeaderView(true);
+      
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    } catch (java.lang.InstantiationException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (ClassCastException e) {
+      e.printStackTrace();
+    }
+    if (mColumningHeaderObject == null) {
+      // something is wrong with the PARSE_CLASS_NAME param
+      // at this point we abandon our efforts to display any information
+      if (LOG) Log.e(TAG, "columningHeaderObject is lacking either: ParseObject, Columnable<String>");
+      return;
+    }
     
     mRecyclerView.setHasFixedSize(true);
     
@@ -88,8 +124,8 @@ public class TableTestFragment extends
           // implement logic
         }
       }));
-      
-      _QueryManager.getDefaultQuery(mParseClassName, getCallback());
+    
+    _QueryManager.getDefaultQuery(mParseClassName, getCallback());
       
 //    CharacterManager.get().queryAllCharacters();
   }  
@@ -131,7 +167,15 @@ public class TableTestFragment extends
             // implement logic
           }
         }));
+        
+        // TODO: is mRecyclerView the correct "parent"?
+        mAdapter.setHeaderObject(mColumningHeaderObject);
+        setHeaderRow(mAdapter.getHeaderRow(mRecyclerView));
       }
     };
+  }
+  
+  private void setHeaderRow(View v) {
+    mHeaderView.addView(v);
   }
 }

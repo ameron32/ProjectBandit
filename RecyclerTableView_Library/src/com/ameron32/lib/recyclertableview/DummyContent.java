@@ -9,6 +9,7 @@ public class DummyContent {
 		private String mName;
 		private int mColumnCount;
 		private ObjectPlus[] mObjects;
+		private boolean header = false;
 
 		public RowData(String name, int columnCount) {
 			mName = name;
@@ -27,6 +28,19 @@ public class DummyContent {
 		@Override
 		public int getColumnCount() {
 			return mColumnCount;
+		}
+		
+		@Override public String getColumnHeader(
+		    int columnPosition) {
+		  return "column" + columnPosition;
+		}
+		
+		@Override public void useAsHeaderView(boolean b) {
+		  header = b;
+		}
+		
+		@Override public boolean isHeaderView() {
+		  return header;
 		}
 	}
 	

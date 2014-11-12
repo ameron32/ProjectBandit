@@ -9,13 +9,13 @@ public class GameFragment$$ViewInjector {
     com.ameron32.apps.projectbandit.core.ContentFragment$$ViewInjector.inject(finder, target, source);
 
     View view;
-    view = finder.findRequiredView(source, 2131493058, "field 'gm'");
+    view = finder.findRequiredView(source, 2131296450, "field 'gm'");
     target.gm = (com.ameron32.library.floatingtext.FloatingHintTextView) view;
-    view = finder.findRequiredView(source, 2131493059, "field 'players'");
+    view = finder.findRequiredView(source, 2131296451, "field 'players'");
     target.players = (com.ameron32.library.floatingtext.FloatingHintTextView) view;
-    view = finder.findRequiredView(source, 2131493056, "field 'user'");
+    view = finder.findRequiredView(source, 2131296448, "field 'user'");
     target.user = (com.ameron32.library.floatingtext.FloatingHintTextView) view;
-    view = finder.findRequiredView(source, 2131493057, "field 'game'");
+    view = finder.findRequiredView(source, 2131296449, "field 'game'");
     target.game = (com.ameron32.library.floatingtext.FloatingHintTextView) view;
   }
 

@@ -124,6 +124,7 @@ public class MainActivity extends
       
       private int columns;
       private ObjectMinor[] objects;
+      private boolean isHeader;
       
       public ObjectPlus(int row, int columns) {
         this.columns = columns;
@@ -140,6 +141,20 @@ public class MainActivity extends
       
       @Override public int getColumnCount() {
         return columns;
+      }
+      
+      @Override public String getColumnHeader(
+          int columnPosition) {
+        return "column" + columnPosition;
+      }
+
+      @Override public void useAsHeaderView(
+          boolean b) {
+        isHeader = b;
+      }
+
+      @Override public boolean isHeaderView() {
+        return isHeader;
       }
     }
     
