@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import com.ameron32.apps.projectbandit.MultiSelectSpinner;
 import com.ameron32.apps.projectbandit.R;
+import com.ameron32.lib.recyclertableview.TableAdapter.Columnable;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -19,7 +20,9 @@ import com.parse.SaveCallback;
 
 
 @ParseClassName("Item") public class Item
-    extends ParseObject {
+    extends ParseObject
+    implements Columnable<String> 
+{
   
   private static final String TAG = Item.class.getSimpleName();
   private static final boolean TOAST = false;
@@ -625,5 +628,43 @@ import com.parse.SaveCallback;
     if (value != null) {
       super.put(key, value);
     }
+  }
+  
+  private static final String[] COLUMNS = { "name", "baseValue", "type", "inGame" };
+  private boolean isHeader = false;
+
+  @Override public String get(
+      int columnPosition) {
+    switch (columnPosition) {
+    case 0:
+      return this.getString("name");
+    case 1:
+      return "$ "
+          + this.getInt("baseValue");
+    case 2:
+      return this.getString("type");
+    case 3:
+      return "N/A";
+    default:
+      return "none";
+    }
+  }
+
+  @Override public int getColumnCount() {
+    return COLUMNS.length;
+  }
+
+  @Override public String getColumnHeader(
+      int columnPosition) {
+    return COLUMNS[columnPosition];
+  }
+
+  @Override public void useAsHeaderView(
+      boolean b) {
+    isHeader = b;
+  }
+
+  @Override public boolean isHeaderView() {
+    return isHeader;
   }
 }

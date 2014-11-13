@@ -36,17 +36,22 @@ public class ContentManager {
   public static ContentManager get() {
     if (contentManager == null) {
       contentManager = new ContentManager();
+      contentManager.initialize();
     }
     return contentManager;
   }
-  
+
+
   public static void destroy() {
     contentManager = null;
   }
   
   private List<ContentItem> contentItems;
   
-  private ContentManager() {
+  private ContentManager() {}
+  
+  
+  private void initialize() {
     listeners = new ArrayList<OnContentChangeListener>();
     contentItems = createContentItems();
   }
@@ -91,6 +96,8 @@ public class ContentManager {
 //  TODO: alter functionality for CInventory... currently hard coded
       items.add(new ContentItem("GM:Test:CInventoryTable", R.drawable.ic_gm, 
           TableTestFragment.create("CInventory", R.layout.section_)));
+      items.add(new ContentItem("GM:Test:ItemTable", R.drawable.ic_gm, 
+          TableTestFragment.create("Item", R.layout.section_)));
      
       items.add(new ContentItem("GM: Create Item", R.drawable.ic_gm, new CreateItemFragment()));
       items.add(new ContentItem("GM: Create Item Set", R.drawable.ic_gm, new CreateSetItemsFragment()));

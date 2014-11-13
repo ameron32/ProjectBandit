@@ -4,7 +4,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import android.util.Log;
+
 import com.ameron32.apps.projectbandit.ChatService;
+import com.ameron32.apps.projectbandit.core.trial.TableTestFragment;
 import com.ameron32.apps.projectbandit.manager.CharacterManager;
 import com.ameron32.apps.projectbandit.manager.GameManager;
 import com.ameron32.apps.projectbandit.manager.ObjectManager;
@@ -13,6 +16,7 @@ import com.ameron32.apps.projectbandit.object.CAction;
 import com.ameron32.apps.projectbandit.object.CInventory;
 import com.ameron32.apps.projectbandit.object.Character;
 import com.ameron32.apps.projectbandit.object.Game;
+import com.ameron32.apps.projectbandit.object.Item;
 import com.ameron32.apps.projectbandit.object.Message;
 import com.parse.FindCallback;
 import com.parse.ParseObject;
@@ -20,14 +24,28 @@ import com.parse.ParseQuery;
 
 public class _QueryManager {
   
+  private static final boolean TOAST = false;
+  private static final boolean LOG = true;
+  private static final String TAG = _QueryManager.class.getSimpleName();
+  
   public static <O extends ParseObject> void getDefaultQuery(String parseClassName, FindCallback<O> callback) {
     if (parseClassName.equalsIgnoreCase("Character")) {
       FindCallback<Character> cCallback = (FindCallback<Character>) callback;
       CharacterManager.get().queryAllCharacters(cCallback);
-    }
+    } else
     if (parseClassName.equalsIgnoreCase("CInventory")) {
       FindCallback<CInventory> cCallback = (FindCallback<CInventory>) callback;
       ObjectManager.get().queryAllInventory(cCallback);
+    } else
+    if (parseClassName.equalsIgnoreCase("Item")) {
+      FindCallback<Item> cCallback = (FindCallback<Item>) callback;
+      // TODO: ItemManager().get().queryAllItems(cCallback); ?
+      _QueryManager._Item.getAllInventory().findInBackground(cCallback);
+    } else { 
+      if (LOG) {
+        final String eMessage = "getDefaultQuery(): parseClassName does not correspond to an appropriate default query";
+        Log.e(TAG, eMessage);
+      }
     }
   }
   
@@ -225,7 +243,6 @@ public class _QueryManager {
       return query;
     }
     
-
     public static ParseQuery<CInventory> getAllInventory() {
       ParseQuery<CInventory> query = create();
       
@@ -237,6 +254,27 @@ public class _QueryManager {
     private static void standardIncludes(
         ParseQuery<CInventory> query) {
       include(query, "item");
+    }
+  }
+  
+  public static class _Item {
+
+    private static ParseQuery<Item> create() {
+      return new ParseQuery<Item>(Item.class);
+    }
+
+    public static ParseQuery<Item> getItemQuery() {
+      ParseQuery<Item> query = create();
+      
+      return query;
+    }
+    
+    public static ParseQuery<Item> getAllInventory() {
+      ParseQuery<Item> query = create();
+      
+      setLimit(query, 1000);
+      
+      return query;
     }
   }
   

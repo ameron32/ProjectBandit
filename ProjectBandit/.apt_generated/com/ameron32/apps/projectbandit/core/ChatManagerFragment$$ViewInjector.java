@@ -9,31 +9,31 @@ public class ChatManagerFragment$$ViewInjector {
     com.ameron32.apps.projectbandit.core.ContentFragment$$ViewInjector.inject(finder, target, source);
 
     View view;
-    view = finder.findRequiredView(source, 2131296373, "field 'sendButton'");
-    target.sendButton = view;
-    view = finder.findRequiredView(source, 2131296372, "field 'actionSpinner'");
-    target.actionSpinner = (android.widget.Spinner) view;
-    view = finder.findRequiredView(source, 2131296374, "field 'titleIndicator'");
-    target.titleIndicator = (com.viewpagerindicator.LinePageIndicator) view;
     view = finder.findRequiredView(source, 2131296371, "field 'characterSpinner'");
     target.characterSpinner = (android.widget.Spinner) view;
-    view = finder.findRequiredView(source, 2131296375, "field 'sendProgress'");
-    target.sendProgress = (android.widget.ProgressBar) view;
     view = finder.findRequiredView(source, 2131296370, "field 'edittext'");
     target.edittext = (android.widget.EditText) view;
     view = finder.findRequiredView(source, 2131296368, "field 'mViewPager'");
     target.mViewPager = (android.support.v4.view.ViewPager) view;
+    view = finder.findRequiredView(source, 2131296373, "field 'sendButton'");
+    target.sendButton = view;
+    view = finder.findRequiredView(source, 2131296374, "field 'titleIndicator'");
+    target.titleIndicator = (com.viewpagerindicator.LinePageIndicator) view;
+    view = finder.findRequiredView(source, 2131296372, "field 'actionSpinner'");
+    target.actionSpinner = (android.widget.Spinner) view;
+    view = finder.findRequiredView(source, 2131296375, "field 'sendProgress'");
+    target.sendProgress = (android.widget.ProgressBar) view;
   }
 
   public static void reset(com.ameron32.apps.projectbandit.core.ChatManagerFragment target) {
     com.ameron32.apps.projectbandit.core.ContentFragment$$ViewInjector.reset(target);
 
-    target.sendButton = null;
-    target.actionSpinner = null;
-    target.titleIndicator = null;
     target.characterSpinner = null;
-    target.sendProgress = null;
     target.edittext = null;
     target.mViewPager = null;
+    target.sendButton = null;
+    target.titleIndicator = null;
+    target.actionSpinner = null;
+    target.sendProgress = null;
   }
 }

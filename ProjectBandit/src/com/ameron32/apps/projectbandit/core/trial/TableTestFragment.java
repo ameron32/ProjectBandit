@@ -141,6 +141,8 @@ public class TableTestFragment extends
           return;
         }
         
+        if (LOG) Log.i(TAG, "getCallback() results = " + objects.size());
+        
         List<Columnable<String>> convert = new ArrayList<Columnable<String>>();
         for (int i = 0; i < objects.size(); i++) {
           O object = objects.get(i);
