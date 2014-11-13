@@ -9,16 +9,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.ameron32.apps.projectbandit.content.IssueItemFragment" >
 
-    <com.ameron32.apps.projectbandit.FloatingHintEditText
+    <com.ameron32.apps.library.floatingtext.FloatingHintEditText
         android:id="@+id/edittext_item_type"
         style="@style/Widget.FloatingHintEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Type of Item to Give" >
+        android:hint="Class of Item to Give" >
 
         <requestFocus />
-    </com.ameron32.apps.projectbandit.FloatingHintEditText>
+    </com.ameron32.apps.library.floatingtext.FloatingHintEditText>
 
     <com.ameron32.apps.projectbandit.MultiSelectSpinner
         android:id="@+id/mss_item_selector"
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.ameron32.apps.projectbandit.FloatingHintEditText
+    <com.ameron32.apps.library.floatingtext.FloatingHintEditText
         android:id="@+id/edittext_character"
         style="@style/Widget.FloatingHintEditText"
         android:layout_width="wrap_content"
