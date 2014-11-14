@@ -24,6 +24,7 @@ import com.ameron32.apps.projectbandit.core.trial.DEMORCFragment;
 import com.ameron32.apps.projectbandit.core.trial.EquipmentTestFragment;
 import com.ameron32.apps.projectbandit.core.trial.GameFragment;
 import com.ameron32.apps.projectbandit.core.trial.InventoryTestFragment;
+import com.ameron32.apps.projectbandit.core.trial.RelationAttacherFragment;
 import com.ameron32.apps.projectbandit.core.trial.SectionContainerTestFragment;
 import com.ameron32.apps.projectbandit.core.trial.SkillsTestFragment;
 import com.ameron32.apps.projectbandit.core.trial.StatsTestFragment;
@@ -102,6 +103,7 @@ public class ContentManager {
       items.add(new ContentItem("GM: Create Item", R.drawable.ic_gm, new CreateItemFragment()));
       items.add(new ContentItem("GM: Create Item Set", R.drawable.ic_gm, new CreateSetItemsFragment()));
       items.add(new ContentItem("GM: Issue Item", R.drawable.ic_gm, new IssueItemFragment()));
+      items.add(new ContentItem("GM: Attach Relation", R.drawable.ic_gm, new RelationAttacherFragment()));
     }
     
     return items;

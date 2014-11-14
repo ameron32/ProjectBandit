@@ -7,21 +7,21 @@ import butterknife.ButterKnife.Finder;
 public class ChatManagerFragment$$ViewInjector {
   public static void inject(Finder finder, final com.ameron32.rpg.projectbandit.fragment.impl.ChatManagerFragment target, Object source) {
     View view;
-    view = finder.findRequiredView(source, 0, "field 'edittext', field 'sendProgress', field 'sendButton', field 'actionSpinner', field 'characterSpinner', and field 'mViewPager'");
+    view = finder.findRequiredView(source, 0, "field 'edittext', field 'characterSpinner', field 'sendButton', field 'sendProgress', field 'actionSpinner', and field 'mViewPager'");
     target.edittext = (android.widget.EditText) view;
-    target.sendProgress = (android.widget.ProgressBar) view;
-    target.sendButton = view;
-    target.actionSpinner = (android.widget.Spinner) view;
     target.characterSpinner = (android.widget.Spinner) view;
+    target.sendButton = view;
+    target.sendProgress = (android.widget.ProgressBar) view;
+    target.actionSpinner = (android.widget.Spinner) view;
     target.mViewPager = (android.support.v4.view.ViewPager) view;
   }
 
   public static void reset(com.ameron32.rpg.projectbandit.fragment.impl.ChatManagerFragment target) {
     target.edittext = null;
-    target.sendProgress = null;
-    target.sendButton = null;
-    target.actionSpinner = null;
     target.characterSpinner = null;
+    target.sendButton = null;
+    target.sendProgress = null;
+    target.actionSpinner = null;
     target.mViewPager = null;
   }
 }

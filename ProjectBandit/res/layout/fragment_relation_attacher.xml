@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <com.ameron32.apps.library.floatingtext.FloatingHintEditText
+        <com.ameron32.library.floatingtext.FloatingHintEditText
             android:id="@+id/edittext_parse_objects_1"
             style="@style/Widget.FloatingHintEditText"
             android:layout_width="wrap_content"
@@ -21,7 +21,7 @@
             android:hint="ParseObject" >
 
             <requestFocus />
-        </com.ameron32.apps.library.floatingtext.FloatingHintEditText>
+        </com.ameron32.library.floatingtext.FloatingHintEditText>
 
         <com.ameron32.apps.projectbandit.MultiSelectSpinner
             android:id="@+id/mss_query_objects_1"
@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <com.ameron32.apps.library.floatingtext.FloatingHintEditText
+        <com.ameron32.library.floatingtext.FloatingHintEditText
             android:id="@+id/edittext_relationship"
             style="@style/Widget.FloatingHintEditText"
             android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
             android:ems="10"
             android:hint="Relation" />
 
-        <com.ameron32.apps.library.floatingtext.FloatingHintEditText
+        <com.ameron32.library.floatingtext.FloatingHintEditText
             android:id="@+id/edittext_parse_objects_2"
             style="@style/Widget.FloatingHintEditText"
             android:layout_width="wrap_content"
@@ -55,7 +55,6 @@
             android:id="@+id/button_attach"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="onSaveRelation"
             android:text="Save Relation" />
     </LinearLayout>
 

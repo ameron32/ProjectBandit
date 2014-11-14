@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnFocusChangeListener;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.ameron32.apps.projectbandit.MultiSelectSpinner;
@@ -27,7 +28,10 @@ import com.parse.ParseUser;
  * A placeholder fragment containing a simple view.
  */
 public class RelationAttacherFragment
-    extends Fragment {
+    extends ResettingContentFragment 
+    implements ResettingContentFragment.OnPerformTaskListener,
+    ResettingContentFragment.TaskWorker
+{
   
   private String[] items1s;
   private String[] items2s;
@@ -42,6 +46,13 @@ public class RelationAttacherFragment
     return rootView;
   }
   
+  @Override public void onViewCreated(
+      View view,
+      Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    init();
+  }
+  
   @Override public void onAttach(
       Activity activity) {
     super.onAttach(activity);
@@ -51,7 +62,7 @@ public class RelationAttacherFragment
     super.onResume();
   }
   
-  public void onSaveRelation(View v) {
+  public void onSaveRelation() {
     EditText objectET = (EditText) getActivity().findViewById(R.id.edittext_parse_objects_1);
     EditText relationET = (EditText) getActivity().findViewById(R.id.edittext_relationship);
     EditText objectTypeET = (EditText) getActivity().findViewById(R.id.edittext_parse_objects_2);
@@ -104,7 +115,9 @@ public class RelationAttacherFragment
   
   @Override public void onStart() {
     super.onStart();
-    
+  }
+  
+  private void init() {
     final EditText object1TypeET = (EditText) getActivity().findViewById(R.id.edittext_parse_objects_1);
     object1TypeET.setOnFocusChangeListener(new OnFocusChangeListener() {
       
@@ -225,4 +238,26 @@ public class RelationAttacherFragment
       }
     });
   }
+
+  @Override public int provideClickViewId() {
+    return R.id.button_attach;
+  }
+
+  @Override public OnPerformTaskListener provideOnPerformTaskListener() {
+    return this;
+  }
+
+  @Override public TaskWorker provideTaskWorker() {
+    return this;
+  }
+
+  @Override public void doTaskInBackground() {
+    onSaveRelation();
+  }
+
+  @Override public void onPrePerformTask() {
+    ((Button) getActivity().findViewById(provideClickViewId())).setText("...Processing...");
+  }
+
+  @Override public void onPostPerformTask() {}
 }
