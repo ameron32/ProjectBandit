@@ -1,5 +1,7 @@
 package com.ameron32.apps.projectbandit.adapter;
 
+import com.ameron32.apps.projectbandit.R;
+
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -16,19 +18,19 @@ public class ChatViewPagerAdapter extends PagerAdapter {
   private static final boolean TOAST   = false;
   private static final boolean LOG     = true;
 
-  private final Context        context;
+  private final Context        mContext;
   private final ViewPager      mViewPager;
-  private final LayoutInflater inflater;
-  private final ChatViewManager chatViewManager;
+  private final LayoutInflater mInflater;
+  private final ChatViewSelector mChatViewSelector;
   
   int[]                        viewIds = new int[5];
 
   public ChatViewPagerAdapter(Context context, ViewPager viewPager) {
     super();
-    this.context = context;
+    this.mContext = context;
     this.mViewPager = viewPager;
-    inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    chatViewManager = new ChatViewManager(this);
+    mInflater = LayoutInflater.from(context);
+    mChatViewSelector = new ChatViewSelector(this);
   }
 
   @Override
@@ -47,7 +49,7 @@ public class ChatViewPagerAdapter extends PagerAdapter {
     View item = collection.getChildAt(position);
     
     if (item == null) {
-      item = chatViewManager.getViewAt(position);
+      item = mChatViewSelector.getViewAt(position);
       collection.addView(item);
     }
     
@@ -67,15 +69,89 @@ public class ChatViewPagerAdapter extends PagerAdapter {
   }
   
   public LayoutInflater getInflater() {
-    return inflater;
+    return mInflater;
   }
   
-  public ChatViewManager getChatManager() {
-    return chatViewManager;
+  private ChatViewSelector getChatSelector() {
+    return mChatViewSelector;
   }
   
 //  public int getViewPositionFromId(String id) {
 //    int position = chatViewManager.getViewFromId(id);
 //    return position;
 //  }
+  
+  public static class ChatViewSelector {
+    
+    private static final String  TAG     = ChatViewSelector.class.getSimpleName();
+    private static final boolean TOAST   = false;
+    private static final boolean LOG     = true;
+
+    // public SparseArray<WeakReference<ChatView>> storage = new
+    // SparseArray<WeakReference<ChatView>>();
+    private final LayoutInflater mInflater;
+    private final ViewGroup mViewGroup;
+
+    public ChatViewSelector(ChatViewPagerAdapter adapter) {
+      this.mViewGroup = adapter.getViewPager();
+      this.mInflater = adapter.getInflater();
+    }
+
+    public ChatView getViewAt(int position) {
+      ChatView item = null;
+      // try {
+      // WeakReference<ChatView> reference = storage.get(position);
+      // item = reference.get();
+      // }
+      // catch (NullPointerException e) {
+      // e.printStackTrace();
+      // }
+      //
+      // if (item == null) {
+      item = generateNewChatView(position);
+      // }
+      return item;
+    }
+    
+//    public int getViewFromId(String id) {
+//      for (int i = 0; i < chatViews.length; i++) {
+//        Class chatView = chatViews[i];
+//        Log.i(TAG, "chatView: " + chatView.getSimpleName() + " | id: " + id);
+//        if (chatView.getSimpleName().equalsIgnoreCase(id)) { return i; }
+//      }
+//      return 0;
+//    }
+
+//    private Class[] chatViews = { ChatViewRecent.class, ChatViewOOC.class, ChatViewStory.class, ChatViewStory.class, ChatViewThousand.class };
+    private ChatView generateNewChatView(final int position) {
+      ChatView item = null;
+      switch (position) {
+      case 0:
+        item = ChatViewRecent.create(mInflater, R.layout.view_recent_chat,
+            mViewGroup);
+        break;
+      case 1:
+        item = ChatViewOOC.create(mInflater, R.layout.view_ooc_chat,
+            mViewGroup);
+        break;
+      case 2:
+        // left blank for expansion
+        // fall-through
+      case 3:
+        item = ChatViewStory.create(mInflater, R.layout.view_story_chat,
+            mViewGroup);
+        break;
+      case 4:
+        item = ChatViewThousand.create(mInflater,
+            R.layout.view_thousand_chat, mViewGroup);
+        break;
+      default:
+        item = ChatViewRecent.create(mInflater, R.layout.view_recent_chat,
+            mViewGroup);
+      }
+      // storage.put(position, new WeakReference<ChatView>(item));
+      return item;
+    }
+
+  }
 }

@@ -28,7 +28,7 @@ public class IconAdapter extends
     this.layoutResource = layoutResource;
     this.imageViewId = imageViewId;
     this.imageResources = imageResources;
-    inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    this.inflater = LayoutInflater.from(context);
   }
   
   @Override public int getCount() {

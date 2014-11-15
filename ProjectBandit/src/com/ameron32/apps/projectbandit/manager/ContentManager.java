@@ -81,29 +81,28 @@ public class ContentManager {
 //        TableTestFragment.create("Character", R.layout.fragment_default_table_layout)));
     
     if (GameManager.get().isCurrentUserGM()) {
-      items.add(new ContentItem("GM:blank", R.drawable.ic_gm, 
+      items.add(new ContentItem("GM:Demo:blank", R.drawable.ic_gm, 
           ContentFragment.newInstance(/*1*/)));
       items.add(new ContentItem("GM:Chat", R.drawable.ic_gm, 
               ChatManagerFragment.newInstance(null, null)));
-      items.add(new ContentItem("GM:Test:Equipment", R.drawable.ic_gm, 
+      items.add(new ContentItem("GM:RETIRED:Equipment", R.drawable.ic_gm, 
           SectionContainerTestFragment.newInstance(EquipmentTestFragment.class, R.layout.section_character_equipment)));
-      items.add(new ContentItem("GM:Test:Inventory", R.drawable.ic_gm, 
+      items.add(new ContentItem("GM:RETIRED:Inventory", R.drawable.ic_gm, 
           SectionContainerTestFragment.newInstance(InventoryTestFragment.class, R.layout.section_character_inventory)));
       
       items.add(new ContentItem("GM:Test:Skills", R.drawable.ic_gm, 
           SectionContainerTestFragment.newInstance(SkillsTestFragment.class, R.layout.section_skills)));
-      items.add(new ContentItem("GM:Test:CharacterTable", R.drawable.ic_gm, 
+      items.add(new ContentItem("GM:Test:Table Character", R.drawable.ic_gm, 
           TableTestFragment.create("Character", R.layout.section_)));
-//  TODO: alter functionality for CInventory... currently hard coded
-      items.add(new ContentItem("GM:Test:CInventoryTable", R.drawable.ic_gm, 
+      items.add(new ContentItem("GM:Test:Table CInventory", R.drawable.ic_gm, 
           TableTestFragment.create("CInventory", R.layout.section_)));
-      items.add(new ContentItem("GM:Test:ItemTable", R.drawable.ic_gm, 
+      items.add(new ContentItem("GM:Test:Table Item", R.drawable.ic_gm, 
           TableTestFragment.create("Item", R.layout.section_)));
-     
+      
       items.add(new ContentItem("GM: Create Item", R.drawable.ic_gm, new CreateItemFragment()));
-      items.add(new ContentItem("GM: Create Item Set", R.drawable.ic_gm, new CreateSetItemsFragment()));
       items.add(new ContentItem("GM: Issue Item", R.drawable.ic_gm, new IssueItemFragment()));
-      items.add(new ContentItem("GM: Attach Relation", R.drawable.ic_gm, new RelationAttacherFragment()));
+      items.add(new ContentItem("Database: Create Item Set", R.drawable.ic_gm, new CreateSetItemsFragment()));
+      items.add(new ContentItem("Database: Attach Relation", R.drawable.ic_gm, new RelationAttacherFragment()));
     }
     
     return items;
