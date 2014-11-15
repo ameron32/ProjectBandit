@@ -65,8 +65,10 @@ public class TableTestFragment extends
     return R.layout.fragment_default_table_layout;
   }
   
-  @InjectView(R.id.my_recycler_view) RecyclerView mRecyclerView;
-  @InjectView(R.id.my_recycler_header) FrameLayout mHeaderView;
+  @InjectView(R.id.my_recycler_view) 
+    RecyclerView mRecyclerView;
+  @InjectView(R.id.my_recycler_header) 
+    FrameLayout mHeaderView;
   private TableLayoutManager mLayoutManager;
   private TableAdapter<String> mAdapter;
   private Columnable<String> mColumningHeaderObject;

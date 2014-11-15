@@ -9,7 +9,7 @@ public class EquipmentTestFragment$$ViewInjector {
     com.ameron32.apps.projectbandit.core.ContentFragment$$ViewInjector.inject(finder, target, source);
 
     View view;
-    view = finder.findRequiredView(source, 2131296438, "field 'listView1'");
+    view = finder.findRequiredView(source, 2131296439, "field 'listView1'");
     target.listView1 = (android.widget.ListView) view;
   }
 

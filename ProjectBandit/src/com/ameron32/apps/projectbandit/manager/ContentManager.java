@@ -192,7 +192,6 @@ public class ContentManager {
   public static class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHolder> {
 
     private List<ContentItem> mData;
-//    private NavigationDrawerCallbacks mNavigationDrawerCallbacks;
     private int mSelectedPosition;
     private int mTouchedPosition;
     private boolean isClick = false;
@@ -200,14 +199,6 @@ public class ContentManager {
     public ContentAdapter(List<ContentItem> data) {
         mData = data;
     }
-//
-//    public NavigationDrawerCallbacks getNavigationDrawerCallbacks() {
-//        return mNavigationDrawerCallbacks;
-//    }
-//
-//    public void setNavigationDrawerCallbacks(NavigationDrawerCallbacks navigationDrawerCallbacks) {
-//        mNavigationDrawerCallbacks = navigationDrawerCallbacks;
-//    }
 
     @Override
     public ContentAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -216,18 +207,18 @@ public class ContentManager {
     }
 
     @Override
-    public void onBindViewHolder(ContentAdapter.ViewHolder viewHolder, final int i) {
-        viewHolder.textView.setText(mData.get(i).title);
-        Drawable d = viewHolder.textView.getContext().getResources().getDrawable(mData.get(i).imageResource);
-        viewHolder.textView.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
+    public void onBindViewHolder(ContentAdapter.ViewHolder holder, final int position) {
+        holder.textView.setText(mData.get(position).title);
+        Drawable d = holder.textView.getContext().getResources().getDrawable(mData.get(position).imageResource);
+        holder.textView.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
 
-        viewHolder.itemView.setOnTouchListener(new View.OnTouchListener() {
+        holder.itemView.setOnTouchListener(new View.OnTouchListener() {
                                                    @Override
                                                    public boolean onTouch(View v, MotionEvent event) {
 
                                                        switch (event.getAction()) {
                                                            case MotionEvent.ACTION_DOWN:
-                                                               touchPosition(i);
+                                                               touchPosition(position);
                                                                return false;
                                                            case MotionEvent.ACTION_CANCEL:
                                                                touchPosition(-1);
@@ -242,21 +233,19 @@ public class ContentManager {
                                                    }
                                                }
         );
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
                                                    @Override
                                                    public void onClick(View v) {
-//                                                       if (mNavigationDrawerCallbacks != null)
-//                                                           mNavigationDrawerCallbacks.onNavigationDrawerItemSelected(i);
-                                                     ContentManager.get().setCurrentSelectedFragmentPosition(i);
+                                                     ContentManager.get().setCurrentSelectedFragmentPosition(position);
                                                    }
                                                }
         );
 
         //TODO: selected menu position, change layout accordingly
-        if (mSelectedPosition == i || mTouchedPosition == i) {
-            viewHolder.itemView.setBackgroundColor(viewHolder.itemView.getContext().getResources().getColor(R.color.selected_gray));
+        if (mSelectedPosition == position || mTouchedPosition == position) {
+            holder.itemView.setBackgroundColor(holder.itemView.getContext().getResources().getColor(R.color.selected_gray));
         } else {
-            viewHolder.itemView.setBackgroundColor(Color.TRANSPARENT);
+            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
         }
     }
 

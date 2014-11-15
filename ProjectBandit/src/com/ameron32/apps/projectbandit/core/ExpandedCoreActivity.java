@@ -32,21 +32,36 @@ public class ExpandedCoreActivity
     // TODO remove if unneeded
     implements
     NavigationDrawerFragment.NavigationDrawerCallbacks,
-    ChatManagerFragment.OnChatManagerListener, OnResetCallbacks
-{
+    ChatManagerFragment.OnChatManagerListener,
+    OnResetCallbacks {
+  
+  private static final String STATE_CHAT_VISIBLE = "state_chat_fragment_visibility";
   
   private ChatManagerFragment chatFragment;
-  private boolean hide = false;
+  private boolean isChatManagerHidden;
   private Toolbar mToolbar;
+  private boolean mFromSavedInstanceState;
   
   @Override protected void onCreate(
       Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    loadSavedState(savedInstanceState);
     
     mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
     addCharacterIcons(mToolbar);
+    
+    loadChatFragment();
+    setChatFragmentVisibleState(isChatManagerHidden);
   }
   
+  private void loadSavedState(
+      Bundle savedInstanceState) {
+    if (savedInstanceState != null) {
+      isChatManagerHidden = savedInstanceState.getBoolean(STATE_CHAT_VISIBLE);
+      mFromSavedInstanceState = true;
+    }
+  }
+
   private void addCharacterIcons(
       Toolbar toolbar) {
     View layout = LayoutInflater.from(getActivityContext()).inflate(R.layout.view_character_icon_toolbar, toolbar, false);
@@ -56,7 +71,7 @@ public class ExpandedCoreActivity
     characterIconToolbar.setSelected(true);
     // TODO: why isn't this listener firing?
     characterIconToolbar.setOnItemSelectedListener(new OnItemSelectedListener() {
-
+      
       @Override public void onItemSelected(
           TwoWayAdapterView<?> parent,
           View view, int position,
@@ -74,12 +89,13 @@ public class ExpandedCoreActivity
         View outline = view.findViewById(R.id.outline);
         outline.setBackgroundColor(getResources().getColor(R.color.character_toolbar_selected_outline));
       }
-
+      
       @Override public void onNothingSelected(
           TwoWayAdapterView<?> parent) {
         // TODO Auto-generated method stub
         
-      }});
+      }
+    });
     
     toolbar.addView(layout);
     // new Toolbar.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -101,10 +117,11 @@ public class ExpandedCoreActivity
   }
   
   public MyServiceConnection mConn;
-  public static class MyServiceConnection implements ServiceConnection {
+  public static class MyServiceConnection
+      implements ServiceConnection {
     
     private ChatService chatService;
-
+    
     @Override public void onServiceConnected(
         ComponentName name,
         IBinder service) {
@@ -112,7 +129,7 @@ public class ExpandedCoreActivity
       chatService = myBinder.getService();
       chatService.setAppState(ChatService.APP_ON);
     }
-
+    
     @Override public void onServiceDisconnected(
         ComponentName name) {
       chatService = null;
@@ -136,21 +153,33 @@ public class ExpandedCoreActivity
   }
   
   public void toggleShowHideChat() {
-    hide = !hide;
-    
-    if (hide) {
-      FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-      ft.setCustomAnimations(R.anim.slide_in_right, android.R.anim.slide_out_right);
-      ft.hide(chatFragment).commit();
-//      chatFragment = ChatManagerFragment.newInstance(null, null);
+    isChatManagerHidden = !isChatManagerHidden;
+    setChatFragmentVisibleState(isChatManagerHidden);
+  }
+  
+  public void setChatFragmentVisibleState(boolean visible) {
+    if (visible) {
+      hideChatFragment();
+      // chatFragment = ChatManagerFragment.newInstance(null, null);
     } else {
-      FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-      ft.setCustomAnimations(R.anim.slide_in_right, android.R.anim.slide_out_right);
-      ft.show(chatFragment).commit();
+      showChatFragment();
     }
   }
   
-  @OnClick(R.id.button_toggle_show_hide) public void toggleChatManagerFragment() {
+  private void hideChatFragment() {
+    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+    ft.setCustomAnimations(R.anim.slide_in_right, android.R.anim.slide_out_right);
+    ft.hide(chatFragment).commit();
+  }
+  
+  private void showChatFragment() {
+    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+    ft.setCustomAnimations(R.anim.slide_in_right, android.R.anim.slide_out_right);
+    ft.show(chatFragment).commit();
+  }
+  
+  @OnClick(R.id.button_toggle_show_hide) 
+  public void toggleChatManagerFragment() {
     toggleShowHideChat();
   }
   
@@ -160,10 +189,9 @@ public class ExpandedCoreActivity
     mConn.pushAppStateToOff();
     disconnectFromChatService();
   }
-
+  
   @Override protected void onResume() {
     super.onResume();
-    loadChatFragment();
     startChatService();
   }
   
@@ -184,8 +212,8 @@ public class ExpandedCoreActivity
   @Override public void onChat() {
     /* TODO remove if unneeded */
   }
-
-
+  
+  
   @Override public void onLogoutClick() {
     logout();
   }
@@ -197,8 +225,9 @@ public class ExpandedCoreActivity
   private final Context getActivityContext() {
     return ExpandedCoreActivity.this;
   }
-
-  @Override public void onRequestReset(ResettingContentFragment fragment) {
+  
+  @Override public void onRequestReset(
+      ResettingContentFragment fragment) {
     try {
       FragmentManager fragmentManager = getSupportFragmentManager();
       FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -211,5 +240,12 @@ public class ExpandedCoreActivity
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+  }
+  
+  
+  @Override public void onSaveInstanceState(
+      Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putBoolean(STATE_CHAT_VISIBLE, isChatManagerHidden);
   }
 }

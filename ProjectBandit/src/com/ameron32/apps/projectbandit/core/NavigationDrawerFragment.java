@@ -83,9 +83,7 @@ public class NavigationDrawerFragment
     mDrawerList.setLayoutManager(layoutManager);
     mDrawerList.setHasFixedSize(true);
     
-    // final List<ContentItem> navigationItems = getMenu();
     ContentAdapter adapter = createAdapter();
-//     adapter.setNavigationDrawerCallbacks(this);
     mDrawerList.setAdapter(adapter);
     
     Character currentCharacter = CharacterManager.get().getCurrentCharacter();
@@ -225,20 +223,11 @@ public class NavigationDrawerFragment
      mCallbacks = null;
   }
   
-  //
-  // public List<ContentItem> getMenu() {
-  // ContentManager.get().
-  // return items;
-  // }
-  
   private void selectItem(int position) {
     mCurrentSelectedPosition = position;
     if (mDrawerLayout != null) {
       mDrawerLayout.closeDrawer(mFragmentContainerView);
     }
-//     if (mCallbacks != null) {
-//     mCallbacks.onNavigationDrawerItemSelected(position);
-//     }
     ((ContentAdapter) mDrawerList.getAdapter()).selectPosition(position);
   }
   
