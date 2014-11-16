@@ -36,11 +36,14 @@ public class ExpandedCoreActivity
     OnResetCallbacks {
   
   private static final String STATE_CHAT_VISIBLE = "state_chat_fragment_visibility";
-  
-  private ChatManagerFragment chatFragment;
-  private boolean isChatManagerHidden;
+  private static final String CURRENT_CHATVIEW_POSITION_KEY = "CurrentViewPosition";
+
   private Toolbar mToolbar;
+  private ChatManagerFragment chatFragment;
+
+  private boolean isChatManagerHidden;
   private boolean mFromSavedInstanceState;
+  private int mCurrentChatViewPosition;
   
   @Override protected void onCreate(
       Bundle savedInstanceState) {
@@ -59,18 +62,19 @@ public class ExpandedCoreActivity
     if (savedInstanceState != null) {
       isChatManagerHidden = savedInstanceState.getBoolean(STATE_CHAT_VISIBLE);
       mFromSavedInstanceState = true;
+      mCurrentChatViewPosition = savedInstanceState.getInt(CURRENT_CHATVIEW_POSITION_KEY);
     }
   }
 
   private void addCharacterIcons(
       Toolbar toolbar) {
     View layout = LayoutInflater.from(getActivityContext()).inflate(R.layout.view_character_icon_toolbar, toolbar, false);
-    TwoWayGridView characterIconToolbar = (TwoWayGridView) layout.findViewById(R.id.twowaygridview_icon_toolbar);
-    CharacterSelectorAdapter adapter = new CharacterSelectorAdapter(getActivityContext(), characterIconToolbar);
-    characterIconToolbar.setAdapter(adapter);
-    characterIconToolbar.setSelected(true);
+    TwoWayGridView characterIconGridView = (TwoWayGridView) layout.findViewById(R.id.twowaygridview_icon_toolbar);
+    CharacterSelectorAdapter adapter = new CharacterSelectorAdapter(getActivityContext(), characterIconGridView);
+    characterIconGridView.setAdapter(adapter);
+    characterIconGridView.setSelected(true);
     // TODO: why isn't this listener firing?
-    characterIconToolbar.setOnItemSelectedListener(new OnItemSelectedListener() {
+    characterIconGridView.setOnItemSelectedListener(new OnItemSelectedListener() {
       
       @Override public void onItemSelected(
           TwoWayAdapterView<?> parent,
@@ -111,12 +115,12 @@ public class ExpandedCoreActivity
     bindService(chatServiceIntent, mConn, BIND_AUTO_CREATE);
   }
   
-  
   private void disconnectFromChatService() {
     unbindService(mConn);
   }
   
   public MyServiceConnection mConn;
+  
   public static class MyServiceConnection
       implements ServiceConnection {
     
@@ -196,7 +200,7 @@ public class ExpandedCoreActivity
   }
   
   private void loadChatFragment() {
-    chatFragment = ChatManagerFragment.newInstance(null, null);
+    chatFragment = ChatManagerFragment.newInstance(mCurrentChatViewPosition, null);
     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
     transaction.replace(R.id.chat_container, chatFragment);
     transaction.commit();
@@ -209,9 +213,10 @@ public class ExpandedCoreActivity
     finish();
   }
   
-  @Override public void onChat() {
-    /* TODO remove if unneeded */
-  }
+  
+  @Override public void onChatViewPositionChange(int position) {
+    mCurrentChatViewPosition = position;
+  };
   
   
   @Override public void onLogoutClick() {
@@ -247,5 +252,6 @@ public class ExpandedCoreActivity
       Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putBoolean(STATE_CHAT_VISIBLE, isChatManagerHidden);
+    outState.putInt(CURRENT_CHATVIEW_POSITION_KEY, mCurrentChatViewPosition);
   }
 }

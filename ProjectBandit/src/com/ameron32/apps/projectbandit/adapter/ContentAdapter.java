@@ -1,74 +1,45 @@
 package com.ameron32.apps.projectbandit.adapter;
 
-import android.content.Context;
+import java.util.List;
+
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import butterknife.ButterKnife;
+import android.widget.TextView;
 
 import com.ameron32.apps.projectbandit.R;
 import com.ameron32.apps.projectbandit.manager.ContentManager;
+import com.ameron32.apps.projectbandit.manager.ContentManager.ContentItem;
 
-public class IconAdapter_v2
-    extends
-    RecyclerView.Adapter<IconAdapter_v2.ViewHolder> {
+public class ContentAdapter
+    extends RecyclerView.Adapter<ContentAdapter.ViewHolder> {
   
+  private List<ContentItem> mData;
   private int mSelectedPosition;
   private int mTouchedPosition = -1;
+  private boolean isClick = false;
   
-  private LayoutInflater mInflater;
-  private int mLayoutResource;
-  private int mImageViewId;
-  private int[] mImageResources;
-  
-  public IconAdapter_v2(
-      Context context,
-      int layoutResource,
-      int imageViewId,
-      int[] imageResources) {
-    this.mLayoutResource = layoutResource;
-    this.mImageViewId = imageViewId;
-    this.mImageResources = imageResources;
-    this.mInflater = LayoutInflater.from(context);
+  public ContentAdapter(
+      List<ContentItem> data) {
+    mData = data;
   }
   
-  public static class ViewHolder extends
-      RecyclerView.ViewHolder {
-    
-    ImageView mImageView;
-    
-    public ViewHolder(View itemView,
-        int imageViewResId) {
-      super(itemView);
-      ButterKnife.inject(this, itemView);
-      
-      mImageView = (ImageView) itemView.findViewById(imageViewResId);
-    }
-  }
-  
-  public int getItemResource(
-      int position) {
-    return mImageResources[position];
-  }
-  
-  @Override public int getItemCount() {
-    return mImageResources.length;
-  }
-  
-  @Override public ViewHolder onCreateViewHolder(
-      ViewGroup parent, int viewType) {
-    View inflatedView = mInflater.inflate(mLayoutResource, parent, false);
-    return new ViewHolder(inflatedView, mImageViewId);
+  @Override public ContentAdapter.ViewHolder onCreateViewHolder(
+      ViewGroup viewGroup, int i) {
+    View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_nav_text_drawer, viewGroup, false);
+    return new ViewHolder(v);
   }
   
   @Override public void onBindViewHolder(
-      final ViewHolder holder,
+      ContentAdapter.ViewHolder holder,
       final int position) {
-    holder.mImageView.setImageResource(getItemResource(position));
+    holder.textView.setText(mData.get(position).title);
+    Drawable d = holder.textView.getContext().getResources().getDrawable(mData.get(position).imageResource);
+    holder.textView.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
     
     holder.itemView.setOnTouchListener(new View.OnTouchListener() {
       @Override public boolean onTouch(
@@ -118,9 +89,24 @@ public class IconAdapter_v2
   
   public void selectPosition(
       int position) {
-    int lastPosition = mSelectedPosition;
+    int previousPosition = mSelectedPosition;
     mSelectedPosition = position;
-    notifyItemChanged(lastPosition);
+    notifyItemChanged(previousPosition);
     notifyItemChanged(position);
+  }
+  
+  @Override public int getItemCount() {
+    return mData != null ? mData.size()
+        : 0;
+  }
+  
+  public static class ViewHolder extends
+      RecyclerView.ViewHolder {
+    public TextView textView;
+    
+    public ViewHolder(View itemView) {
+      super(itemView);
+      textView = (TextView) itemView.findViewById(R.id.item_name);
+    }
   }
 }

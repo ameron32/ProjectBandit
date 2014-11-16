@@ -52,8 +52,7 @@ public class ChatViewPagerAdapter extends PagerAdapter {
       item = mChatViewSelector.getViewAt(position);
       collection.addView(item);
     }
-    
-    
+
     return item;
   }
   

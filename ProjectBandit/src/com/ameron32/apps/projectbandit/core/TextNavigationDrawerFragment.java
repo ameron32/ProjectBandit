@@ -1,8 +1,8 @@
 package com.ameron32.apps.projectbandit.core;
 
 import com.ameron32.apps.projectbandit.R;
+import com.ameron32.apps.projectbandit.adapter.ContentAdapter;
 import com.ameron32.apps.projectbandit.manager.ContentManager;
-import com.ameron32.apps.projectbandit.manager.ContentManager.ContentAdapter;
 
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;

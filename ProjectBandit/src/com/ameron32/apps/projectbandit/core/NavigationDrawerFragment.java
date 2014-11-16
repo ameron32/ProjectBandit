@@ -36,11 +36,11 @@ import java.util.List;
 
 import com.ameron32.apps.projectbandit.R;
 import com.ameron32.apps.projectbandit.adapter.CharacterSelectorAdapter;
+import com.ameron32.apps.projectbandit.adapter.ContentAdapter;
 import com.ameron32.apps.projectbandit.manager.CharacterManager;
 import com.ameron32.apps.projectbandit.manager.UserManager;
 import com.ameron32.apps.projectbandit.manager.CharacterManager.OnCharacterChangeListener;
 import com.ameron32.apps.projectbandit.manager.ContentManager;
-import com.ameron32.apps.projectbandit.manager.ContentManager.ContentAdapter;
 import com.ameron32.apps.projectbandit.manager.ContentManager.ContentItem;
 import com.ameron32.apps.projectbandit.object.Character;
 import com.jess.ui.TwoWayGridView;
@@ -50,11 +50,10 @@ public class NavigationDrawerFragment
     extends Fragment
     implements
     ContentManager.OnContentChangeListener,
-    CharacterManager.OnCharacterChangeListener
-{
+    CharacterManager.OnCharacterChangeListener {
   private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
   private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
-  private static final String PREFERENCES_FILE = "my_app_settings"; 
+  private static final String PREFERENCES_FILE = "my_app_settings";
   // TODO: change this to your file
   
   private NavigationDrawerCallbacks mCallbacks;
@@ -67,11 +66,10 @@ public class NavigationDrawerFragment
   private boolean mFromSavedInstanceState;
   private int mCurrentSelectedPosition;
   
-  @InjectView(R.id.imageview_character_image_full_size)
-  ImageView characterImage;
+  @InjectView(R.id.imageview_character_image_full_size) ImageView characterImage;
   
   
-  @Nullable @Override public View onCreateView(
+  @Override public View onCreateView(
       LayoutInflater inflater,
       ViewGroup container,
       Bundle savedInstanceState) {
@@ -106,12 +104,11 @@ public class NavigationDrawerFragment
   @Override public void onAttach(
       Activity activity) {
     super.onAttach(activity);
-     try {
-     mCallbacks = (NavigationDrawerCallbacks) activity;
-     } catch (ClassCastException e) {
-     throw new
-     ClassCastException("Activity must implement NavigationDrawerCallbacks.");
-     }
+    try {
+      mCallbacks = (NavigationDrawerCallbacks) activity;
+    } catch (ClassCastException e) {
+      throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
+    }
   }
   
   @Override public void onPause() {
@@ -141,8 +138,7 @@ public class NavigationDrawerFragment
     mToolbar = toolbar;
     mFragmentContainerView = getActivity().findViewById(fragmentId);
     mDrawerLayout = drawerLayout;
-    mActionBarDrawerToggle = new ActionBarDrawerToggle(getActivity(), mDrawerLayout, toolbar, 
-        R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+    mActionBarDrawerToggle = new ActionBarDrawerToggle(getActivity(), mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
       @Override public void onDrawerClosed(
           View drawerView) {
         super.onDrawerClosed(drawerView);
@@ -196,7 +192,8 @@ public class NavigationDrawerFragment
     ImageButton upButton = (ImageButton) getActivity().findViewById(R.id.imagebutton_navigation_drawer_up_arrow);
     upButton.setOnClickListener(new OnClickListener() {
       
-      @Override public void onClick(View v) {
+      @Override public void onClick(
+          View v) {
         closeDrawer();
       }
     });
@@ -204,7 +201,8 @@ public class NavigationDrawerFragment
     ImageButton logoutButton = (ImageButton) getActivity().findViewById(R.id.imagebutton_navigation_drawer_logout);
     logoutButton.setOnClickListener(new OnClickListener() {
       
-      @Override public void onClick(View v) {
+      @Override public void onClick(
+          View v) {
         mCallbacks.onLogoutClick();
       }
     });
@@ -220,7 +218,7 @@ public class NavigationDrawerFragment
   
   @Override public void onDetach() {
     super.onDetach();
-     mCallbacks = null;
+    mCallbacks = null;
   }
   
   private void selectItem(int position) {
@@ -316,7 +314,7 @@ public class NavigationDrawerFragment
     
     // restoreCharacterIcons(toolbar);
   }
-
+  
   
   @Override public boolean onOptionsItemSelected(
       MenuItem item) {
@@ -344,10 +342,12 @@ public class NavigationDrawerFragment
   }
   
   protected ContentAdapter createAdapter() {
-//    return new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_activated_1, android.R.id.text1, new String[] {
-//        getString(R.string.title_section1),
-//        getString(R.string.title_section2),
-//        getString(R.string.title_section3), });
+    // return new ArrayAdapter<String>(getActivity(),
+    // android.R.layout.simple_list_item_activated_1, android.R.id.text1, new
+    // String[] {
+    // getString(R.string.title_section1),
+    // getString(R.string.title_section2),
+    // getString(R.string.title_section3), });
     return ContentManager.get().getAdapter();
   }
   
@@ -356,7 +356,7 @@ public class NavigationDrawerFragment
       int position) {
     selectItem(position);
   }
-
+  
   @Override public void onCharacterChange(
       CharacterManager manager,
       Character newCharacter) {
@@ -364,11 +364,9 @@ public class NavigationDrawerFragment
     setCharacterImage(newCharacter);
   }
   
-  private void setCharacterImage(Character newCharacter) {
-    Picasso.with(getActivity())
-      .load(newCharacter.getUrlFullSize())
-      .placeholder(R.drawable.ic_bandit_clear)
-      .into(characterImage);
+  private void setCharacterImage(
+      Character newCharacter) {
+    Picasso.with(getActivity()).load(newCharacter.getUrlFullSize()).placeholder(R.drawable.ic_bandit_clear).into(characterImage);
   }
   
   public interface NavigationDrawerCallbacks {
