@@ -18,7 +18,7 @@
             android:text="ITEM"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <com.ameron32.apps.library.floatingtext.FloatingHintEditText
+        <com.ameron32.library.floatingtext.FloatingHintEditText
             android:id="@+id/et_name"
             style="@style/Widget.FloatingHintEditText"
             android:layout_width="match_parent"
@@ -27,9 +27,9 @@
             android:hint="Name" >
 
             <requestFocus />
-        </com.ameron32.apps.library.floatingtext.FloatingHintEditText>
+        </com.ameron32.library.floatingtext.FloatingHintEditText>
 
-        <com.ameron32.apps.library.floatingtext.FloatingHintEditText
+        <com.ameron32.library.floatingtext.FloatingHintEditText
             android:id="@+id/et_base_value"
             style="@style/Widget.FloatingHintEditText"
             android:layout_width="match_parent"
@@ -57,7 +57,7 @@
             android:text="WEAPON"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <com.ameron32.apps.library.floatingtext.FloatingHintEditText
+        <com.ameron32.library.floatingtext.FloatingHintEditText
             android:id="@+id/et_weapon_damages"
             style="@style/Widget.FloatingHintEditText"
             android:layout_width="match_parent"
@@ -92,7 +92,7 @@
             android:text="AMMO"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <com.ameron32.apps.library.floatingtext.FloatingHintEditText
+        <com.ameron32.library.floatingtext.FloatingHintEditText
             android:id="@+id/et_ammo_damages"
             style="@style/Widget.FloatingHintEditText"
             android:layout_width="match_parent"
@@ -121,7 +121,7 @@
             android:text="ARMOR"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <com.ameron32.apps.library.floatingtext.FloatingHintEditText
+        <com.ameron32.library.floatingtext.FloatingHintEditText
             android:id="@+id/et_resistances"
             style="@style/Widget.FloatingHintEditText"
             android:layout_width="match_parent"
@@ -165,7 +165,7 @@
             android:text="DURABILITY"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <com.ameron32.apps.library.floatingtext.FloatingHintEditText
+        <com.ameron32.library.floatingtext.FloatingHintEditText
             android:id="@+id/et_durability"
             style="@style/Widget.FloatingHintEditText"
             android:layout_width="match_parent"
