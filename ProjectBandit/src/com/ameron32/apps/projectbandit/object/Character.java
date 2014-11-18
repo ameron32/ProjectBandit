@@ -111,23 +111,23 @@ import com.parse.ParseQuery;
   
   
   
-  private String getName() {
+  public String getName() {
     return this.getString("name");
   }
   
-  private int getCurrentHealth() {
+  public int getCurrentHealth() {
     return this.getInt("currentHealth");
   }
   
-  private int getMaxHealth() {
+  public int getMaxHealth() {
     return this.getInt("maxHealth");
   }
   
-  private int getLevel() {
+  public int getLevel() {
     return this.getInt("currentLevel");
   }
   
-  private int getXP() {
+  public int getXP() {
     return this.getInt("currentXP");
   }
   
@@ -135,7 +135,7 @@ import com.parse.ParseQuery;
     return this.getBoolean("inGameCharacter");
   }
   
-  private int getGold() {
+  public int getGold() {
     return this.getInt("currentGold");
   }
   

@@ -33,5 +33,6 @@
     
     
     <dimen name="toolbar_elevation">4dp</dimen>
+    <dimen name="text_game_listitem_textsize">24sp</dimen>
 
 </resources>

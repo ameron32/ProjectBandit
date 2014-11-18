@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +26,8 @@ import com.jess.ui.TwoWayGridView;
 public class CoreActivity extends
     ActionBarActivity
     implements
-    ContentManager.OnContentChangeListener {
+    ContentManager.OnContentChangeListener,
+    ToolbarFragment.OnToolbarFragmentCallbacks {
   
   // @InjectView(R.id.drawer_layout)
   DrawerLayout mDrawerLayout;
@@ -42,6 +44,7 @@ public class CoreActivity extends
    * .
    */
   private CharSequence mTitle;
+  private ToolbarFragment mToolbarFragment;
   
   @Override protected void onCreate(
       Bundle savedInstanceState) {
@@ -50,7 +53,19 @@ public class CoreActivity extends
     setContentView(R.layout.activity_core);
     ButterKnife.inject(this);
     
-    mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+    loadToolbarFragment();
+  }
+  
+  protected ToolbarFragment getToolbarFragment() {
+    return mToolbarFragment;
+  }
+  
+  @Override public void onToolbarCreated(
+      Toolbar toolbar) {
+    Log.d("Core", "onToolbarCreated()");
+
+//    mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+    mToolbar = toolbar;
     setSupportActionBar(mToolbar);
     getSupportActionBar().setDisplayShowHomeEnabled(true);
     
@@ -60,6 +75,13 @@ public class CoreActivity extends
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
     // drawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.colorPrimary));
     mNavigationDrawerFragment.setup(R.id.navigation_drawer, mDrawerLayout, mToolbar);
+  }
+    
+  private void loadToolbarFragment() {
+    mToolbarFragment = ToolbarFragment.newInstance();
+    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+    transaction.replace(R.id.toolbar_actionbar_container, mToolbarFragment);
+    transaction.commit();
   }
   
   @Override protected void onDestroy() {
@@ -87,49 +109,10 @@ public class CoreActivity extends
     transaction.commit();
   };
   
-  // @Override
-  // public void onNavigationDrawerItemSelected(int position) {
-  // // update the main content by replacing fragments
-  // // FragmentManager fragmentManager = getSupportFragmentManager();
-  // // FragmentTransaction transaction = fragmentManager.beginTransaction();
-  // // transaction.replace(R.id.container,
-  // // ContentManager.get().getNewFragmentForPosition(position));
-  // // transaction.commit();
-  // }
-  
   public void onSectionAttached(
       int number) {
-    // switch (number) {
-    // case 1:
-    // mTitle = getString(R.string.title_section1);
-    // break;
-    // case 2:
-    // mTitle = getString(R.string.title_section2);
-    // break;
-    // case 3:
-    // mTitle = getString(R.string.title_section3);
-    // break;
-    // }
     supportInvalidateOptionsMenu();
   }
-  
-//  public void restoreActionBar() {
-//    ActionBar actionBar = getSupportActionBar();
-//    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-//    actionBar.setDisplayShowTitleEnabled(true);
-//    actionBar.setTitle(mTitle);
-//    
-////    restoreCharacterIcons(actionBar);
-//  }
-  
-//  private void restoreCharacterIcons(
-//      ActionBar actionBar) {
-//    View layout = LayoutInflater.from(getActivity()).inflate(R.layout.view_character_icon_toolbar, null);
-//    TwoWayGridView characterIconToolbar = (TwoWayGridView) layout.findViewById(R.id.twowaygridview_icon_toolbar);
-//    characterIconToolbar.setAdapter(new CharacterSelectorAdapter(getActivity()));
-//    actionBar.setCustomView(layout, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-//    actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-//  }
   
   @Override public boolean onCreateOptionsMenu(
       Menu menu) {
@@ -137,11 +120,14 @@ public class CoreActivity extends
       // Only show items in the action bar relevant to this screen
       // if the drawer is not showing. Otherwise, let the drawer
       // decide what to show in the action bar.
-      getMenuInflater().inflate(R.menu.core, menu);
-//      restoreActionBar();
+//      inflateCoreMenu(menu);
       return true;
     }
     return super.onCreateOptionsMenu(menu);
+  }
+
+  private void inflateCoreMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.core, menu);
   }
   
   @Override public boolean onOptionsItemSelected(
@@ -153,9 +139,9 @@ public class CoreActivity extends
     if (id == R.id.action_settings) { return true; }
     return super.onOptionsItemSelected(item);
   }
-  
-  private final Context getActivityContext() {
-    return CoreActivity.this;
-  }
+//  
+//  private final Context getActivityContext() {
+//    return CoreActivity.this;
+//  }
   
 }

@@ -14,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 import butterknife.OnClick;
@@ -40,14 +39,15 @@ public class ExpandedCoreActivity
     implements
     NavigationDrawerFragment.NavigationDrawerCallbacks,
     ChatManagerFragment.OnChatManagerListener,
-    OnResetCallbacks {
+    OnResetCallbacks 
+{
   
   private static final String STATE_CHAT_VISIBLE = "state_chat_fragment_visibility";
   private static final String CURRENT_CHATVIEW_POSITION_KEY = "CurrentViewPosition";
-
-  private Toolbar mToolbar;
-  private ChatManagerFragment chatFragment;
-
+  
+//  private ToolbarFragment mToolbarFragment;
+  private ChatManagerFragment mChatFragment;
+  
   private boolean isChatManagerHidden;
   private boolean mFromSavedInstanceState;
   private int mCurrentChatViewPosition;
@@ -56,9 +56,6 @@ public class ExpandedCoreActivity
       Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     loadSavedState(savedInstanceState);
-    
-    mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-    addCharacterIcons_v2(mToolbar);
     
     loadChatFragment();
     setChatFragmentVisibleState(isChatManagerHidden);
@@ -72,7 +69,10 @@ public class ExpandedCoreActivity
       mCurrentChatViewPosition = savedInstanceState.getInt(CURRENT_CHATVIEW_POSITION_KEY);
     }
   }
-
+  
+  
+  
+  /*
   private void addCharacterIcons(
       Toolbar toolbar) {
     View layout = LayoutInflater.from(getActivityContext()).inflate(R.layout.view_character_icon_toolbar, toolbar, false);
@@ -116,31 +116,8 @@ public class ExpandedCoreActivity
     // toolbar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM |
     // ActionBar.DISPLAY_SHOW_HOME);
   }
-  
-  private void addCharacterIcons_v2(Toolbar toolbar) {
-    final Context context = ExpandedCoreActivity.this;
-    
-    View layout = LayoutInflater.from(getActivityContext()).inflate(R.layout.view_toolbar_character_recyclerview, toolbar, false);
-    RecyclerView characterListView = (RecyclerView) layout.findViewById(R.id.recyclerview);
-    characterListView.setHasFixedSize(true);
-    
-    LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
-    mLayoutManager.setStackFromEnd(true);
-    mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-    characterListView.setLayoutManager(mLayoutManager);
-    // mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-    
-    mAdapter = new CharacterSelectorAdapter_v2(context);
-    characterListView.setAdapter(mAdapter);
-    characterListView.addOnItemTouchListener(new CharacterClickListener(context, new OnCharacterClickListener() {
-      
-      @Override public void onCharacterClick(
-          View view, int position) {
-        mAdapter.setSelection(position);
-      }
-    }));
-    toolbar.addView(characterListView);
-  }
+  */
+
   
   private void startChatService() {
     Intent chatServiceIntent = ChatService.makeIntent(this);
@@ -196,7 +173,8 @@ public class ExpandedCoreActivity
     setChatFragmentVisibleState(isChatManagerHidden);
   }
   
-  public void setChatFragmentVisibleState(boolean visible) {
+  public void setChatFragmentVisibleState(
+      boolean visible) {
     if (visible) {
       hideChatFragment();
       // chatFragment = ChatManagerFragment.newInstance(null, null);
@@ -208,23 +186,22 @@ public class ExpandedCoreActivity
   private void hideChatFragment() {
     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
     ft.setCustomAnimations(R.anim.slide_in_right, android.R.anim.slide_out_right);
-    ft.hide(chatFragment).commit();
+    ft.hide(mChatFragment).commit();
   }
   
   private void showChatFragment() {
     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
     ft.setCustomAnimations(R.anim.slide_in_right, android.R.anim.slide_out_right);
-    ft.show(chatFragment).commit();
+    ft.show(mChatFragment).commit();
   }
   
-  @OnClick(R.id.button_toggle_show_hide) 
-  public void toggleChatManagerFragment() {
+  @OnClick(R.id.button_toggle_show_hide) public void toggleChatManagerFragment() {
     toggleShowHideChat();
   }
   
   @Override protected void onPause() {
     super.onPause();
-    chatFragment = null;
+    mChatFragment = null;
     mConn.pushAppStateToOff();
     disconnectFromChatService();
   }
@@ -235,9 +212,9 @@ public class ExpandedCoreActivity
   }
   
   private void loadChatFragment() {
-    chatFragment = ChatManagerFragment.newInstance(mCurrentChatViewPosition, null);
+    mChatFragment = ChatManagerFragment.newInstance(mCurrentChatViewPosition, null);
     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-    transaction.replace(R.id.chat_container, chatFragment);
+    transaction.replace(R.id.chat_container, mChatFragment);
     transaction.commit();
   }
   
@@ -248,11 +225,10 @@ public class ExpandedCoreActivity
     finish();
   }
   
-  
-  @Override public void onChatViewPositionChange(int position) {
+  @Override public void onChatViewPositionChange(
+      int position) {
     mCurrentChatViewPosition = position;
   };
-  
   
   @Override public void onLogoutClick() {
     logout();
@@ -261,27 +237,24 @@ public class ExpandedCoreActivity
   private void logout() {
     startGatewayActivityAndLogout();
   }
-  
-  private final Context getActivityContext() {
-    return ExpandedCoreActivity.this;
-  }
+//  
+//  private final Context getActivityContext() {
+//    return ExpandedCoreActivity.this;
+//  }
   
   @Override public void onRequestReset(
-      ResettingContentFragment fragment) {
+    ResettingContentFragment fragment) {
     try {
       FragmentManager fragmentManager = getSupportFragmentManager();
       FragmentTransaction transaction = fragmentManager.beginTransaction();
       transaction.replace(R.id.container, fragment.getClass().newInstance());
       transaction.commit();
     } catch (InstantiationException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (IllegalAccessException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }
-  
   
   @Override public void onSaveInstanceState(
       Bundle outState) {

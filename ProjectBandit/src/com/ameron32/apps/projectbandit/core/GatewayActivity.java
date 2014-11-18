@@ -1,24 +1,30 @@
 package com.ameron32.apps.projectbandit.core;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.ameron32.apps.projectbandit.R;
+import com.ameron32.apps.projectbandit.adapter.GameListAdapter;
+import com.ameron32.apps.projectbandit.adapter.GameListAdapter.GameChangeListener;
 import com.ameron32.apps.projectbandit.manager.CharacterManager;
+import com.ameron32.apps.projectbandit.manager.ContentManager;
 import com.ameron32.apps.projectbandit.manager.GameManager;
 import com.ameron32.apps.projectbandit.manager.GameManager.OnInitializeCompleteListener;
-import com.ameron32.apps.projectbandit.manager.ContentManager;
 import com.ameron32.apps.projectbandit.manager.MessageManager;
 import com.ameron32.apps.projectbandit.manager.ObjectManager;
 import com.ameron32.apps.projectbandit.manager.UserManager;
@@ -29,15 +35,22 @@ import com.parse.ui.ParseLoginBuilder;
 
 public class GatewayActivity extends
     ActionBarActivity implements
-    OnInitializeCompleteListener {
+    OnInitializeCompleteListener, GameChangeListener {
   
   private static final String TAG = GatewayActivity.class.getSimpleName();
   private static final Class PRIMARY_ACTIVITY = ExpandedCoreActivity.class;
+  
+  private RecyclerView mRecyclerView;
   
   @Override protected void onCreate(
       Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_gateway);
+    
+    mRecyclerView = (RecyclerView) findViewById(R.id.lv_game_list);
+    LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+    mRecyclerView.setLayoutManager(mLayoutManager);
+    mRecyclerView.setHasFixedSize(true);
   }
   
   @Override protected void onResume() {
@@ -85,6 +98,7 @@ public class GatewayActivity extends
   }
   
   public boolean lock = false;
+
   private void moveToStructureActivity() {
     if (!lock) {
       lock = true;
@@ -143,21 +157,30 @@ public class GatewayActivity extends
     // TODO game manager initializes with MULTIPLE GAMES, needs a chooser
     Log.i(TAG, "game returned with several results.");
     
-    Builder builder = new AlertDialog.Builder(getActivity());
-    builder.setAdapter(new ArrayAdapter<Game>(getActivity(), R.layout.row_dropdown, games), new DialogInterface.OnClickListener() {
-      
-      @Override public void onClick(
-          DialogInterface dialog,
-          int which) {
-        dialog.dismiss();
-        GameManager.changeGame(games.get(which));
-        continueToStructureActivity();
-      }
-    });
-    builder.create().show();
+    GameListAdapter mAdapter = new GameListAdapter(games, this);
+    mRecyclerView.setAdapter(mAdapter);
+    
+//    
+//    Builder builder = new AlertDialog.Builder(getActivity());
+//    builder.setAdapter(new ArrayAdapter<Game>(getActivity(), R.layout.row_dropdown, games), new DialogInterface.OnClickListener() {
+//      
+//      @Override public void onClick(
+//          DialogInterface dialog,
+//          int which) {
+//        dialog.dismiss();
+//        GameManager.changeGame(games.get(which));
+//        continueToStructureActivity();
+//      }
+//    });
+//    builder.create().show();
   }
-  
+    
   private Activity getActivity() {
     return GatewayActivity.this;
+  }
+
+  @Override public void onGameChange(
+      Game game) {
+    continueToStructureActivity();
   }
 }

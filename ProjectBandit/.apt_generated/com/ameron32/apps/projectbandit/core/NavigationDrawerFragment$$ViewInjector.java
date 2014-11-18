@@ -7,11 +7,17 @@ import butterknife.ButterKnife.Finder;
 public class NavigationDrawerFragment$$ViewInjector {
   public static void inject(Finder finder, final com.ameron32.apps.projectbandit.core.NavigationDrawerFragment target, Object source) {
     View view;
-    view = finder.findRequiredView(source, 2131296395, "field 'characterImage'");
+    view = finder.findRequiredView(source, 2131296397, "field 'characterImage'");
     target.characterImage = (android.widget.ImageView) view;
+    view = finder.findRequiredView(source, 2131296403, "field 'gameTitle'");
+    target.gameTitle = (android.widget.TextView) view;
+    view = finder.findRequiredView(source, 2131296402, "field 'characterTitle'");
+    target.characterTitle = (android.widget.TextView) view;
   }
 
   public static void reset(com.ameron32.apps.projectbandit.core.NavigationDrawerFragment target) {
     target.characterImage = null;
+    target.gameTitle = null;
+    target.characterTitle = null;
   }
 }

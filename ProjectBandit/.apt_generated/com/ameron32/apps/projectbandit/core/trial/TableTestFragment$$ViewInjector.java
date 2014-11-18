@@ -9,9 +9,9 @@ public class TableTestFragment$$ViewInjector {
     com.ameron32.apps.projectbandit.core.ContentFragment$$ViewInjector.inject(finder, target, source);
 
     View view;
-    view = finder.findRequiredView(source, 2131296386, "field 'mRecyclerView'");
+    view = finder.findRequiredView(source, 2131296388, "field 'mRecyclerView'");
     target.mRecyclerView = (android.support.v7.widget.RecyclerView) view;
-    view = finder.findRequiredView(source, 2131296385, "field 'mHeaderView'");
+    view = finder.findRequiredView(source, 2131296387, "field 'mHeaderView'");
     target.mHeaderView = (android.widget.FrameLayout) view;
   }
 

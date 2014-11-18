@@ -25,6 +25,7 @@
     <color name="selected_gray">#ffdbdbdb</color>
     
     <color name="character_toolbar_selected_outline">#FFD700</color>
+    <color name="background_transparent_overlay_navigation_drawer">#CCFFFFFF</color>
 
 </resources>
 

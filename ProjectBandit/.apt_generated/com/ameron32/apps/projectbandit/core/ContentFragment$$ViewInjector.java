@@ -7,7 +7,7 @@ import butterknife.ButterKnife.Finder;
 public class ContentFragment$$ViewInjector {
   public static void inject(Finder finder, final com.ameron32.apps.projectbandit.core.ContentFragment target, Object source) {
     View view;
-    view = finder.findOptionalView(source, 2131296378);
+    view = finder.findOptionalView(source, 2131296380);
     target.label = (android.widget.TextView) view;
   }
 

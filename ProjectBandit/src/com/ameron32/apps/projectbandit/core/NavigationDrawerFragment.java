@@ -27,22 +27,26 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.ameron32.apps.projectbandit.R;
 import com.ameron32.apps.projectbandit.adapter.CharacterSelectorAdapter;
 import com.ameron32.apps.projectbandit.adapter.ContentAdapter;
 import com.ameron32.apps.projectbandit.manager.CharacterManager;
+import com.ameron32.apps.projectbandit.manager.GameManager;
 import com.ameron32.apps.projectbandit.manager.UserManager;
 import com.ameron32.apps.projectbandit.manager.CharacterManager.OnCharacterChangeListener;
 import com.ameron32.apps.projectbandit.manager.ContentManager;
 import com.ameron32.apps.projectbandit.manager.ContentManager.ContentItem;
 import com.ameron32.apps.projectbandit.object.Character;
+import com.ameron32.apps.projectbandit.object.Game;
 import com.jess.ui.TwoWayGridView;
 import com.squareup.picasso.Picasso;
 
@@ -67,6 +71,8 @@ public class NavigationDrawerFragment
   private int mCurrentSelectedPosition;
   
   @InjectView(R.id.imageview_character_image_full_size) ImageView characterImage;
+  @InjectView(R.id.textview_character_navtitle) TextView characterTitle;
+  @InjectView(R.id.textview_game_navtitle) TextView gameTitle;
   
   
   @Override public View onCreateView(
@@ -85,12 +91,13 @@ public class NavigationDrawerFragment
     mDrawerList.setAdapter(adapter);
     
     Character currentCharacter = CharacterManager.get().getCurrentCharacter();
-    setCharacterImage(currentCharacter);
+    setCharacterImageAndText(currentCharacter);
+    setGameText(GameManager.get().getCurrentGame());
     
     selectItem(mCurrentSelectedPosition);
     return view;
   }
-  
+
   @Override public void onCreate(
       Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -286,12 +293,16 @@ public class NavigationDrawerFragment
     // action bar.
     if (mDrawerLayout != null
         && isDrawerOpen()) {
-      inflater.inflate(R.menu.global, menu);
+//      inflateGlobalMenu(menu, inflater);
     }
     // showGlobalContextActionBar();
     super.onCreateOptionsMenu(menu, inflater);
   }
-  
+
+  private void inflateGlobalMenu(Menu menu,
+      MenuInflater inflater) {
+    inflater.inflate(R.menu.global, menu);
+  }
   
   @Override public void onActivityCreated(
       Bundle savedInstanceState) {
@@ -360,13 +371,22 @@ public class NavigationDrawerFragment
   @Override public void onCharacterChange(
       CharacterManager manager,
       Character newCharacter) {
-    // TODO! onCharacterChange
-    setCharacterImage(newCharacter);
+    setCharacterImageAndText(newCharacter);
   }
   
-  private void setCharacterImage(
+  private void setCharacterImageAndText(
       Character newCharacter) {
-    Picasso.with(getActivity()).load(newCharacter.getUrlFullSize()).placeholder(R.drawable.ic_bandit_clear).into(characterImage);
+    final String name = newCharacter.getString("name");
+    final String urlFullSize = newCharacter.getUrlFullSize();
+
+    characterTitle.setText(name);
+    Picasso.with(getActivity()).load(urlFullSize).placeholder(R.drawable.ic_bandit_clear).into(characterImage);
+  }
+  
+  private void setGameText(
+      Game currentGame) {
+    final String name = currentGame.getName();
+    gameTitle.setText(name.toUpperCase(Locale.ENGLISH));
   }
   
   public interface NavigationDrawerCallbacks {
