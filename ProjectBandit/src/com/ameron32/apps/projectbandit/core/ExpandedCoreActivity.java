@@ -8,9 +8,13 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 import butterknife.OnClick;
@@ -18,7 +22,10 @@ import butterknife.OnClick;
 import com.ameron32.apps.projectbandit.ChatService;
 import com.ameron32.apps.projectbandit.ChatService.MyBinder;
 import com.ameron32.apps.projectbandit.R;
+import com.ameron32.apps.projectbandit.adapter.CharacterClickListener;
+import com.ameron32.apps.projectbandit.adapter.CharacterClickListener.OnCharacterClickListener;
 import com.ameron32.apps.projectbandit.adapter.CharacterSelectorAdapter;
+import com.ameron32.apps.projectbandit.adapter.CharacterSelectorAdapter_v2;
 import com.ameron32.apps.projectbandit.core.trial.ResettingContentFragment;
 import com.ameron32.apps.projectbandit.core.trial.ResettingContentFragment.OnResetCallbacks;
 import com.ameron32.apps.projectbandit.manager.UserManager;
@@ -51,7 +58,7 @@ public class ExpandedCoreActivity
     loadSavedState(savedInstanceState);
     
     mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-    addCharacterIcons(mToolbar);
+    addCharacterIcons_v2(mToolbar);
     
     loadChatFragment();
     setChatFragmentVisibleState(isChatManagerHidden);
@@ -81,6 +88,8 @@ public class ExpandedCoreActivity
           View view, int position,
           long id) {
         
+        Log.d("onItemSelected()", "start");
+        
         // reset all outlines
         int count = parent.getChildCount();
         for (int i = 0; i < count; i++) {
@@ -108,6 +117,31 @@ public class ExpandedCoreActivity
     // ActionBar.DISPLAY_SHOW_HOME);
   }
   
+  private void addCharacterIcons_v2(Toolbar toolbar) {
+    final Context context = ExpandedCoreActivity.this;
+    
+    View layout = LayoutInflater.from(getActivityContext()).inflate(R.layout.view_toolbar_character_recyclerview, toolbar, false);
+    RecyclerView characterListView = (RecyclerView) layout.findViewById(R.id.recyclerview);
+    characterListView.setHasFixedSize(true);
+    
+    LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
+    mLayoutManager.setStackFromEnd(true);
+    mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+    characterListView.setLayoutManager(mLayoutManager);
+    // mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+    
+    mAdapter = new CharacterSelectorAdapter_v2(context);
+    characterListView.setAdapter(mAdapter);
+    characterListView.addOnItemTouchListener(new CharacterClickListener(context, new OnCharacterClickListener() {
+      
+      @Override public void onCharacterClick(
+          View view, int position) {
+        mAdapter.setSelection(position);
+      }
+    }));
+    toolbar.addView(characterListView);
+  }
+  
   private void startChatService() {
     Intent chatServiceIntent = ChatService.makeIntent(this);
     startService(chatServiceIntent);
@@ -120,6 +154,7 @@ public class ExpandedCoreActivity
   }
   
   public MyServiceConnection mConn;
+  private CharacterSelectorAdapter_v2 mAdapter;
   
   public static class MyServiceConnection
       implements ServiceConnection {
