@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ameron32.apps.projectbandit.adapter.ChatViewThousand xmlns:android="http://schemas.android.com/apk/res/android"
+<com.ameron32.apps.projectbandit.view.ChatViewThousand xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
     <include layout="@layout/merg_chat_list" />
 
-</com.ameron32.apps.projectbandit.adapter.ChatViewThousand>
+</com.ameron32.apps.projectbandit.view.ChatViewThousand>

@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Locale;
 
 import com.ameron32.apps.projectbandit.R;
-import com.ameron32.apps.projectbandit.adapter.CharacterSelectorAdapter;
+import com.ameron32.apps.projectbandit._retired.CharacterSelectorAdapter;
 import com.ameron32.apps.projectbandit.adapter.ContentAdapter;
 import com.ameron32.apps.projectbandit.manager.CharacterManager;
 import com.ameron32.apps.projectbandit.manager.GameManager;

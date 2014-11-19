@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.ameron32.apps.projectbandit.R;
-import com.ameron32.apps.projectbandit.adapter.CharacterSelectorAdapter;
+import com.ameron32.apps.projectbandit._retired.CharacterSelectorAdapter;
 import com.ameron32.apps.projectbandit.manager.ContentManager;
 import com.crashlytics.android.Crashlytics;
 import com.jess.ui.TwoWayGridView;

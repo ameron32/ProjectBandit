@@ -1,6 +1,11 @@
 package com.ameron32.apps.projectbandit.adapter;
 
 import com.ameron32.apps.projectbandit.R;
+import com.ameron32.apps.projectbandit.view.AbsChatView;
+import com.ameron32.apps.projectbandit.view.ChatViewOOC;
+import com.ameron32.apps.projectbandit.view.ChatViewRecent;
+import com.ameron32.apps.projectbandit.view.ChatViewStory;
+import com.ameron32.apps.projectbandit.view.ChatViewThousand;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -59,7 +64,7 @@ public class ChatViewPagerAdapter extends PagerAdapter {
   @Override
   public void destroyItem(ViewGroup container, int position, Object object) {
     // super.destroyItem(container, position, object);
-    ChatView item = (ChatView) object;
+    AbsChatView item = (AbsChatView) object;
     item.destroy();
   }
 
@@ -96,8 +101,8 @@ public class ChatViewPagerAdapter extends PagerAdapter {
       this.mInflater = adapter.getInflater();
     }
 
-    public ChatView getViewAt(int position) {
-      ChatView item = null;
+    public AbsChatView getViewAt(int position) {
+      AbsChatView item = null;
       // try {
       // WeakReference<ChatView> reference = storage.get(position);
       // item = reference.get();
@@ -122,8 +127,8 @@ public class ChatViewPagerAdapter extends PagerAdapter {
 //    }
 
 //    private Class[] chatViews = { ChatViewRecent.class, ChatViewOOC.class, ChatViewStory.class, ChatViewStory.class, ChatViewThousand.class };
-    private ChatView generateNewChatView(final int position) {
-      ChatView item = null;
+    private AbsChatView generateNewChatView(final int position) {
+      AbsChatView item = null;
       switch (position) {
       case 0:
         item = ChatViewRecent.create(mInflater, R.layout.view_recent_chat,
