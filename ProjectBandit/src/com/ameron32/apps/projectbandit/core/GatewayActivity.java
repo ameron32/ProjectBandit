@@ -104,6 +104,12 @@ public class GatewayActivity extends
     }
   }
   
+  /**
+   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   * GAME LOADING AND SELECTION RELATED SECTION
+   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   */
+  
   public volatile boolean lock = false;
   
   private void loadGame() {
@@ -166,11 +172,6 @@ public class GatewayActivity extends
     }
   }
   
-  private void continueToStructureActivity() {
-    GameManager.get().initialize(this);
-    CharacterManager.get().initialize(this);
-  }
-  
   private void noGames() {
     // do not continueToStructureActivity() without a game
     Log.i(TAG, "game returned with no results.");
@@ -208,6 +209,19 @@ public class GatewayActivity extends
   private void changeGame(Game game) {
     GameManager.changeGame(game);
     continueToStructureActivity();
+  }
+  
+  /**
+   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   * PRE-ACTIVITY LOADING SECTION
+   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   */
+  
+  private void continueToStructureActivity() {
+    // PERFORM PRE-ACTIVITY INITIALIZATIONS OF SINGLETON MANAGERS
+    GameManager.get().initialize(this);
+    CharacterManager.get().initialize(this);
+    // continue in callbacks
   }
   
   @Override public void onCharacterManagerInitializationComplete() {
