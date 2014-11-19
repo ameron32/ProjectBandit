@@ -1,5 +1,8 @@
 package com.ameron32.apps.projectbandit.manager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ameron32.apps.projectbandit.object.Character;
 import com.ameron32.apps.projectbandit.object.Game;
 import com.ameron32.apps.projectbandit.object.User;
@@ -30,10 +33,14 @@ public class UserManager {
     return currentUser;
   }
   
-  public void findGamesOfCurrentUser(FindCallback<Game> callback) {
-    ParseQuery<Game> query = ParseQuery.getQuery(Game.class);
-    query.whereEqualTo("players", getCurrentUser());
-    query.findInBackground(callback);
+  List<Game> gamesUserIsPlayer = new ArrayList<Game>();
+  
+  public void setGamesOfCurrentUser(List<Game> games) {
+    gamesUserIsPlayer = games;
+  }
+  
+  public List<Game> getStoredGamesOfCurrentUser() {
+    return gamesUserIsPlayer;
   }
   
   public void findCharactersOfCurrentUser(FindCallback<Character> callback) {

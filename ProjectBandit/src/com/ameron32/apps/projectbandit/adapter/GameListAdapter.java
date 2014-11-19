@@ -45,8 +45,10 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
     holder.button.setText(game.getName());
     holder.itemView.setOnClickListener(new OnClickListener() {
       
+      /**
+       * TODO: Convert to OnItemClickListener in GatewayActivity
+       */
       @Override public void onClick(View v) {
-        GameManager.changeGame(game);
         mListener.onGameChange(game);
       }
     });

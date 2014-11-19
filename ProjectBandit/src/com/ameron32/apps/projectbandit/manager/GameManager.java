@@ -39,7 +39,7 @@ public class GameManager {
   
   protected GameManager() {}
   
-  public void initialize() {
+  public void initialize(final OnGameManagerInitializationCompleteListener listener) {
     currentGame.getGM(new FindCallback<User>() {
       
       @Override public void done(
@@ -60,7 +60,7 @@ public class GameManager {
           }
           
           if (listener != null) {
-            listener.onInitializeComplete();
+            listener.onGameManagerInitializationComplete();
           }
         }
       }
@@ -88,13 +88,7 @@ public class GameManager {
     gameManager = null;
   }
   
-  public OnInitializeCompleteListener listener;
-  public interface OnInitializeCompleteListener {
-    public void onInitializeComplete();
-  }
-  
-  public void setOnInitializeCompleteListener(
-      OnInitializeCompleteListener listener) {
-    this.listener = listener;
+  public interface OnGameManagerInitializationCompleteListener {
+    public void onGameManagerInitializationComplete();
   }
 }

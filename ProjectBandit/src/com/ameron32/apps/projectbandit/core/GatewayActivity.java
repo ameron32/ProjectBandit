@@ -1,30 +1,25 @@
 package com.ameron32.apps.projectbandit.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.ameron32.apps.projectbandit.R;
 import com.ameron32.apps.projectbandit.adapter.GameListAdapter;
 import com.ameron32.apps.projectbandit.adapter.GameListAdapter.GameChangeListener;
 import com.ameron32.apps.projectbandit.manager.CharacterManager;
+import com.ameron32.apps.projectbandit.manager.CharacterManager.OnCharacterManagerInitializationCompleteListener;
 import com.ameron32.apps.projectbandit.manager.ContentManager;
 import com.ameron32.apps.projectbandit.manager.GameManager;
-import com.ameron32.apps.projectbandit.manager.GameManager.OnInitializeCompleteListener;
+import com.ameron32.apps.projectbandit.manager.GameManager.OnGameManagerInitializationCompleteListener;
 import com.ameron32.apps.projectbandit.manager.MessageManager;
 import com.ameron32.apps.projectbandit.manager.ObjectManager;
 import com.ameron32.apps.projectbandit.manager.UserManager;
@@ -34,13 +29,20 @@ import com.parse.ParseException;
 import com.parse.ui.ParseLoginBuilder;
 
 public class GatewayActivity extends
-    ActionBarActivity implements
-    OnInitializeCompleteListener, GameChangeListener {
+    ActionBarActivity
+    implements
+    GameChangeListener,
+    OnGameManagerInitializationCompleteListener,
+    OnCharacterManagerInitializationCompleteListener {
   
   private static final String TAG = GatewayActivity.class.getSimpleName();
-  private static final Class PRIMARY_ACTIVITY = ExpandedCoreActivity.class;
+  private static final Class<ExpandedCoreActivity> PRIMARY_ACTIVITY = ExpandedCoreActivity.class;
   
   private RecyclerView mRecyclerView;
+  
+  private Activity getActivity() {
+    return GatewayActivity.this;
+  }
   
   @Override protected void onCreate(
       Bundle savedInstanceState) {
@@ -68,9 +70,12 @@ public class GatewayActivity extends
       MessageManager.destroy();
       ContentManager.destroy();
       startLoginActivity();
-    } else {
-      moveToStructureActivity();
+      // not logged in. exit onResume()
+      return;
     }
+    
+    // logged in, continue
+    loadGame();
   }
   
   /**
@@ -85,102 +90,139 @@ public class GatewayActivity extends
     ParseLoginBuilder builder = new ParseLoginBuilder(getActivity());
     builder.setAppLogo(R.drawable.ic_launcher);
     startActivityForResult(builder.build(), LOGIN_REQUEST_CODE);
+    // exit to ParseLogin
   }
   
   @Override protected void onActivityResult(
       int requestCode, int resultCode,
       Intent arg2) {
+    // return from ParseLogin
     if (requestCode == LOGIN_REQUEST_CODE) {
       if (resultCode == RESULT_OK) {
-        moveToStructureActivity();
+        loadGame();
       }
     }
   }
   
-  public boolean lock = false;
-
-  private void moveToStructureActivity() {
+  public volatile boolean lock = false;
+  
+  private void loadGame() {
+    // use local current game, if possible
+    if (GameManager.get().getCurrentGame() != null) {
+      // reload current game
+      Log.i(TAG, "restoring game from GameManager.");
+      oneGame(GameManager.get().getCurrentGame());
+      // restore single game from local data
+      return;
+    }
+    
+    // use local list of games, if possible
+    if (UserManager.get().getStoredGamesOfCurrentUser() != null
+        && !(UserManager.get().getStoredGamesOfCurrentUser().isEmpty())) {
+      Log.i(TAG, "loading local list of available games.");
+      multipleGames(UserManager.get().getStoredGamesOfCurrentUser());
+      // display a list of games from local data
+      return;
+    }
+    
+    // LAST RESORT: no games stored, pull from server
+    pullGamesFromServer();
+  }
+  
+  /**
+   * TODO: add a refresh process to the Gateway Activity
+   * Button or Pull-to-Refresh
+   */
+  private void pullGamesFromServer() {
+    Log.i(TAG, "pulling Games from Server.");
+    
+    // LOAD GAMES FROM SERVER
+    // only one load should pass through lock
+    // prevents simultaneous racing loads
     if (!lock) {
       lock = true;
-      if (GameManager.get().getCurrentGame() == null) {
-        GameManager.get().selectAGame(new FindCallback<Game>() {
-          
-          @Override public void done(
-              List<Game> games,
-              ParseException e) {
-            if (e == null) {
-              switch (games.size()) {
-              case 0:
-                noGames();
-                break;
-              case 1:
-                oneGame(games.get(0));
-                break;
-              default:
-                multipleGames(games);
-              }
+      
+      GameManager.get().selectAGame(new FindCallback<Game>() {
+        
+        @Override public void done(
+            List<Game> games,
+            ParseException e) {
+          lock = false;
+          if (e == null) {
+            switch (games.size()) {
+            case 0:
+              noGames();
+              break;
+            case 1:
+              oneGame(games.get(0));
+              break;
+            default:
+              multipleGames(games);
             }
           }
-        });
-      }
+        }
+      });
+      
     }
-    // else {
-    // continueToStructureActivity();
-    // }
   }
   
   private void continueToStructureActivity() {
-    GameManager.get().setOnInitializeCompleteListener(this);
-    GameManager.get().initialize();
-  }
-  
-  public void onInitializeComplete() {
-    Intent beginStructureActivity = new Intent(getActivity(), PRIMARY_ACTIVITY);
-    startActivity(beginStructureActivity);
-    finish();
+    GameManager.get().initialize(this);
+    CharacterManager.get().initialize(this);
   }
   
   private void noGames() {
-    // TODO game manager initializes with NO GAME
-    Log.i(TAG, "game returned with no results.");
     // do not continueToStructureActivity() without a game
+    Log.i(TAG, "game returned with no results.");
+    final String message = "You are not registered for any games. Contact an administrator.";
+    Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    // TODO: create a process to allow a User to request a game OR start their
+    // own
   }
   
   private void oneGame(Game game) {
     // select this game, transparently
-    GameManager.changeGame(game);
-    continueToStructureActivity();
+    Log.i(TAG, "game returned with one result.");
+    List<Game> games = new ArrayList<Game>();
+    games.add(game);
+    UserManager.get().setGamesOfCurrentUser(games);
+    changeGame(game);
   }
   
   private void multipleGames(
       final List<Game> games) {
-    // TODO game manager initializes with MULTIPLE GAMES, needs a chooser
+    // offer a GameList for the User to choose which game to commit
     Log.i(TAG, "game returned with several results.");
-    
+    UserManager.get().setGamesOfCurrentUser(games);
     GameListAdapter mAdapter = new GameListAdapter(games, this);
     mRecyclerView.setAdapter(mAdapter);
-    
-//    
-//    Builder builder = new AlertDialog.Builder(getActivity());
-//    builder.setAdapter(new ArrayAdapter<Game>(getActivity(), R.layout.row_dropdown, games), new DialogInterface.OnClickListener() {
-//      
-//      @Override public void onClick(
-//          DialogInterface dialog,
-//          int which) {
-//        dialog.dismiss();
-//        GameManager.changeGame(games.get(which));
-//        continueToStructureActivity();
-//      }
-//    });
-//    builder.create().show();
+    // TODO: convert OnClickListener within GameListAdapter to
+    // OnItemClickListener here
   }
-    
-  private Activity getActivity() {
-    return GatewayActivity.this;
-  }
-
+  
   @Override public void onGameChange(
       Game game) {
+    changeGame(game);
+  }
+  
+  private void changeGame(Game game) {
+    GameManager.changeGame(game);
     continueToStructureActivity();
+  }
+  
+  @Override public void onCharacterManagerInitializationComplete() {
+    // TODO: Ensure all managers finished before continuing
+    // allInitializationsComplete();
+  }
+  
+  @Override public void onGameManagerInitializationComplete() {
+    // TODO: Ensure all managers finished before continuing
+    allInitializationsComplete();
+  }
+  
+  private void allInitializationsComplete() {
+    Intent beginStructureActivity = new Intent(getActivity(), PRIMARY_ACTIVITY);
+    startActivity(beginStructureActivity);
+    finish();
   }
 }

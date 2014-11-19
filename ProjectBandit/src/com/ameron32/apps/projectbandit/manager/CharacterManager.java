@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.ameron32.apps.projectbandit.adapter._QueryManager;
@@ -19,6 +20,34 @@ public class CharacterManager {
       characterManager = new CharacterManager();
     }
     return characterManager;
+  }
+  
+  public void initialize(
+      final OnCharacterManagerInitializationCompleteListener listener) {
+    if (currentCharacter == null) {
+      // TODO: get off of UI Thread
+      _QueryManager._Character.getPlayableCharacters()
+      .getFirstInBackground(new GetCallback<Character>() {
+        
+        @Override public void done(
+            Character character,
+            ParseException e) {
+          if (e == null) {
+            setCurrentCharacter(character);
+            if (listener != null) {
+              listener.onCharacterManagerInitializationComplete();
+            }
+          } else {
+            e.printStackTrace();
+          }
+        }
+      });
+    }
+  }
+
+  
+  public interface OnCharacterManagerInitializationCompleteListener {
+    public void onCharacterManagerInitializationComplete();
   }
   
   private Character currentCharacter;
