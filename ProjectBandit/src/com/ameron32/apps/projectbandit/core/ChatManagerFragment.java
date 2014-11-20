@@ -3,6 +3,7 @@ package com.ameron32.apps.projectbandit.core;
 import java.sql.Savepoint;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -334,6 +335,9 @@ public static class HintWatcher implements TextWatcher {
 //      hintText.setText(activity.getResources().getString(R.string.text_view_note_editor_hint));
 //      final String message = "Message mode";
 //      setHint(message);
+    	final Context context = editText.getContext();
+    	int colorRes = context.getResources().getColor(R.color.myWindowBackground);
+    	setEditTextBGColor(colorRes);
       f.updateEditTextHint();
     }
 //    
@@ -348,8 +352,16 @@ public static class HintWatcher implements TextWatcher {
 //      hintText.setText();
 //    }
     
-    private void goImportantMode() {
+    private void setEditTextBGColor(int colorResource) {
+//    	final Context context = editText.getContext();
+    	editText.setBackgroundColor(colorResource);
+	}
+
+	private void goImportantMode() {
       final String message = "Command line";
+  	final Context context = editText.getContext();
+  	int colorRes = context.getResources().getColor(R.color.myPrimaryDarkColor);
+  	setEditTextBGColor(colorRes);
       setHint(message);
 //      TextView hintText = (TextView) activity.findViewById(R.id.text_view_note_editor_hint);
 //      hintText.setText();

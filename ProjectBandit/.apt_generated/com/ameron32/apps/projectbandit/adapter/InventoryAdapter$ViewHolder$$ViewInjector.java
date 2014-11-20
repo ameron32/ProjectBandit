@@ -9,18 +9,18 @@ public class InventoryAdapter$ViewHolder$$ViewInjector {
     View view;
     view = finder.findRequiredView(source, 2131296424, "field 'itemQuantity'");
     target.itemQuantity = (android.widget.TextView) view;
-    view = finder.findRequiredView(source, 2131296422, "field 'itemImage'");
-    target.itemImage = (android.widget.ImageButton) view;
     view = finder.findRequiredView(source, 2131296423, "field 'itemName'");
     target.itemName = (android.widget.TextView) view;
     view = finder.findRequiredView(source, 2131296425, "field 'itemValue'");
     target.itemValue = (android.widget.TextView) view;
+    view = finder.findRequiredView(source, 2131296422, "field 'itemImage'");
+    target.itemImage = (android.widget.ImageButton) view;
   }
 
   public static void reset(com.ameron32.apps.projectbandit.adapter.InventoryAdapter.ViewHolder target) {
     target.itemQuantity = null;
-    target.itemImage = null;
     target.itemName = null;
     target.itemValue = null;
+    target.itemImage = null;
   }
 }
