@@ -6,9 +6,14 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -92,7 +97,7 @@ public class ChatManagerFragment extends
   
   @InjectView(R.id.spinner_action) Spinner actionSpinner;
   @InjectView(R.id.spinner_character) Spinner characterSpinner;
-  @InjectView(R.id.edittext_message_to_send) EditText edittext;
+  @InjectView(R.id.edittext_message_to_send) EditText editnote;
   @InjectView(R.id.viewpager) ViewPager mViewPager;
   @InjectView(R.id.bSend) View sendButton;
   @InjectView(R.id.progress_send) ProgressBar sendProgress;
@@ -193,6 +198,14 @@ public class ChatManagerFragment extends
     mViewPager.setCurrentItem(position);
   }
   
+  private void sendMessage() {
+    final EditText edittext = ButterKnife.findById(mRootView, R.id.edittext_message_to_send);
+    final String message = edittext.getText().toString();
+    
+    final Message chatMessage = makeMessage(message, "root");
+    chatMessage.send(ChatManagerFragment.this);
+  }
+  
   private void initListeners() {
     clickListener = new OnClickListener() {
       
@@ -201,11 +214,7 @@ public class ChatManagerFragment extends
         switch (v.getId()) {
         
         case R.id.bSend:
-          final EditText edittext = ButterKnife.findById(mRootView, R.id.edittext_message_to_send);
-          final String message = edittext.getText().toString();
-          
-          final Message chatMessage = makeMessage(message, "root");
-          chatMessage.send(ChatManagerFragment.this);
+          sendMessage();
           break;
         }
       }
@@ -219,7 +228,137 @@ public class ChatManagerFragment extends
         return false;
       }
     };
+    
+    HintWatcher hw = new HintWatcher(editnote, this);
+    editnote.addTextChangedListener(hw);
+    editnote.setOnKeyListener(new OnKeyListener() {
+
+      @Override public boolean onKey(
+          View v, int keyCode,
+          KeyEvent event) {
+        if (event != null && v.getId() == R.id.edittext_message_to_send) {
+          // if shift key is down, then we want to insert the '\n' char in the
+          // TextView;
+          // otherwise, the default action is to send the message.
+          if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            if (keyCode == KeyEvent.KEYCODE_ENTER) {
+              if (!event.isShiftPressed()) {
+sendMessage();
+                return true;
+              }
+            }
+          }
+        }
+        return false;
+      }
+    });
   }
+  
+public static class HintWatcher implements TextWatcher {
+    
+//    private final Activity activity;
+    
+  private final EditText editText;
+  private ChatManagerFragment f;
+    public HintWatcher(EditText editText, ChatManagerFragment f) {
+      this.editText = editText;
+      this.f = f;
+//      this.activity = activity;
+    }
+    
+    boolean toggle = false;
+    
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+      Log.i("onTextChanged", "s=" + s + " start=" + start + " before=" + before + " count=" + count);
+      
+      /**
+       * Logic: if the first character BECOMES '@', switch to Scripture mode. if
+       * the first character CEASES TO BE '@', switch back to Note mode. getting
+       * there was a lot of if statements.
+       */
+      if (s == null) return;
+      
+      if (s.length() == 0) {
+        if (toggleOff()) {
+          goNoteMode();
+        }
+        return;
+      }
+      
+      switch (s.charAt(0)) {
+//      case '@':
+//        if (toggleOn()) {
+//          goScriptureMode();
+//        }
+//        return;
+//      case '$':
+//        if (toggleOn()) {
+//          goSpeakerMode();
+//        }
+//        return;
+      case '/':
+        if (toggleOn()) {
+          goImportantMode();
+        }
+        return;
+      }
+    }
+    
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+    
+    @Override
+    public void afterTextChanged(Editable s) {}
+    
+    private boolean toggleOn() {
+      if (!toggle) {
+        toggle = true;
+        Log.i("onTextChanged", "ON");
+        return true;
+      }
+      return false;
+    }
+    
+    private boolean toggleOff() {
+      if (toggle) {
+        toggle = false;
+        Log.i("onTextChanged", "OFF");
+        return true;
+      }
+      return false;
+    }
+    
+    private void goNoteMode() {
+//      TextView hintText = (TextView) activity.findViewById(R.id.text_view_note_editor_hint);
+//      hintText.setText(activity.getResources().getString(R.string.text_view_note_editor_hint));
+//      final String message = "Message mode";
+//      setHint(message);
+      f.updateEditTextHint();
+    }
+//    
+//    private void goScriptureMode() {
+//      TextView hintText = (TextView) activity.findViewById(R.id.text_view_note_editor_hint);
+//      hintText.setText("Enter a Scripture: (e.g. @HABAKKUK 2 2)");
+//    }
+//    
+//    private void goSpeakerMode() {
+//      final String message = "Enter the name of the Speaker:";
+//      TextView hintText = (TextView) activity.findViewById(R.id.text_view_note_editor_hint);
+//      hintText.setText();
+//    }
+    
+    private void goImportantMode() {
+      final String message = "Command line";
+      setHint(message);
+//      TextView hintText = (TextView) activity.findViewById(R.id.text_view_note_editor_hint);
+//      hintText.setText();
+    }
+    
+    private void setHint(final String message) {
+      editText.setHint(message);
+    }
+}
   
   private void initListView() {
     
@@ -242,7 +381,7 @@ public class ChatManagerFragment extends
     actionSpinner.setAdapter(actionAdapter);
     actionSpinner.setSelection(1);
   }
-  
+
   
   
   // @Override
@@ -320,7 +459,7 @@ public class ChatManagerFragment extends
   @Override public void onBegin() {
     // final EditText edittext = ButterKnife.findById(mRootView,
     // R.id.edittext_message_to_send);
-    edittext.getText().clear();
+    editnote.getText().clear();
     
     // final ProgressBar sendProgress = ButterKnife.findById(mRootView,
     // R.id.progress_send);

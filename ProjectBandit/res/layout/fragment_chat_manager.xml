@@ -20,8 +20,9 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true" />
 
-        <EditText
+        <com.ameron32.library.floatingtext.FloatingHintEditText
             android:id="@+id/edittext_message_to_send"
+            style="@style/Widget.FloatingHintEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -33,7 +34,7 @@
             android:hint="Message as"
             android:maxLines="3"
             android:textSize="@dimen/inputbox_text_size" >
-        </EditText>
+        </com.ameron32.library.floatingtext.FloatingHintEditText>
 
         <ImageButton
             android:id="@+id/button_toggle_show_hide"

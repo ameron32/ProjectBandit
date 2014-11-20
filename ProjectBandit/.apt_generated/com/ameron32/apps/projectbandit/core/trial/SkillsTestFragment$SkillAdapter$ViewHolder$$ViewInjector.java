@@ -7,12 +7,12 @@ import butterknife.ButterKnife.Finder;
 public class SkillsTestFragment$SkillAdapter$ViewHolder$$ViewInjector {
   public static void inject(Finder finder, final com.ameron32.apps.projectbandit.core.trial.SkillsTestFragment.SkillAdapter.ViewHolder target, Object source) {
     View view;
-    view = finder.findRequiredView(source, 2131296439, "field 'name'");
-    target.name = (android.widget.TextView) view;
     view = finder.findRequiredView(source, 2131296430, "field 'createdTime'");
     target.createdTime = (android.widget.TextView) view;
     view = finder.findRequiredView(source, 2131296441, "field 'skillImage'");
     target.skillImage = (android.widget.ImageView) view;
+    view = finder.findRequiredView(source, 2131296439, "field 'name'");
+    target.name = (android.widget.TextView) view;
     view = finder.findRequiredView(source, 2131296431, "field 'objectId'");
     target.objectId = (android.widget.TextView) view;
     view = finder.findRequiredView(source, 2131296440, "field 'description'");
@@ -20,9 +20,9 @@ public class SkillsTestFragment$SkillAdapter$ViewHolder$$ViewInjector {
   }
 
   public static void reset(com.ameron32.apps.projectbandit.core.trial.SkillsTestFragment.SkillAdapter.ViewHolder target) {
-    target.name = null;
     target.createdTime = null;
     target.skillImage = null;
+    target.name = null;
     target.objectId = null;
     target.description = null;
   }
