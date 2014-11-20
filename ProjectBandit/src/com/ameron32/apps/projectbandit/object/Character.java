@@ -213,7 +213,11 @@ import com.parse.ParseQuery;
   
   @Override public boolean equals(
       Object o) {
-    return this.equals((Character) o);
+    if (o instanceof Character) {
+      return this.equals((Character) o);
+    } else { 
+      return false;
+    }
   }
   
   public boolean equals(

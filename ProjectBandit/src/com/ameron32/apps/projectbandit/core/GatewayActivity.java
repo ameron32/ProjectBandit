@@ -25,6 +25,7 @@ import com.ameron32.apps.projectbandit.manager.ObjectManager;
 import com.ameron32.apps.projectbandit.manager.UserManager;
 import com.ameron32.apps.projectbandit.manager.UserManager.OnUserManagerInitializationCompleteListener;
 import com.ameron32.apps.projectbandit.object.Game;
+import com.crashlytics.android.Crashlytics;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ui.ParseLoginBuilder;
@@ -48,6 +49,7 @@ public class GatewayActivity extends
   @Override protected void onCreate(
       Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    Crashlytics.start(this);
     setContentView(R.layout.activity_gateway);
     
     mRecyclerView = (RecyclerView) findViewById(R.id.lv_game_list);

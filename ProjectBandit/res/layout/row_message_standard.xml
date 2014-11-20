@@ -35,7 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/textview_created_time"
-            android:text="#objectId" />
+            android:text="#objectId"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/textview_username"
@@ -102,7 +103,7 @@
             android:layout_width="@dimen/image_action_length_squared"
             android:layout_height="@dimen/image_action_length_squared"
             android:layout_alignBottom="@+id/frame_image"
-            android:layout_alignRight="@+id/frame_image"
+            android:layout_alignLeft="@+id/frame_image"
             android:src="@drawable/ic_launcher" />
     </RelativeLayout>
 

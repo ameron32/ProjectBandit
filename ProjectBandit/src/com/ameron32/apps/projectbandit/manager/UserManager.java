@@ -28,23 +28,28 @@ public class UserManager {
   public void initialize(
       final OnUserManagerInitializationCompleteListener listener) {
     Character lastChatCharacter = getCurrentUser().getLastChatCharacter();
-    lastChatCharacter.fetchIfNeededInBackground(new GetCallback<Character>() {
-      
-      @Override public void done(
-          Character lastChatCharacter,
-          ParseException e) {
-        if (e == null) {
-//          lastChatCharacter.pinInBackground();
-          // getCurrentUser().setLastChatCharacter(lastChatCharacter);
-          if (listener != null) {
-            listener.onUserManagerInitializationComplete();
+    if (lastChatCharacter != null) {
+      lastChatCharacter.fetchIfNeededInBackground(new GetCallback<Character>() {
+        
+        @Override public void done(
+            Character lastChatCharacter,
+            ParseException e) {
+          if (e == null) {
+            // lastChatCharacter.pinInBackground();
+            // getCurrentUser().setLastChatCharacter(lastChatCharacter);
+            if (listener != null) {
+              listener.onUserManagerInitializationComplete();
+            }
+          } else {
+            e.printStackTrace();
           }
-        } else {
-          e.printStackTrace();
         }
+      });
+    } else {
+      if (listener != null) {
+        listener.onUserManagerInitializationComplete();
       }
-    });
-    
+    }
   }
   
   public interface OnUserManagerInitializationCompleteListener {

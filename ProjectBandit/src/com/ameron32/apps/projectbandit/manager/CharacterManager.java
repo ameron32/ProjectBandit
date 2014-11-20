@@ -48,9 +48,9 @@ public class CharacterManager {
           final int FIRST = 0;
           final Character character = playableCharacters.get(FIRST);
           setCurrentCharacter(character);
-          if (listener != null) {
-            listener.onCharacterManagerInitializationComplete();
-          }
+//          if (listener != null) {
+//            listener.onCharacterManagerInitializationComplete();
+//          }
         } else {
           e.printStackTrace();
         }
@@ -67,6 +67,16 @@ public class CharacterManager {
         if (e == null) {
           mChatCharacters = chatCharacters;
           Character lastChatCharacter = UserManager.get().getCurrentUser().getLastChatCharacter();
+          if (lastChatCharacter == null) {
+            // did not find
+            Log.i(TAG, "chat character was null");
+            setChatCharacter(chatCharacters.get(0), 0);
+            if (listener != null) {
+              listener.onCharacterManagerInitializationComplete();
+            }
+            return; // done
+          }
+          
           for (int i = 0; i < chatCharacters.size(); i++) {
             if (lastChatCharacter.equals(chatCharacters.get(i))) {
               setChatCharacter(lastChatCharacter, i);
@@ -76,14 +86,18 @@ public class CharacterManager {
               return; // done
             }
           }
+          
           // did not find
           Log.i(TAG, "no chat character found");
+          setChatCharacter(chatCharacters.get(0), 0);
+          if (listener != null) {
+            listener.onCharacterManagerInitializationComplete();
+          }
         } else {
           e.printStackTrace();
         }
       }});
   }
-
   
   public interface OnCharacterManagerInitializationCompleteListener {
     public void onCharacterManagerInitializationComplete();

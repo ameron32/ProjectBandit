@@ -57,7 +57,11 @@ import com.parse.SaveCallback;
   
   @Override public boolean equals(
       Object o) {
-    return this.equals((User) o);
+    if (o instanceof User) {
+      return this.equals((User) o);
+    } else {
+      return false;
+    }
   }
   
   public boolean equals(
