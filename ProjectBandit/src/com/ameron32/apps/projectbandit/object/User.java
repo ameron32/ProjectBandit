@@ -1,25 +1,42 @@
 package com.ameron32.apps.projectbandit.object;
 
+import android.util.Log;
+import android.widget.Toast;
+
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 @ParseClassName("_User") public class User
     extends ParseUser {
   
+  protected static final String TAG = User.class.getSimpleName();
+
   public User() {}
   
   public Character getLastChatCharacter() {
     Character lastChatCharacter = (Character) this.getParseObject("lastChatCharacter");
-    if (lastChatCharacter == null) {
-      lastChatCharacter = Character.getFromName("Spectator");
-    }
+//    if (lastChatCharacter == null) {
+//      lastChatCharacter = Character.getFromName("Spectator");
+//    }
     return lastChatCharacter;
   }
   
   public void setLastChatCharacter(
       Character chatCharacter) {
     this.put("lastChatCharacter", chatCharacter);
-    this.saveInBackground();
+    this.saveInBackground(new SaveCallback() {
+      
+      @Override public void done(
+          ParseException e) {
+        if (e == null) {
+          Log.i(TAG, "lastChatCharacter saved.");
+        } else {
+          e.printStackTrace();
+        }
+      }
+    });
   }
   
   public CAction getLastCharacterAction() {
@@ -33,9 +50,19 @@ import com.parse.ParseUser;
     this.saveInBackground();
   }
   
-  public boolean isIdEquals(User user) {
+  private boolean isIdEquals(User user) {
     if (this.getObjectId().equalsIgnoreCase(user.getObjectId())) { return true; }
     return false;
+  }
+  
+  @Override public boolean equals(
+      Object o) {
+    return this.equals((User) o);
+  }
+  
+  public boolean equals(
+      User user) {
+    return this.isIdEquals(user);
   }
   
 }

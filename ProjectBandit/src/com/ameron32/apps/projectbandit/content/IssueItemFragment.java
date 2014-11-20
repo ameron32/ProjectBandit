@@ -16,9 +16,9 @@ import android.widget.EditText;
 
 import com.ameron32.apps.projectbandit.MultiSelectSpinner;
 import com.ameron32.apps.projectbandit.R;
-import com.ameron32.apps.projectbandit.core.trial.ResettingContentFragment;
-import com.ameron32.apps.projectbandit.core.trial.ResettingContentFragment.OnPerformTaskListener;
-import com.ameron32.apps.projectbandit.core.trial.ResettingContentFragment.TaskWorker;
+import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment;
+import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment.OnPerformTaskListener;
+import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment.TaskWorker;
 import com.ameron32.apps.projectbandit.object.CInventory;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -30,8 +30,8 @@ import com.parse.ParseQuery;
  * A placeholder fragment containing a simple view.
  */
 public class IssueItemFragment 
-    extends ResettingContentFragment 
-    implements ResettingContentFragment.OnPerformTaskListener, ResettingContentFragment.TaskWorker {
+    extends AbsResettingContentFragment 
+    implements AbsResettingContentFragment.OnPerformTaskListener, AbsResettingContentFragment.TaskWorker {
   
   private MultiSelectSpinner itemSpinner;
   private MultiSelectSpinner characterSpinner;
@@ -40,12 +40,22 @@ public class IssueItemFragment
   private List<ParseObject>  characters;
 
   public IssueItemFragment() {}
+//  
+//  @Override
+//  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//    View rootView = inflater.inflate(R.layout.fragment_issue_item, container, false);
+//    prepareViews(rootView);
+//    return rootView;
+//  }
+  @Override protected int getCustomLayoutResource() {
+    return R.layout.fragment_issue_item;
+  }
   
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View rootView = inflater.inflate(R.layout.fragment_issue_item, container, false);
-    prepareViews(rootView);
-    return rootView;
+  @Override public void onViewCreated(
+      View view,
+      Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    prepareViews(view);
   }
   
   private void prepareViews(View rootView) {

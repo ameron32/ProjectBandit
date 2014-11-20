@@ -25,8 +25,10 @@ import com.ameron32.apps.projectbandit._retired.CharacterSelectorAdapter;
 import com.ameron32.apps.projectbandit.adapter.CharacterClickListener;
 import com.ameron32.apps.projectbandit.adapter.CharacterClickListener.OnCharacterClickListener;
 import com.ameron32.apps.projectbandit.adapter.CharacterSelectorAdapter_v2;
-import com.ameron32.apps.projectbandit.core.trial.ResettingContentFragment;
-import com.ameron32.apps.projectbandit.core.trial.ResettingContentFragment.OnResetCallbacks;
+import com.ameron32.apps.projectbandit.core.fragment.ChatManagerFragment;
+import com.ameron32.apps.projectbandit.core.fragment.NavigationDrawerFragment;
+import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment;
+import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment.OnResetCallbacks;
 import com.ameron32.apps.projectbandit.manager.UserManager;
 import com.jess.ui.TwoWayAdapterView;
 import com.jess.ui.TwoWayAdapterView.OnItemSelectedListener;
@@ -243,7 +245,7 @@ public class ExpandedCoreActivity
 //  }
   
   @Override public void onRequestReset(
-    ResettingContentFragment fragment) {
+    AbsResettingContentFragment fragment) {
     try {
       FragmentManager fragmentManager = getSupportFragmentManager();
       FragmentTransaction transaction = fragmentManager.beginTransaction();

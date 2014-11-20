@@ -14,7 +14,7 @@ import butterknife.InjectView;
 
 import com.ameron32.apps.projectbandit.R;
 import com.ameron32.apps.projectbandit.adapter._QueryManager;
-import com.ameron32.apps.projectbandit.core.ChatManagerFragment;
+import com.ameron32.apps.projectbandit.core.fragment.ChatManagerFragment;
 import com.ameron32.apps.projectbandit.manager.CharacterManager;
 import com.ameron32.apps.projectbandit.object.Character;
 import com.ameron32.lib.recyclertableview.TableAdapter;

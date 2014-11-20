@@ -25,7 +25,7 @@
 
             <fragment
                 android:id="@+id/navigation_quickbar"
-                android:name="com.ameron32.apps.projectbandit.core.MenuIconFragment_v2"
+                android:name="com.ameron32.apps.projectbandit.core.fragment.MenuIconFragment_v2"
                 android:layout_width="@dimen/navigation_quickbar_width"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/toolbar_actionbar_container" />
@@ -63,7 +63,7 @@
 
         <fragment
             android:id="@+id/navigation_drawer"
-            android:name="com.ameron32.apps.projectbandit.core.TextNavigationDrawerFragment"
+            android:name="com.ameron32.apps.projectbandit.core.fragment.TextNavigationDrawerFragment"
             android:layout_width="@dimen/navigation_drawer_width"
             android:layout_height="match_parent"
             android:layout_gravity="start"

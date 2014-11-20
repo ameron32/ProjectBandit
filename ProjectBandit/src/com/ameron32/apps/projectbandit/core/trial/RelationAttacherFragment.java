@@ -28,9 +28,9 @@ import com.parse.ParseUser;
  * A placeholder fragment containing a simple view.
  */
 public class RelationAttacherFragment
-    extends ResettingContentFragment 
-    implements ResettingContentFragment.OnPerformTaskListener,
-    ResettingContentFragment.TaskWorker
+    extends AbsResettingContentFragment 
+    implements AbsResettingContentFragment.OnPerformTaskListener,
+    AbsResettingContentFragment.TaskWorker
 {
   
   private String[] items1s;
@@ -38,12 +38,16 @@ public class RelationAttacherFragment
   
   public RelationAttacherFragment() {}
   
-  @Override public View onCreateView(
-      LayoutInflater inflater,
-      ViewGroup container,
-      Bundle savedInstanceState) {
-    View rootView = inflater.inflate(R.layout.fragment_relation_attacher, container, false);
-    return rootView;
+//  @Override public View onCreateView(
+//      LayoutInflater inflater,
+//      ViewGroup container,
+//      Bundle savedInstanceState) {
+//    View rootView = inflater.inflate(R.layout.fragment_relation_attacher, container, false);
+//    return rootView;
+//  }
+  
+  @Override protected int getCustomLayoutResource() {
+    return R.layout.fragment_relation_attacher;
   }
   
   @Override public void onViewCreated(

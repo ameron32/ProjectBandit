@@ -23,6 +23,7 @@ import com.ameron32.apps.projectbandit.manager.GameManager.OnGameManagerInitiali
 import com.ameron32.apps.projectbandit.manager.MessageManager;
 import com.ameron32.apps.projectbandit.manager.ObjectManager;
 import com.ameron32.apps.projectbandit.manager.UserManager;
+import com.ameron32.apps.projectbandit.manager.UserManager.OnUserManagerInitializationCompleteListener;
 import com.ameron32.apps.projectbandit.object.Game;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -33,7 +34,7 @@ public class GatewayActivity extends
     implements
     GameChangeListener,
     OnGameManagerInitializationCompleteListener,
-    OnCharacterManagerInitializationCompleteListener {
+    OnCharacterManagerInitializationCompleteListener, OnUserManagerInitializationCompleteListener {
   
   private static final String TAG = GatewayActivity.class.getSimpleName();
   private static final Class<ExpandedCoreActivity> PRIMARY_ACTIVITY = ExpandedCoreActivity.class;
@@ -221,17 +222,32 @@ public class GatewayActivity extends
     // PERFORM PRE-ACTIVITY INITIALIZATIONS OF SINGLETON MANAGERS
     GameManager.get().initialize(this);
     CharacterManager.get().initialize(this);
+    UserManager.get().initialize(this);
     // continue in callbacks
   }
   
   @Override public void onCharacterManagerInitializationComplete() {
     // TODO: Ensure all managers finished before continuing
-    // allInitializationsComplete();
+    isCharacter = true;
+    continueIfDone();
   }
   
   @Override public void onGameManagerInitializationComplete() {
     // TODO: Ensure all managers finished before continuing
-    allInitializationsComplete();
+    isGame = true;
+    continueIfDone();
+  }
+  
+  @Override public void onUserManagerInitializationComplete() {
+    isUser = true;
+    continueIfDone();
+  }
+
+  private volatile boolean isCharacter, isGame, isUser;
+  private void continueIfDone() {
+    if (isCharacter && isGame && isUser) {
+      allInitializationsComplete();
+    }
   }
   
   private void allInitializationsComplete() {

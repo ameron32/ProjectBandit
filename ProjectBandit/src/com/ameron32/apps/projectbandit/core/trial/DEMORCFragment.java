@@ -9,17 +9,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.ameron32.apps.projectbandit.core.trial.ResettingContentFragment.OnPerformTaskListener;
-import com.ameron32.apps.projectbandit.core.trial.ResettingContentFragment.TaskWorker;
+import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment.OnPerformTaskListener;
+import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment.TaskWorker;
 
 public class DEMORCFragment extends
-    ResettingContentFragment implements OnPerformTaskListener, TaskWorker {
+    AbsResettingContentFragment implements OnPerformTaskListener, TaskWorker {
+//  
+//  @Override public View onCreateView(
+//      LayoutInflater inflater,
+//      ViewGroup container,
+//      Bundle savedInstanceState) {
+//    return inflater.inflate(R.layout.fragment____demo___resetting, container, false);
+//  }
   
-  @Override public View onCreateView(
-      LayoutInflater inflater,
-      ViewGroup container,
-      Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.fragment____demo___resetting, container, false);
+  @Override protected int getCustomLayoutResource() {
+    return R.layout.fragment____demo___resetting;
   }
   
   @Override public void onViewCreated(

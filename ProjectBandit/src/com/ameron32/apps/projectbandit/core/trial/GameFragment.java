@@ -87,4 +87,9 @@ public class GameFragment extends
       }
     });
   }
+  
+  @Override protected int onReplaceFragmentLayout(
+      int storedLayoutResource) {
+    return mParam1;
+  }
 }

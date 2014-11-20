@@ -10,8 +10,8 @@ import com.ameron32.apps.projectbandit.content.CreateSetItemsFragment;
 import com.ameron32.apps.projectbandit.content.EquipmentHeadersTestFragment;
 import com.ameron32.apps.projectbandit.content.InventoryHeadersTestFragment;
 import com.ameron32.apps.projectbandit.content.IssueItemFragment;
-import com.ameron32.apps.projectbandit.core.ChatManagerFragment;
-import com.ameron32.apps.projectbandit.core.ContentFragment;
+import com.ameron32.apps.projectbandit.core.fragment.ChatManagerFragment;
+import com.ameron32.apps.projectbandit.core.fragment.AbsContentFragment;
 import com.ameron32.apps.projectbandit.core.trial.DEMORCFragment;
 import com.ameron32.apps.projectbandit.core.trial.EquipmentTestFragment;
 import com.ameron32.apps.projectbandit.core.trial.GameFragment;
@@ -73,8 +73,8 @@ public class ContentManager {
 //        TableTestFragment.create("Character", R.layout.fragment_default_table_layout)));
     
     if (GameManager.get().isCurrentUserGM()) {
-      items.add(new ContentItem("GM:Demo:blank", R.drawable.ic_gm, 
-          ContentFragment.newInstance(/*1*/)));
+//      items.add(new ContentItem("GM:Demo:blank", R.drawable.ic_gm, 
+//          AbsContentFragment.newInstance(/*1*/)));
       items.add(new ContentItem("GM:Chat", R.drawable.ic_gm, 
               ChatManagerFragment.newInstance(0, null)));
       items.add(new ContentItem("GM:RETIRED:Equipment", R.drawable.ic_gm, 
@@ -141,7 +141,7 @@ public class ContentManager {
     return contentItems.get(position).title;
   }
   
-  public ContentFragment getNewFragmentForPosition(
+  public AbsContentFragment getNewFragmentForPosition(
       int position) {
     return contentItems.get(position).fragment;
   }
@@ -165,11 +165,11 @@ public class ContentManager {
   public static class ContentItem {
     public String title;
     public int imageResource;
-    ContentFragment fragment;
+    AbsContentFragment fragment;
     
     public ContentItem(String title,
         int imageResource, 
-        ContentFragment fragment) {
+        AbsContentFragment fragment) {
       super();
       this.title = title;
       this.imageResource = imageResource;

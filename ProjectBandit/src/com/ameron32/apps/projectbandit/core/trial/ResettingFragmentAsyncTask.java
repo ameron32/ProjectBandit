@@ -2,7 +2,7 @@ package com.ameron32.apps.projectbandit.core.trial;
 
 import android.os.AsyncTask;
 
-import com.ameron32.apps.projectbandit.core.trial.ResettingContentFragment.TaskWorker;
+import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment.TaskWorker;
 
 /**
  * DESIGNED FOR USE with ResettingContentFragment

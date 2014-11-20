@@ -16,9 +16,9 @@ import android.widget.Toast;
 
 import com.ameron32.apps.projectbandit.MultiSelectSpinner;
 import com.ameron32.apps.projectbandit.R;
-import com.ameron32.apps.projectbandit.core.trial.ResettingContentFragment;
-import com.ameron32.apps.projectbandit.core.trial.ResettingContentFragment.OnPerformTaskListener;
-import com.ameron32.apps.projectbandit.core.trial.ResettingContentFragment.TaskWorker;
+import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment;
+import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment.OnPerformTaskListener;
+import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment.TaskWorker;
 import com.ameron32.apps.projectbandit.object.Item;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
@@ -28,8 +28,8 @@ import com.parse.SaveCallback;
  * A placeholder fragment containing a simple view.
  */
 public class CreateItemFragment 
-    extends ResettingContentFragment
-    implements ResettingContentFragment.OnPerformTaskListener, ResettingContentFragment.TaskWorker 
+    extends AbsResettingContentFragment
+    implements AbsResettingContentFragment.OnPerformTaskListener, AbsResettingContentFragment.TaskWorker 
 {
   
   private static final String TAG = CreateItemFragment.class.getSimpleName();
@@ -55,11 +55,20 @@ public class CreateItemFragment
   
   public CreateItemFragment() {}
   
-  @Override public View onCreateView(
-      LayoutInflater inflater,
-      ViewGroup container,
-      Bundle savedInstanceState) {
-    mRootView = inflater.inflate(R.layout.fragment_create_item, container, false);
+//  @Override public View onCreateView(
+//      LayoutInflater inflater,
+//      ViewGroup container,
+//      Bundle savedInstanceState) {
+//    mRootView = inflater.inflate(R.layout.fragment_create_item, container, false);
+//  }
+  
+  @Override protected int getCustomLayoutResource() {
+    return R.layout.fragment_create_item;
+  }
+  
+  public void onViewCreated(View view, Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    mRootView = view;
     
     Spinner spinnerItemTypes = (Spinner) mRootView.findViewById(R.id.s_item_type);
     String[] itemTypes = getResources().getStringArray(R.array.rules_item_types);
@@ -122,8 +131,6 @@ public class CreateItemFragment
     // });
     
     hideElements();
-    
-    return mRootView;
   }
   
   private void hideElements() {

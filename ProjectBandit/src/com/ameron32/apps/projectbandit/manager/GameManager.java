@@ -54,7 +54,7 @@ public class GameManager {
             if (LOG) {
               Log.i(TAG, "user: " + user.getObjectId() + " / currentUser: " + UserManager.get().getCurrentUser().getObjectId());
             }  
-            if (user.isIdEquals(UserManager.get().getCurrentUser())) {
+            if (user.equals(UserManager.get().getCurrentUser())) {
               isCurrentUserGM = true;
             }
           }

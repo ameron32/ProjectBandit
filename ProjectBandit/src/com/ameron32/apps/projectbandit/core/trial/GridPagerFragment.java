@@ -7,11 +7,11 @@ import butterknife.InjectView;
 
 import com.ameron32.apps.projectbandit.R;
 import com.ameron32.apps.projectbandit.adapter.SectionGridPagerAdapter;
-import com.ameron32.apps.projectbandit.core.ContentFragment;
+import com.ameron32.apps.projectbandit.core.fragment.AbsContentFragment;
 import com.jess.ui.TwoWayGridView;
 
 public class GridPagerFragment extends
-    ContentFragment {
+    AbsContentFragment {
   
 
   /**
@@ -34,7 +34,7 @@ public class GridPagerFragment extends
   
   @InjectView(R.id.gridview) TwoWayGridView gridView;
   
-  @Override protected int getCustomResource() {
+  @Override protected int getCustomLayoutResource() {
     return R.layout.fragment_grid_core;
   }
   

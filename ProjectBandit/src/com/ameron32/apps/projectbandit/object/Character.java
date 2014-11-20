@@ -205,4 +205,19 @@ import com.parse.ParseQuery;
   @Override public boolean isHeaderView() {
     return isHeader;
   }
+  
+  private boolean isIdEquals(Character character) {
+    if (this.getObjectId().equalsIgnoreCase(character.getObjectId())) { return true; }
+    return false;
+  }
+  
+  @Override public boolean equals(
+      Object o) {
+    return this.equals((Character) o);
+  }
+  
+  public boolean equals(
+      Character character) {
+    return this.isIdEquals(character);
+  }
 }

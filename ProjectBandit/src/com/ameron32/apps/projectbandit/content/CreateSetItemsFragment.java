@@ -27,9 +27,9 @@ import butterknife.OnClick;
 
 import com.ameron32.apps.projectbandit.MultiSelectSpinner;
 import com.ameron32.apps.projectbandit.R;
-import com.ameron32.apps.projectbandit.core.trial.ResettingContentFragment;
-import com.ameron32.apps.projectbandit.core.trial.ResettingContentFragment.OnPerformTaskListener;
-import com.ameron32.apps.projectbandit.core.trial.ResettingContentFragment.TaskWorker;
+import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment;
+import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment.OnPerformTaskListener;
+import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment.TaskWorker;
 import com.ameron32.apps.projectbandit.object.Item;
 import com.ameron32.apps.projectbandit.object.ItemSet;
 import com.ameron32.apps.projectbandit.object.ItemSet.Template;
@@ -45,8 +45,8 @@ import com.parse.SaveCallback;
  * A placeholder fragment containing a simple view.
  */
 public class CreateSetItemsFragment
-    extends ResettingContentFragment 
-    implements ResettingContentFragment.OnPerformTaskListener, ResettingContentFragment.TaskWorker 
+    extends AbsResettingContentFragment 
+    implements AbsResettingContentFragment.OnPerformTaskListener, AbsResettingContentFragment.TaskWorker 
 {
   
   private static final String TAG = CreateSetItemsFragment.class.getSimpleName();
@@ -81,13 +81,17 @@ public class CreateSetItemsFragment
   }
   //@formatter:on
 
-  @Override public View onCreateView(
-      LayoutInflater inflater,
-      ViewGroup container,
-      Bundle savedInstanceState) {
-    mRootView = inflater.inflate(R.layout.fragment_create_set_items, container, false);
-    ButterKnife.inject(this, mRootView);
-    return mRootView;
+//  @Override public View onCreateView(
+//      LayoutInflater inflater,
+//      ViewGroup container,
+//      Bundle savedInstanceState) {
+//    mRootView = inflater.inflate(R.layout.fragment_create_set_items, container, false);
+//    ButterKnife.inject(this, mRootView);
+//    return mRootView;
+//  }
+  
+  @Override protected int getCustomLayoutResource() {
+    return R.layout.fragment_create_set_items;
   }
   
   @Override public void onDestroyView() {
@@ -99,6 +103,8 @@ public class CreateSetItemsFragment
       View view,
       Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    mRootView = view;
+    ButterKnife.inject(this, mRootView);
 
     armorSlots.setItems(getResources().getStringArray(R.array.rules_armor_slots));
     armorSlots.setSelectedIndex(0);
