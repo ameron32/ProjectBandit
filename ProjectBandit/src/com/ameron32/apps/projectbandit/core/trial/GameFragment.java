@@ -65,7 +65,7 @@ public class GameFragment extends
     String username = UserManager.get().getCurrentUser().getString("username");
     user.setText(username);
     
-    GameManager.get().getCurrentGame().getGM(new FindCallback<User>() {
+    GameManager.get().getCurrentGame().getGMInBackground(new FindCallback<User>() {
       
       @Override public void done(
           List<User> gmParseUsers,

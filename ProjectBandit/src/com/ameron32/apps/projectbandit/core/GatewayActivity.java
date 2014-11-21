@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.ameron32.apps.projectbandit.LoadingAsyncTask;
 import com.ameron32.apps.projectbandit.R;
 import com.ameron32.apps.projectbandit.adapter.GameListAdapter;
 import com.ameron32.apps.projectbandit.adapter.GameListAdapter.GameChangeListener;
@@ -31,11 +32,8 @@ import com.parse.ParseException;
 import com.parse.ui.ParseLoginBuilder;
 
 public class GatewayActivity extends
-    ActionBarActivity
-    implements
-    GameChangeListener,
-    OnGameManagerInitializationCompleteListener,
-    OnCharacterManagerInitializationCompleteListener, OnUserManagerInitializationCompleteListener {
+    ActionBarActivity implements
+    GameChangeListener {
   
   private static final String TAG = GatewayActivity.class.getSimpleName();
   private static final Class<ExpandedCoreActivity> PRIMARY_ACTIVITY = ExpandedCoreActivity.class;
@@ -180,8 +178,13 @@ public class GatewayActivity extends
     Log.i(TAG, "game returned with no results.");
     final String message = "You are not registered for any games. Contact an administrator.";
     Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-    // TODO: create a process to allow a User to request a game OR start their
-    // own
+    
+    /**
+     * STOP!
+     */
+    // TODO: create a process to allow a User to:
+    // -- request a game OR
+    // -- start their own
   }
   
   private void oneGame(Game game) {
@@ -211,7 +214,7 @@ public class GatewayActivity extends
   
   private void changeGame(Game game) {
     GameManager.changeGame(game);
-    continueToStructureActivity();
+    performLoading();
   }
   
   /**
@@ -220,39 +223,33 @@ public class GatewayActivity extends
    * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    */
   
-  private void continueToStructureActivity() {
+  private void performLoading() {
     // PERFORM PRE-ACTIVITY INITIALIZATIONS OF SINGLETON MANAGERS
-    GameManager.get().initialize(this);
-    CharacterManager.get().initialize(this);
-    UserManager.get().initialize(this);
-    // continue in callbacks
-  }
-  
-  @Override public void onCharacterManagerInitializationComplete() {
-    // TODO: Ensure all managers finished before continuing
-    isCharacter = true;
-    continueIfDone();
-  }
-  
-  @Override public void onGameManagerInitializationComplete() {
-    // TODO: Ensure all managers finished before continuing
-    isGame = true;
-    continueIfDone();
-  }
-  
-  @Override public void onUserManagerInitializationComplete() {
-    isUser = true;
-    continueIfDone();
-  }
+    new LoadingAsyncTask(new LoadingAsyncTask.OnLoadingListener() {
+      
+      @Override public void onLoadingComplete(
+          boolean successful) {
+        if (!successful) {
+          Toast.makeText(getActivity(), "Initialization failed.", Toast.LENGTH_SHORT).show();
+          return;
+        }
+        
+        // successful
+        allInitializationsComplete();
+      }
 
-  private volatile boolean isCharacter, isGame, isUser;
-  private void continueIfDone() {
-    if (isCharacter && isGame && isUser) {
-      allInitializationsComplete();
-    }
+      @Override public void onLoading(
+          Boolean[] completed) {
+        final String m = "onLoading(): " + completed[0] +","+ completed[1] +","+ completed[2];
+        Log.d(LoadingAsyncTask.class.getSimpleName(), m);
+      }
+    }).execute();
   }
   
   private void allInitializationsComplete() {
+    /*
+     * MOVE to PrimaryActivity after loading
+     */
     Intent beginStructureActivity = new Intent(getActivity(), PRIMARY_ACTIVITY);
     startActivity(beginStructureActivity);
     finish();

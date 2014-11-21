@@ -12,6 +12,7 @@ import com.ameron32.apps.projectbandit.content.InventoryHeadersTestFragment;
 import com.ameron32.apps.projectbandit.content.IssueItemFragment;
 import com.ameron32.apps.projectbandit.core.fragment.ChatManagerFragment;
 import com.ameron32.apps.projectbandit.core.fragment.AbsContentFragment;
+import com.ameron32.apps.projectbandit.core.trial.AdvantageCheckerFragment;
 import com.ameron32.apps.projectbandit.core.trial.DEMORCFragment;
 import com.ameron32.apps.projectbandit.core.trial.EquipmentTestFragment;
 import com.ameron32.apps.projectbandit.core.trial.GameFragment;
@@ -81,6 +82,9 @@ public class ContentManager {
           SectionContainerTestFragment.newInstance(EquipmentTestFragment.class, R.layout.section_character_equipment)));
       items.add(new ContentItem("GM:RETIRED:Inventory", R.drawable.ic_gm, 
           SectionContainerTestFragment.newInstance(InventoryTestFragment.class, R.layout.section_character_inventory)));
+      
+      items.add(new ContentItem("GM:Test:Advantages", R.drawable.ic_gm, 
+          new AdvantageCheckerFragment()));
       
       items.add(new ContentItem("GM:Test:Skills", R.drawable.ic_gm, 
           SectionContainerTestFragment.newInstance(SkillsTestFragment.class, R.layout.section_skills)));

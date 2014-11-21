@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.ameron32.apps.projectbandit.R;
+import com.ameron32.apps.projectbandit.object.Advantage;
 import com.ameron32.apps.projectbandit.object.CAction;
 import com.ameron32.apps.projectbandit.object.CInventory;
 import com.ameron32.apps.projectbandit.object.Character;
@@ -40,6 +41,7 @@ public class ParseApplication extends
     ParseObject.registerSubclass(Game.class);
     ParseObject.registerSubclass(Message.class);
     ParseObject.registerSubclass(Item.class);
+    ParseObject.registerSubclass(Advantage.class);
     
     ParseObject.registerSubclass(User.class);
     

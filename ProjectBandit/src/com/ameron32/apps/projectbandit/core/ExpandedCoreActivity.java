@@ -72,55 +72,6 @@ public class ExpandedCoreActivity
     }
   }
   
-  
-  
-  /*
-  private void addCharacterIcons(
-      Toolbar toolbar) {
-    View layout = LayoutInflater.from(getActivityContext()).inflate(R.layout.view_character_icon_toolbar, toolbar, false);
-    TwoWayGridView characterIconGridView = (TwoWayGridView) layout.findViewById(R.id.twowaygridview_icon_toolbar);
-    CharacterSelectorAdapter adapter = new CharacterSelectorAdapter(getActivityContext(), characterIconGridView);
-    characterIconGridView.setAdapter(adapter);
-    characterIconGridView.setSelected(true);
-    // TODO: why isn't this listener firing?
-    characterIconGridView.setOnItemSelectedListener(new OnItemSelectedListener() {
-      
-      @Override public void onItemSelected(
-          TwoWayAdapterView<?> parent,
-          View view, int position,
-          long id) {
-        
-        Log.d("onItemSelected()", "start");
-        
-        // reset all outlines
-        int count = parent.getChildCount();
-        for (int i = 0; i < count; i++) {
-          View child = parent.getChildAt(0);
-          View outline = child.findViewById(R.id.outline);
-          outline.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-        }
-        
-        // outline just the selected item
-        View outline = view.findViewById(R.id.outline);
-        outline.setBackgroundColor(getResources().getColor(R.color.character_toolbar_selected_outline));
-      }
-      
-      @Override public void onNothingSelected(
-          TwoWayAdapterView<?> parent) {
-        // TODO Auto-generated method stub
-        
-      }
-    });
-    
-    toolbar.addView(layout);
-    // new Toolbar.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-    // ViewGroup.LayoutParams.WRAP_CONTENT));
-    // toolbar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM |
-    // ActionBar.DISPLAY_SHOW_HOME);
-  }
-  */
-
-  
   private void startChatService() {
     Intent chatServiceIntent = ChatService.makeIntent(this);
     startService(chatServiceIntent);

@@ -25,80 +25,59 @@ public class CharacterManager {
     return characterManager;
   }
   
+  private OnCharacterManagerInitializationCompleteListener mInitializationListener;
   public void initialize(
       final OnCharacterManagerInitializationCompleteListener listener) {
-    if (mCurrentCharacter == null) {
-      findPlayableCharacters(listener);
+    mInitializationListener = listener;
+    try {
+      if (mCurrentCharacter == null) {
+        findPlayableCharacters();
+      }
+      if (mCurrentChatCharacter == null) {
+        findChatCharacters();
+      }
+    } catch (ParseException e) {
+      e.printStackTrace();
     }
-    if (mCurrentChatCharacter == null) {
-      findChatCharacters(listener);
+    if (mInitializationListener != null) {
+      mInitializationListener.onCharacterManagerInitializationComplete();
+      mInitializationListener = null;
     }
-  }
-
-  private void findPlayableCharacters(
-      final OnCharacterManagerInitializationCompleteListener listener) {
-    _QueryManager._Character.getPlayableCharacters()
-    .findInBackground(new FindCallback<Character>() {
-
-      @Override public void done(
-          List<Character> playableCharacters,
-          ParseException e) {
-        if (e == null) {
-          mPlayableCharacters = playableCharacters;
-          final int FIRST = 0;
-          final Character character = playableCharacters.get(FIRST);
-          setCurrentCharacter(character);
-//          if (listener != null) {
-//            listener.onCharacterManagerInitializationComplete();
-//          }
-        } else {
-          e.printStackTrace();
-        }
-      }});
-  }
-
-  private void findChatCharacters(
-      final OnCharacterManagerInitializationCompleteListener listener) {
-    _QueryManager._Character.getChatCharacters().findInBackground(new FindCallback<Character>() {
-
-      @Override public void done(
-          List<Character> chatCharacters,
-          ParseException e) {
-        if (e == null) {
-          mChatCharacters = chatCharacters;
-          Character lastChatCharacter = UserManager.get().getCurrentUser().getLastChatCharacter();
-          if (lastChatCharacter == null) {
-            // did not find
-            Log.i(TAG, "chat character was null");
-            setChatCharacter(chatCharacters.get(0), 0);
-            if (listener != null) {
-              listener.onCharacterManagerInitializationComplete();
-            }
-            return; // done
-          }
-          
-          for (int i = 0; i < chatCharacters.size(); i++) {
-            if (lastChatCharacter.equals(chatCharacters.get(i))) {
-              setChatCharacter(lastChatCharacter, i);
-              if (listener != null) {
-                listener.onCharacterManagerInitializationComplete();
-              }
-              return; // done
-            }
-          }
-          
-          // did not find
-          Log.i(TAG, "no chat character found");
-          setChatCharacter(chatCharacters.get(0), 0);
-          if (listener != null) {
-            listener.onCharacterManagerInitializationComplete();
-          }
-        } else {
-          e.printStackTrace();
-        }
-      }});
   }
   
+  private void findPlayableCharacters() throws ParseException {
+    List<Character> playableCharacters = _QueryManager._Character.getPlayableCharacters().find();
+    
+    mPlayableCharacters = playableCharacters;
+    final int FIRST = 0;
+    final Character character = playableCharacters.get(FIRST);
+    setCurrentCharacter(character);
+  }
+
+  private void findChatCharacters() throws ParseException {
+    List<Character> chatCharacters = _QueryManager._Character.getChatCharacters().find();
+    
+    mChatCharacters = chatCharacters;
+    Character lastChatCharacter = UserManager.get().getCurrentUser().getLastChatCharacter();
+    if (lastChatCharacter == null) {
+      // did not find
+      Log.i(TAG, "chat character was null");
+      setChatCharacter(chatCharacters.get(0), 0);
+      return; // done
+    }
+    
+    for (int i = 0; i < chatCharacters.size(); i++) {
+      if (lastChatCharacter.equals(chatCharacters.get(i))) {
+        setChatCharacter(lastChatCharacter, i);
+        return; // done
+      }
+    }
+    
+    // did not find
+    Log.i(TAG, "no chat character found");
+    setChatCharacter(chatCharacters.get(0), 0);
+  }
+
   public interface OnCharacterManagerInitializationCompleteListener {
     public void onCharacterManagerInitializationComplete();
   }

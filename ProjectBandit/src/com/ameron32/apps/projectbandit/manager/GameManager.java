@@ -23,7 +23,6 @@ public class GameManager {
   public static GameManager get() {
     if (gameManager == null) {
       gameManager = new GameManager();
-      // gameManager.initialize();
     }
     return gameManager;
   }
@@ -31,7 +30,6 @@ public class GameManager {
   public static void changeGame(
       Game newGame) {
     gameManager.currentGame = newGame;
-//    gameManager.initialize();
   }
   
   private Game currentGame;
@@ -40,31 +38,30 @@ public class GameManager {
   protected GameManager() {}
   
   public void initialize(final OnGameManagerInitializationCompleteListener listener) {
-    currentGame.getGM(new FindCallback<User>() {
-      
-      @Override public void done(
-          List<User> gamemasters,
-          ParseException e) {
-        if (e == null) {
-          if (LOG) {
-            Log.i(TAG, "initializing isCurrentUserGM");
-          }
-          isCurrentUserGM = false;
-          for (User user : gamemasters) {
-            if (LOG) {
-              Log.i(TAG, "user: " + user.getObjectId() + " / currentUser: " + UserManager.get().getCurrentUser().getObjectId());
-            }  
-            if (user.equals(UserManager.get().getCurrentUser())) {
-              isCurrentUserGM = true;
-            }
-          }
-          
-          if (listener != null) {
-            listener.onGameManagerInitializationComplete();
-          }
+    try {
+      List<User> gamemasters = currentGame.getGM();
+      if (LOG) {
+        Log.i(TAG, "initializing isCurrentUserGM");
+      }
+      isCurrentUserGM = false;
+      for (User user : gamemasters) {
+        if (LOG) {
+          Log.i(TAG, "user: "
+              + user.getObjectId()
+              + " / currentUser: "
+              + UserManager.get().getCurrentUser().getObjectId());
+        }
+        if (user.equals(UserManager.get().getCurrentUser())) {
+          isCurrentUserGM = true;
         }
       }
-    });
+      
+      if (listener != null) {
+        listener.onGameManagerInitializationComplete();
+      }
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
   }
   
   public void selectAGame(

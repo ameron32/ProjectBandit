@@ -10,6 +10,7 @@ import com.ameron32.apps.projectbandit.object.User;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -28,27 +29,21 @@ public class UserManager {
   public void initialize(
       final OnUserManagerInitializationCompleteListener listener) {
     Character lastChatCharacter = getCurrentUser().getLastChatCharacter();
-    if (lastChatCharacter != null) {
-      lastChatCharacter.fetchIfNeededInBackground(new GetCallback<Character>() {
-        
-        @Override public void done(
-            Character lastChatCharacter,
-            ParseException e) {
-          if (e == null) {
-            // lastChatCharacter.pinInBackground();
-            // getCurrentUser().setLastChatCharacter(lastChatCharacter);
-            if (listener != null) {
-              listener.onUserManagerInitializationComplete();
-            }
-          } else {
-            e.printStackTrace();
-          }
-        }
-      });
-    } else {
+    if (lastChatCharacter == null) {
       if (listener != null) {
         listener.onUserManagerInitializationComplete();
       }
+      return;
+    }
+
+    // lastChatCharacter is not null
+    try {
+      Character lcc = lastChatCharacter.fetchIfNeeded();
+      if (listener != null) {
+        listener.onUserManagerInitializationComplete();
+      }
+    } catch (ParseException e) {
+      e.printStackTrace();
     }
   }
   

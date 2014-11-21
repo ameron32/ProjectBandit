@@ -1,7 +1,10 @@
 package com.ameron32.apps.projectbandit.object;
 
+import java.util.List;
+
 import com.parse.FindCallback;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
@@ -22,10 +25,16 @@ public class Game extends ParseObject {
   
   
   
-  public void getGM(FindCallback<User> callback) {
+  public void getGMInBackground(FindCallback<User> callback) {
     ParseRelation<User> relation = this.getRelation("gm");
     ParseQuery<User> query = relation.getQuery();
     query.findInBackground(callback);
+  }
+  
+  public List<User> getGM() throws ParseException {
+    ParseRelation<User> relation = this.getRelation("gm");
+    ParseQuery<User> query = relation.getQuery();
+    return query.find();
   }
   
   public void getPlayers(FindCallback<ParseUser> callback) {
