@@ -11,6 +11,7 @@ import com.ameron32.apps.projectbandit.object.Character;
 import com.ameron32.apps.projectbandit.object.Game;
 import com.ameron32.apps.projectbandit.object.Item;
 import com.ameron32.apps.projectbandit.object.Message;
+import com.ameron32.apps.projectbandit.object.Skill;
 import com.ameron32.apps.projectbandit.object.User;
 import com.parse.Parse;
 import com.parse.ParseACL;
@@ -42,6 +43,7 @@ public class ParseApplication extends
     ParseObject.registerSubclass(Message.class);
     ParseObject.registerSubclass(Item.class);
     ParseObject.registerSubclass(Advantage.class);
+    ParseObject.registerSubclass(Skill.class);
     
     ParseObject.registerSubclass(User.class);
     

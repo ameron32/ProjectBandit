@@ -7,7 +7,7 @@ import java.util.Random;
 public class Names {
 
 	// http://www.angelfire.com/rpg2/vortexshadow/names.html
-	private String[] fName1 = { "Ama", "An", "Ang", "Ansr", "Ar", "Arì", "Arn", "Aza",
+	public static final String[] fName1 = { "Ama", "An", "Ang", "Ansr", "Ar", "Arì", "Arn", "Aza",
 			"Bael", "Bes", "Cael", "Cal", "Cas", "Cla", "Cor", "Cy", "Dae",
 			"Dho", "Dre", "Du", "Eil", "Eir", "El", "Er", "Ev", "Fera", "Fi",
 			"Fir", "Fis", "Gael", "Gar", "Gil", "Ha", "Hu", "Ia", "Il", "Ja",
@@ -18,7 +18,7 @@ public class Names {
 			"Sim", "Sol", "Sum", "Syl", "Ta", "Tahl", "Tha", "Tho", "Ther",
 			"Thro", "Tia", "Tra", "Ty", "Try", "Uth", "Ver", "Vil", "Von",
 			"Ya", "Za", "Zy" };
-	private String[] fName2 = { "ae", "ael", "aer", "aias", "ah", "aith", "al", "ali",
+	public static final String[] fName2 = { "ae", "ael", "aer", "aias", "ah", "aith", "al", "ali",
 			"am", "an", "ar", "ari", "aro", "as", "ath", "avel", "brar", "dar",
 			"deth", "dre", "drim", "dul", "ean", "el", "emar", "en", "er",
 			"ess", "evar", "fel", "hal", "har", "hel", "ian", "iat", "ik",
@@ -29,12 +29,12 @@ public class Names {
 			"sel", "sha", "spar", "tae", "tas", "ten", "thal", "thar", "ther",
 			"thi", "thus", "ti", "tril", "ual", "uath", "us", "van", "var",
 			"vain", "via", "vin", "wyn", "ya", "yr", "yth", "zair" };
-	private String[] lName1 = { "Alean", "Alea", "Arabi", "Arkenea", "Auvrea",
+	public static final String[] lName1 = { "Alean", "Alea", "Arabi", "Arkenea", "Auvrea",
 			"Baequi", "Banni", "Cyred", "Dirth", "Dryear", "Dwin’", "Eyllis",
 			"Eyther", "Freani", "Gysse", "Heasi", "Hlae", "Hunith", "Kennyr",
 			"Kille", "Maern", "Melith", "Myrth", "Norre", "Orle", "Oussea",
 			"Rilynn", "Teasen'", "Tyr", "Tyrnea" };
-	private String[] lName2 = { "altin", "anea", "annia", "aear", "arnith", "atear",
+	public static final String[] lName2 = { "altin", "anea", "annia", "aear", "arnith", "atear",
 			"athem", "dlues", "elrvis", "eplith", "ettln", "ghymn", "itryn",
 			"lylth", "mitore", "nddare", "neldth", "rae", "raheal", "rretyn",
 			"sithek", "thym", "tlarn", "tlithar", "tylar", "undlin", "urdrenn",

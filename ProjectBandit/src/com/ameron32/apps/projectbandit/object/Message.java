@@ -1,6 +1,6 @@
 package com.ameron32.apps.projectbandit.object;
 
-import com.ameron32.apps.projectbandit.SaveObjectAsync;
+import com.ameron32.apps.projectbandit.SaveObjectAsyncTask;
 import com.ameron32.apps.projectbandit.manager.GameManager;
 import com.ameron32.apps.projectbandit.manager.UserManager;
 import com.parse.ParseClassName;
@@ -10,7 +10,7 @@ import com.parse.ParseUser;
 
 
 @ParseClassName("Message") public class Message
-    extends ParseObject {
+    extends BanditObject {
   
   private ParseUser user;
   private String message = "(no message)";
@@ -64,7 +64,7 @@ import com.parse.ParseUser;
   }
   
   public void send() {
-    send(new SaveObjectAsync.OnSaveCallbacks() {
+    send(new SaveObjectAsyncTask.OnSaveCallbacks() {
       
       @Override public void onComplete() {}
       
@@ -73,13 +73,13 @@ import com.parse.ParseUser;
   }
   
   public void send(
-      SaveObjectAsync.OnSaveCallbacks listener) {
+      SaveObjectAsyncTask.OnSaveCallbacks listener) {
     applyToParseObject();
     saveIt(listener);
   }
   
   public void saveIt() {
-    saveIt(new SaveObjectAsync.OnSaveCallbacks() {
+    saveIt(new SaveObjectAsyncTask.OnSaveCallbacks() {
       
       @Override public void onComplete() {}
       
@@ -88,8 +88,8 @@ import com.parse.ParseUser;
   }
   
   public void saveIt(
-      SaveObjectAsync.OnSaveCallbacks listener) {
-    new SaveObjectAsync(listener).execute(this);
+      SaveObjectAsyncTask.OnSaveCallbacks listener) {
+    new SaveObjectAsyncTask(listener).execute(this);
   }
   
   private void applyToParseObject() {

@@ -1,11 +1,14 @@
 package com.ameron32.apps.projectbandit.object;
 
+import android.util.Log;
+
+import com.ameron32.lib.recyclertableview.TableAdapter.Columnable;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 
- @ParseClassName("CAdvGURPS")
-public class Advantage extends ParseObject {
+ @ParseClassName("CAdv3GURPS")
+public class Advantage extends BanditObject implements Columnable<Advantage.Column> {
 	
 	/*
 	 * OUTDATED:
@@ -13,164 +16,105 @@ public class Advantage extends ParseObject {
 	 * MOST variables are imported through this process.
 	 * Other variables are set by the user after the fact.
 	 */
-	
-	 String advTypeString;
-	 String aORd;
-	 int calcCost;
-	 String description;
-	 int id;
-	 boolean isExotic;
-	 boolean isFakeCost;
-	 boolean isForbidden;
-	 boolean isLeveled;
-	 boolean isMental;
-	 boolean isMundane;
-	 boolean isPhysical;
-	 boolean isSocial;
-	 boolean isSuper;
-//	 String myNotes;
-	 String nameString;
-	 int pageInt;
-	 String superTypeString;
-	 String cost;
-  int ver;
+   
 
-	boolean hasNotes;
 	
 	public Advantage() {
-	  
+	  // REQUIRED EMPTY CONSTRUCTOR (PARSE)
 	}
-
-  public Advantage(int id, int ver, String aORd, String nameString,
-			String advTypeString, String superTypeString, String cost,
-			int pageInt, boolean isLeveled, boolean hasNotes,
-			boolean isFakeCost, int calcCost, boolean isPhysical,
-			boolean isMental, boolean isSocial, boolean isExotic,
-			boolean isSuper, boolean isMundane, boolean isForbidden, String description) {
-		setDetails(id, ver, aORd, nameString, advTypeString, superTypeString, cost, pageInt, isLeveled, hasNotes, isFakeCost, calcCost, isPhysical, isMental, isSocial, isExotic, isSuper, isMundane, isForbidden, description);
-	}
-
-  private void setDetails(int id,
-      int ver, String aORd,
-      String nameString,
-      String advTypeString,
-      String superTypeString,
-      String cost, int pageInt,
-      boolean isLeveled,
-      boolean hasNotes,
-      boolean isFakeCost, int calcCost,
-      boolean isPhysical,
-      boolean isMental,
-      boolean isSocial,
-      boolean isExotic,
-      boolean isSuper,
-      boolean isMundane,
-      boolean isForbidden,
-      String description) {
-    this.id = id;
-		this.ver = ver;
-		this.aORd = aORd;
-		this.nameString = nameString;
-		this.advTypeString = advTypeString;
-		this.superTypeString = superTypeString;
-		this.cost = cost;
-		this.pageInt = pageInt;
-		this.isLeveled = isLeveled;
-		this.hasNotes = hasNotes;
-		this.isFakeCost = isFakeCost;
-		this.calcCost = calcCost;
-		this.isPhysical = isPhysical;
-		this.isMental = isMental;
-		this.isSocial = isSocial;
-		this.isExotic = isExotic;
-		this.isSuper = isSuper;
-		this.isMundane = isMundane;
-		this.isForbidden = isForbidden;
-		this.description = description;
-  }
 	
 	@Override
 	public String toString() {
-		return "Advantage [id=" + id + ", aORd=" + aORd + ", nameString="
-				+ nameString + ", advTypeString=" + advTypeString
-				+ ", superTypeString=" + superTypeString + ", cost=" + cost
-				+ ", pageInt=" + pageInt + ", isLeveled=" + isLeveled
-				+ ", hasNotes=" + hasNotes + ", isFakeCost=" + isFakeCost
-				+ ", calcCost=" + calcCost + ", isPhysical=" + isPhysical
-				+ ", isMental=" + isMental + ", isSocial=" + isSocial
-				+ ", isExotic=" + isExotic + ", isSuper=" + isSuper
-				+ ", isMundane=" + isMundane + ", isForbidden=" + isForbidden
-				+ "]";
+		final StringBuilder sb = new StringBuilder(); 
+		sb.append("Advantage: ");
+		for (Column c : columns) {
+		  sb.append("\n  ");
+		  sb.append(c.key);
+		  sb.append(": ");
+		  final String shorten = asString(c);
+		  sb.append(shorten);
+		}
+		return sb.toString();
 	}
-	
-	public void pullData() {
-	  int calcCost = this.getInt("iCalcCost");
-	  int id = this.getInt("iId");
-	  String aORd = this.getString("sAorD");
-	  String nameString = this.getString("sName");
-	  String advTypeString = this.getString("sAdvType");
-	  String superTypeString = this.getString("sSuperType");
-//	  String cost = this.getString("iCost");
-	  int pageInt = this.getInt("iPage");
-	  boolean isLeveled = this.getBoolean("isLeveled");
-//    boolean hasNotes = this.getBoolean("hasNotes");
-	  boolean isFakeCost = this.getBoolean("isFakeCost");
-//    boolean isPhysical = this.getBoolean("isPhysical");
-//    boolean isMental = this.getBoolean("isMental");
-//    boolean isSocial = this.getBoolean("isSocial");
-//    boolean isExotic = this.getBoolean("isExotic");
-//    boolean isSuper = this.getBoolean("isSuper");
-//    boolean isMundane = this.getBoolean("isMundane");
-	  boolean isForbidden = this.getBoolean("isForbidden");
-    // FIXME I cheated to get the front and back off of the
-    // description.
-    // Once proper punctuation is handled, this will cause problems.
-    String description = this.getString("sDescription");
-//    .substring(3, this.getString("description").length() - 3);
+
+  public static class Column extends BanditObject.Column {
     
-    setPMSESM(this.getString("sListPMSESM"));
-    setDetails(id, 0, aORd, nameString, advTypeString, superTypeString, "", pageInt, isLeveled, false, isFakeCost, calcCost, isPhysical, isMental, isSocial, isExotic, isSuper, isMundane, isForbidden, description);
-	}
-	
-  private void setPMSESM(String list) {
-//    boolean isPhysical;
-//    boolean isMental;
-//    boolean isSocial;
-//    boolean isExotic;
-//    boolean isSuper;
-//    boolean isMundane;
-    
-    final String[] sTmp = list.split(";");
-    final int[] iTmp = new int[sTmp.length];
-    
-    for (int i = 0; i < sTmp.length; i++) {
-      final String t = sTmp[i];
-      sTmp[i] = t.replace(";", "");
-      iTmp[i] = Integer.valueOf(sTmp[i]);
-      final boolean is = (iTmp[i] == 1);
-      
-      switch (i) {
-      case 0:
-        isPhysical = is;
-        break;
-      case 1:
-        isMental = is;
-        break;
-      case 2:
-        isSocial = is;
-        break;
-      case 3:
-        isExotic = is;
-        break;
-      case 4:
-        isSuper = is;
-        break;
-      case 5:
-        isMundane = is;
-        break;
-      default:
-        // unreachable
-      }
+    public Column(String key, _DataType dataType) {
+      super(key, dataType);
     }
-	}
+  }
+   
+  private static final String SNAME = "sName";
+  private static final String SDESCRIPTION = "sDescription";
+  private static final String SID = "sId";
+  private static final String IIDX = "iIdx";
+  private static final String SADPQ = "sADPQ";
+  private static final String SADVTYPE = "sAdvType";
+  private static final String SSUPERTYPE = "sSuperType";
+  private static final String SBOOKCOST = "sBookCost";
+  private static final String IPAGE = "iPage";
+  private static final String BISLEVELED = "bIsLeveled";
+  private static final String BISMULTICOST = "bIsMultiCost";
+  private static final String BISVARIABLECOST = "bIsVariableCost";
+  private static final String IBASECOST = "iBaseCost";
+  private static final String SMULTICOST = "sMultiCost";
+  private static final String IPERLEVELCOST = "iPerLevelCost";
+  private static final String SPERLEVELMULTICOST = "sPerLevelMultiCost";
+  private static final String BHASNOTES = "bHasNotes";
+  private static final String BISFAKECOST = "bIsFakeCost";
+  private static final String ICALCCOST = "iCalcCost";
+  private static final String SLISTPMSESM = "sListPMSESM";
+  private static final String SREFS = "sRefs";
+  private static final String SDOCUMENTSOURCE = "sDocumentSource";
+  private static final String BISFORBIDDEN = "bIsForbidden";
+  
+  private static Column[] columns = {
+    new Column(SNAME, _DataType.String),
+    new Column(SDESCRIPTION, _DataType.String),
+    new Column(SID, _DataType.String),
+    new Column(IIDX, _DataType.Integer),
+    new Column(SADPQ, _DataType.String),
+    new Column(SADVTYPE, _DataType.String),
+    new Column(SSUPERTYPE, _DataType.String),
+    new Column(SBOOKCOST, _DataType.String),
+    new Column(IPAGE, _DataType.Integer),
+    new Column(BISLEVELED, _DataType.Boolean),
+    new Column(BISMULTICOST, _DataType.Boolean),
+    new Column(BISVARIABLECOST, _DataType.Boolean),
+    new Column(IBASECOST, _DataType.Integer),
+    new Column(SMULTICOST, _DataType.String),
+    new Column(IPERLEVELCOST, _DataType.Integer),
+    new Column(SPERLEVELMULTICOST, _DataType.String),
+    new Column(BHASNOTES, _DataType.Boolean),
+    new Column(BISFAKECOST, _DataType.Boolean),
+    new Column(ICALCCOST, _DataType.Integer),
+    new Column(SLISTPMSESM, _DataType.ListOfStrings),
+    new Column(SREFS, _DataType.String),
+    new Column(SDOCUMENTSOURCE, _DataType.String),
+    new Column(BISFORBIDDEN, _DataType.Boolean)
+  };
+  
+  @Override public Advantage.Column get(
+      int columnPosition) {
+    return columns[columnPosition];
+  }
+
+  @Override public int getColumnCount() {
+    return columns.length;
+  }
+
+  @Override public String getColumnHeader(
+      int columnPosition) {
+    return get(columnPosition).key;
+  }
+  
+  boolean isHeader = false;
+  @Override public void useAsHeaderView(
+      boolean b) {
+    isHeader = b;
+  }
+
+  @Override public boolean isHeaderView() {
+    return isHeader;
+  }
 }

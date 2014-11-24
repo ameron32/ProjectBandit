@@ -20,7 +20,7 @@ import com.parse.SaveCallback;
 
 
 @ParseClassName("Item") public class Item
-    extends ParseObject
+    extends BanditObject
     implements Columnable<String> 
 {
   

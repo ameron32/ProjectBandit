@@ -8,7 +8,7 @@ import com.parse.ParseObject;
 import com.parse.ParseRelation;
 
 @ParseClassName("CInventory") public class CInventory
-    extends ParseObject implements
+    extends BanditObject implements
     Columnable<String> {
   
   private int baseValue;

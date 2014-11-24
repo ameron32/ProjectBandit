@@ -1,6 +1,6 @@
 package com.ameron32.apps.projectbandit.object;
 
-import com.ameron32.apps.projectbandit.SaveObjectAsync;
+import com.ameron32.apps.projectbandit.SaveObjectAsyncTask;
 import com.ameron32.lib.recyclertableview.TableAdapter.Columnable;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
@@ -9,7 +9,7 @@ import com.parse.ParseQuery;
 
 
 @ParseClassName("Character") public class Character
-    extends ParseObject 
+    extends BanditObject 
     implements Columnable<String> {
   
   private String name = "Nameless";
@@ -85,7 +85,7 @@ import com.parse.ParseQuery;
   public void send() {
     applyToParseObject();
     
-    new SaveObjectAsync(new SaveObjectAsync.OnSaveCallbacks() {
+    new SaveObjectAsyncTask(new SaveObjectAsyncTask.OnSaveCallbacks() {
       
       @Override public void onComplete() {}
       
@@ -94,10 +94,10 @@ import com.parse.ParseQuery;
   }
   
   public void send(
-      SaveObjectAsync.OnSaveCallbacks callback) {
+      SaveObjectAsyncTask.OnSaveCallbacks callback) {
     applyToParseObject();
     
-    new SaveObjectAsync(callback).execute(this);
+    new SaveObjectAsyncTask(callback).execute(this);
   }
   
   private void applyToParseObject() {

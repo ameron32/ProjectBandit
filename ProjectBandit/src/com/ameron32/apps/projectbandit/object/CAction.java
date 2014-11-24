@@ -5,7 +5,7 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 @ParseClassName("CAction")
-public class CAction extends ParseObject {
+public class CAction extends BanditObject {
   
   public CAction() {}
   

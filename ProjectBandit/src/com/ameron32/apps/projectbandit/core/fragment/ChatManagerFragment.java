@@ -19,7 +19,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 import com.ameron32.apps.projectbandit.R;
-import com.ameron32.apps.projectbandit.SaveObjectAsync;
+import com.ameron32.apps.projectbandit.SaveObjectAsyncTask;
 import com.ameron32.apps.projectbandit.adapter.ChatCActionSpinnerAdapter;
 import com.ameron32.apps.projectbandit.adapter.ChatCharacterSpinnerAdapter;
 import com.ameron32.apps.projectbandit.adapter.ChatViewPagerAdapter;
@@ -39,7 +39,7 @@ public class ChatManagerFragment
       AbsContentFragment 
     implements
       MessageManager.MessageListener,
-      SaveObjectAsync.OnSaveCallbacks,
+      SaveObjectAsyncTask.OnSaveCallbacks,
       OnCharacterChangeListener 
 {
   

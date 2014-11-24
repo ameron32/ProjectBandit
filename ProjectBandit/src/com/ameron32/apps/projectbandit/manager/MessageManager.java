@@ -3,8 +3,8 @@ package com.ameron32.apps.projectbandit.manager;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ameron32.apps.projectbandit.SaveObjectAsync;
-import com.ameron32.apps.projectbandit.SaveObjectAsync.OnSaveCallbacks;
+import com.ameron32.apps.projectbandit.SaveObjectAsyncTask;
+import com.ameron32.apps.projectbandit.SaveObjectAsyncTask.OnSaveCallbacks;
 import com.ameron32.apps.projectbandit.object.Message;
 import com.parse.ParseException;
 
@@ -57,7 +57,7 @@ public class MessageManager {
   
   public void markMessagesAsReceived(List<Message> messagesToSave) {
     Message[] save = messagesToSave.toArray(new Message[messagesToSave.size()]);
-    new SaveObjectAsync(new OnSaveCallbacks() {
+    new SaveObjectAsyncTask(new OnSaveCallbacks() {
       
       @Override public void onComplete() {}
       

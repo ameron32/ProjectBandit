@@ -11,7 +11,7 @@ import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 @ParseClassName("Game")
-public class Game extends ParseObject {
+public class Game extends BanditObject {
   
   public Game() {}
   

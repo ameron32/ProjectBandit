@@ -22,11 +22,12 @@ import butterknife.InjectView;
 import com.ameron32.apps.projectbandit.R;
 import com.ameron32.apps.projectbandit.core.fragment.AbsContentFragment;
 import com.ameron32.apps.projectbandit.object.Advantage;
+import com.ameron32.apps.projectbandit.object.Skill;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
-public class AdvantageCheckerFragment 
+public class SkillCheckerFragment 
   extends
     AbsContentFragment
 {
@@ -47,14 +48,17 @@ public class AdvantageCheckerFragment
     
     mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
     
-    ParseQuery.getQuery(Advantage.class).setLimit(1000).orderByDescending("bIsForbidden").addAscendingOrder("sADPQ").addAscendingOrder("sName").findInBackground(new FindCallback<Advantage>() {
+    ParseQuery.getQuery(Skill.class).setLimit(1000)
+//    .orderByDescending("bIsForbidden")
+    .addAscendingOrder("iPage")
+    .addAscendingOrder("sName").findInBackground(new FindCallback<Skill>() {
       
       @Override public void done(
-          final List<Advantage> advs,
+          final List<Skill> skills,
           ParseException e) {
         if (e == null) {
        
-          mRecyclerView.setAdapter(new AdvantageAdapter(advs));
+          mRecyclerView.setAdapter(new SkillAdapter(skills));
           mRecyclerView.addOnItemTouchListener(new ItemClickListener(getActivity(), 
               new ItemClickListener.OnItemClickListener() {
             
@@ -69,12 +73,12 @@ public class AdvantageCheckerFragment
     });
   }
   
-  public static class AdvantageAdapter extends RecyclerView.Adapter<AdvantageAdapter.ViewHolder> {
+  public static class SkillAdapter extends RecyclerView.Adapter<SkillAdapter.ViewHolder> {
 
-    private List<Advantage> advs;
+    private List<Skill> skills;
 
-    public AdvantageAdapter(List<Advantage> advs) {
-      this.advs = advs;
+    public SkillAdapter(List<Skill> skills) {
+      this.skills = skills;
     }
     
     public class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
@@ -131,20 +135,20 @@ public class AdvantageCheckerFragment
     }
     
     @Override public int getItemCount() {
-      return advs.size();
+      return skills.size();
     }
 
     @Override public void onBindViewHolder(
         ViewHolder holder, int position) {
-      Advantage advantage = advs.get(position);
+      Skill skill = skills.get(position);
       TextView tv = ((TextView) holder.itemView.findViewById(android.R.id.text1));
-      tv.setText(advantage.toString());
+      tv.setText(skill.toString());
     }
 
     @Override public ViewHolder onCreateViewHolder(
         ViewGroup parent, int viewType) {
       View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_simple_textview, parent, false);
-      return new AdvantageAdapter.ViewHolder(v);
+      return new SkillAdapter.ViewHolder(v);
     }
   }
   
