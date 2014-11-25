@@ -2,7 +2,7 @@ package com.ameron32.apps.projectbandit.core.fragment;
 
 import com.ameron32.apps.projectbandit.R;
 import com.ameron32.apps.projectbandit.adapter.CharacterClickListener;
-import com.ameron32.apps.projectbandit.adapter.CharacterSelectorAdapter_v2;
+import com.ameron32.apps.projectbandit.adapter.CharacterSelectorAdapter;
 import com.ameron32.apps.projectbandit.adapter.CharacterClickListener.OnCharacterClickListener;
 
 import android.app.Activity;
@@ -20,7 +20,7 @@ public class ToolbarFragment extends
     Fragment {
   
   private Toolbar mToolbar;
-  private CharacterSelectorAdapter_v2 mAdapter;
+  private CharacterSelectorAdapter mAdapter;
   private RecyclerView mCharacterRecyclerView;
   private OnToolbarFragmentCallbacks mCallbacks;
   
@@ -65,7 +65,7 @@ public class ToolbarFragment extends
     mCharacterRecyclerView.setLayoutManager(mLayoutManager);
     // mRecyclerView.setItemAnimator(new DefaultItemAnimator());
     
-    mAdapter = new CharacterSelectorAdapter_v2(context);
+    mAdapter = new CharacterSelectorAdapter(context);
     mCharacterRecyclerView.setAdapter(mAdapter);
     mCharacterRecyclerView.addOnItemTouchListener(new CharacterClickListener(context, new OnCharacterClickListener() {
       

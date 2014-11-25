@@ -1,16 +1,25 @@
 package com.ameron32.apps.projectbandit.object;
 
+import java.util.Set;
+
+import android.util.Log;
+
 import com.ameron32.apps.projectbandit.SaveObjectAsyncTask;
 import com.ameron32.lib.recyclertableview.TableAdapter.Columnable;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 
-@ParseClassName("Character") public class Character
-    extends BanditObject 
-    implements Columnable<String> {
+@ParseClassName("Character") 
+public class Character
+  extends AbsBanditObject<AbsBanditObject.Column>
+{
+  private static final String TAG = Character.class.getSimpleName();
+  private static final boolean TOAST = false;
+  private static final boolean LOG = true;
   
   private String name = "Nameless";
   private int currentHealth = 0;
@@ -143,67 +152,92 @@ import com.parse.ParseQuery;
     return this.getString("profilePicFullSizeUrl");
   }
   
-  @Override public String get(
-      int columnPosition) {
-    if (isHeader) { return getColumnHeader(columnPosition); }
-    
-    switch (columnPosition) {
-    case 0:
-      return getName();
-    case 1:
-      return "playable:"
-          + isPlayable();
-    case 2:
-      if (isPlayable())
-      return getCurrentHealth() + "/"
-          + getMaxHealth();
-      else
-        return "";
-    case 3:
-      if (isPlayable())
-      return getLevel() + "["
-          + getXP() + "]";
-      else
-        return "";
-    case 4:
-      if (isPlayable())
-      return "$"+getGold();
-      else
-        return "";
-    default:
-      return "none";
+//  @Override public String get(
+//      int columnPosition) {
+//    if (isHeader) { return getColumnHeader(columnPosition); }
+//    
+//    switch (columnPosition) {
+//    case 0:
+//      return getName();
+//    case 1:
+//      return "playable:"
+//          + isPlayable();
+//    case 2:
+//      if (isPlayable())
+//      return getCurrentHealth() + "/"
+//          + getMaxHealth();
+//      else
+//        return "";
+//    case 3:
+//      if (isPlayable())
+//      return getLevel() + "["
+//          + getXP() + "]";
+//      else
+//        return "";
+//    case 4:
+//      if (isPlayable())
+//      return "$"+getGold();
+//      else
+//        return "";
+//    default:
+//      return "none";
+//    }
+//  }
+//  
+//  @Override public int getColumnCount() {
+//    return 5;
+//  }
+//  
+//  @Override public String getColumnHeader(
+//      int columnPosition) {
+//    switch (columnPosition) {
+//    case 0:
+//      return "name";
+//    case 1:
+//      return "isPlayable";
+//    case 2:
+//      return "health/max";
+//    case 3:
+//      return "level[xp]";
+//    case 4:
+//      return "gold";
+//    default:
+//      return "none";
+//    }
+//  }
+//  
+//  private boolean isHeader = false;
+//  @Override public void useAsHeaderView(boolean b) {
+//    isHeader = b;
+//  }
+//  
+//  @Override public boolean isHeaderView() {
+//    return isHeader;
+//  }
+  
+  private static final AbsBanditObject.Column[] COLUMNS = {
+    new Column("name", _DataType.String)
+  };
+  
+  @Override public String toString() {
+    final Set<String> keySet = this.keySet();
+    final StringBuilder sb = new StringBuilder();
+    for (String key : keySet) {
+      sb.append("\n");
+      sb.append(key);
+      sb.append(": ");
+      sb.append(this.get(key));
     }
+    return sb.toString();
+  }
+  
+  @Override public AbsBanditObject.Column get(
+      int columnPosition) {
+    return COLUMNS[columnPosition];
   }
   
   @Override public int getColumnCount() {
-    return 5;
-  }
-  
-  @Override public String getColumnHeader(
-      int columnPosition) {
-    switch (columnPosition) {
-    case 0:
-      return "name";
-    case 1:
-      return "isPlayable";
-    case 2:
-      return "health/max";
-    case 3:
-      return "level[xp]";
-    case 4:
-      return "gold";
-    default:
-      return "none";
-    }
-  }
-  
-  private boolean isHeader = false;
-  @Override public void useAsHeaderView(boolean b) {
-    isHeader = b;
-  }
-  
-  @Override public boolean isHeaderView() {
-    return isHeader;
+    return COLUMNS.length;
   }
   
   private boolean isIdEquals(Character character) {
@@ -223,5 +257,50 @@ import com.parse.ParseQuery;
   public boolean equals(
       Character character) {
     return this.isIdEquals(character);
+  }
+  
+  private static Character makeCharacter(
+      Character.Builder builder,
+      SaveCallback callback) {
+    if (callback == null) {
+      callback = new SaveCallback() {
+        
+        @Override public void done(
+            ParseException e) {
+          if (e == null) {
+            if (LOG)
+              Log.i(TAG, "Character saved.");
+          } else {
+            e.printStackTrace();
+          }
+        }
+      };
+    }
+
+    Character character = new Character();
+    character.loadCharacter(builder);
+    character.saveInBackground(callback);
+    return character;
+  }
+  
+  private void loadCharacter(Character.Builder builder) {
+    // TODO: populate fields
+  }
+  
+  public static class Builder {
+    private Builder() {}
+    public static Builder getNewCharacter() { return new Builder(); }
+    
+    
+    
+    public Character create() {
+      return create(null);
+    }
+    
+    public Character create(
+        SaveCallback callback) {
+//      rootView = null;
+      return Character.makeCharacter(this, callback);
+    }
   }
 }

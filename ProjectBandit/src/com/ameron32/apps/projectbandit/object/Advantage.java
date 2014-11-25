@@ -8,7 +8,7 @@ import com.parse.ParseObject;
 
 
  @ParseClassName("CAdv3GURPS")
-public class Advantage extends BanditObject implements Columnable<Advantage.Column> {
+public class Advantage extends AbsBanditObject<Advantage.Column> {
 	
 	/*
 	 * OUTDATED:
@@ -37,7 +37,7 @@ public class Advantage extends BanditObject implements Columnable<Advantage.Colu
 		return sb.toString();
 	}
 
-  public static class Column extends BanditObject.Column {
+  public static class Column extends AbsBanditObject.Column {
     
     public Column(String key, _DataType dataType) {
       super(key, dataType);
@@ -101,20 +101,5 @@ public class Advantage extends BanditObject implements Columnable<Advantage.Colu
 
   @Override public int getColumnCount() {
     return columns.length;
-  }
-
-  @Override public String getColumnHeader(
-      int columnPosition) {
-    return get(columnPosition).key;
-  }
-  
-  boolean isHeader = false;
-  @Override public void useAsHeaderView(
-      boolean b) {
-    isHeader = b;
-  }
-
-  @Override public boolean isHeaderView() {
-    return isHeader;
   }
 }

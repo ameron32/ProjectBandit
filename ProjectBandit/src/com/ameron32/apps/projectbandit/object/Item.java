@@ -19,9 +19,9 @@ import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
 
-@ParseClassName("Item") public class Item
-    extends BanditObject
-    implements Columnable<String> 
+@ParseClassName("Item") 
+public class Item
+  extends AbsBanditObject<AbsBanditObject.Column>
 {
   
   private static final String TAG = Item.class.getSimpleName();
@@ -99,360 +99,6 @@ import com.parse.SaveCallback;
   
   public Item() {
     // required ParseObject constructor
-  }
-
-  public static class Builder {
-    
-    public static Builder getNewSetReference(
-        Type referenceType) {
-      Builder setBuilder = new Builder();
-      setBuilder.setType(Item.Type.valueOfIgnoreCase("Setreference_"
-          + referenceType.name()));
-      setBuilder.setSubType(referenceType);
-      return setBuilder;
-    }
-
-    private static final int NUMBER_OF_DAMAGE_TYPES = 10;
-    
-    String name;
-    int baseValue;
-    Item.Type type;
-    
-    boolean isWeapon;
-    List<String> weaponSlots;
-    int[] weaponDamages;
-    
-    boolean isAmmo;
-    int[] ammoDamages;
-    String weaponType;
-    
-    boolean isArmor;
-    List<String> armorSlots;
-    int[] resistances;
-    
-    boolean isDurable;
-    int durabilityUses;
-    
-    boolean isConsumable;
-    
-    boolean isIngredient;
-    
-    //
-    // public static Builder start() {
-    // return new Builder();
-    // }
-    
-    private Builder() {}
-    
-    private View rootView;
-
-    public static Builder getNewItem(
-        Item.Type type) {
-      Builder builder = new Builder().setType(type).setSubType(type);
-      return builder;
-    }
-    
-    public Builder from(View rootView) {
-      this.rootView = rootView;
-      return this;
-    }
-     
-    
-    public Builder loadView()
-        throws NumberFormatException {
-      setName(sFromET(R.id.et_name));
-      setBaseValue(iFromET(R.id.et_base_value));
-      // setType(type);
-      setWeaponDamages(iaFromET(R.id.et_weapon_damages));
-      setAmmoDamages(iaFromET(R.id.et_ammo_damages));
-      setResistances(iaFromET(R.id.et_resistances));
-      setDurable(isDurable);
-      setDurabilityUses(iFromET(R.id.et_durability));
-      
-      // TODO setConsumable()
-      String ammoWeaponType = sFirstFromMSS(R.id.mss_ammo_weapons);
-      String meleeWeaponType = sFirstFromMSS(R.id.mss_weapon_type);
-      String weaponType = (meleeWeaponType == null) ? ammoWeaponType : meleeWeaponType;
-      setWeaponType(weaponType);
-      setArmorSlots(lsFromMSS(R.id.mss_armor_slots));
-      return this;
-    }
-    
-    
-    
-    private String sFromET(int res) {
-      EditText editText = (EditText) rootView.findViewById(res);
-      return editText.getText().toString();
-    }
-    
-    private int iFromET(int res) {
-      EditText editText = (EditText) rootView.findViewById(res);
-      String input = editText.getText().toString();
-      if (input.length() < 1) { return 0; }
-      return Integer.decode(input);
-    }
-    
-    private int[] iaFromET(int res) {
-      int[] results = new int[NUMBER_OF_DAMAGE_TYPES];
-      
-      EditText editText = (EditText) rootView.findViewById(res);
-      // sanitize damage types
-      String toClean = editText.getText().toString();
-      // if (LOG)
-      // Log.i(TAG, "toClean: "
-      // + toClean);
-      String[] split = toClean.split(",");
-      for (int i = 0; i < split.length; i++) {
-        String section = split[i];
-        section = section.trim();
-        if (section.length() == 0) {
-          break;
-        }
-        // distribute
-        String distribute = section.substring(0, 1).toLowerCase(Locale.US);
-        int amount = Integer.decode(section.substring(1));
-        int location = -1;
-        // if (LOG)
-        // Log.i(TAG, "distribute: "
-        // + distribute);
-        // if (LOG)
-        // Log.i(TAG, "distribute: "
-        // + distribute);
-        if (distribute.equalsIgnoreCase("s")) {
-          location = 0;
-        }
-        if (distribute.equalsIgnoreCase("f")) {
-          location = 1;
-        }
-        if (distribute.equalsIgnoreCase("i")) {
-          location = 2;
-        }
-        if (distribute.equalsIgnoreCase("p")) {
-          location = 3;
-        }
-        if (distribute.equalsIgnoreCase("l")) {
-          location = 4;
-        }
-        if (distribute.equalsIgnoreCase("m")) {
-          location = 5;
-        }
-        if (distribute.equalsIgnoreCase("h")) {
-          location = 6;
-        }
-        if (distribute.equalsIgnoreCase("d")) {
-          location = 7;
-        }
-        if (distribute.equalsIgnoreCase("x")) {
-          location = 8;
-        }
-        if (distribute.equalsIgnoreCase("y")) {
-          location = 9;
-        }
-        
-        // populate results
-        results[location] = amount;
-      }
-      // if (LOG) {
-      //
-      // StringBuilder sb = new StringBuilder().append("results: ");
-      // for (int r : results) {
-      // sb.append(r + " ");
-      // }
-      // // Log.i(TAG, "distribute: "
-      // // + sb.toString());
-      // }
-      return results;
-    }
-    
-    private String sFirstFromMSS(int res) {
-      List<String> selectedStrings = lsFromMSS(res);
-      if (selectedStrings != null
-          && selectedStrings.size() > 0) { return selectedStrings.get(0); }
-      return null;
-    }
-    
-    private List<String> lsFromMSS(
-        int res) {
-      MultiSelectSpinner mss = (MultiSelectSpinner) rootView.findViewById(res);
-      if (mss != null) { return mss.getSelectedStrings(); }
-      return null;
-    }
-     
-
-    public Builder multiplyCost(
-        float variant) {
-      setBaseValue(modify(baseValue, variant));
-      return this;
-    }
-
-    public Builder multiplyValue(
-        float variant) {
-      if (this.isWeapon) {
-        setWeaponDamages(modifyArray(weaponDamages, variant));
-      }
-      if (this.isAmmo) {
-        setAmmoDamages(modifyArray(ammoDamages, variant));
-      }
-      if (this.isArmor) {
-        setResistances(modifyArray(resistances, variant));
-      }
-      return this;
-    }
-
-    private int[] modifyArray(
-        int[] array, float variant) {
-      for (int i = 0; i < array.length; i++) {
-        array[i] = modify(array[i], variant);
-      }
-      return array;
-    }
-
-    private int modify(int value,
-        float variant) {
-      float target = value;
-      target = target * variant;
-      return Math.round(target);
-    }
-
-    public Builder setName(String name) {
-      this.name = name;
-      return this;
-    }
-    
-    public Builder setBaseValue(
-        int baseValue) {
-      this.baseValue = baseValue;
-      return this;
-    }
-    
-    protected Builder setType(
-        Item.Type type) {
-      this.type = type;
-      return this;
-    }
-    
-    protected Builder setSubType(
-        Item.Type type) {
-      setWeapon(type == Type.Weapon);
-      setArmor(type == Type.Armor);
-      setAmmo(type == Type.Ammo);
-      setIngredient(type == Type.Ingredient);
-      return this;
-    }
-    
-    private Builder setWeapon(
-        boolean isWeapon) {
-      this.isWeapon = isWeapon;
-      return this;
-    }
-    
-    public Builder setWeaponSlots(
-        List<String> strings) {
-      if (this.isWeapon) {
-        this.weaponSlots = strings;
-      }
-      return this;
-    }
-    
-    public Builder setWeaponDamages(
-        int[] weaponDamages) {
-      if (this.isWeapon) {
-        this.weaponDamages = weaponDamages;
-      }
-      return this;
-    }
-    
-    private Builder setAmmo(
-        boolean isAmmo) {
-      this.isAmmo = isAmmo;
-      this.isDurable = true;
-      this.durabilityUses = 1;
-      return this;
-    }
-    
-    public Builder setAmmoDamages(
-        int[] ammoDamages) {
-      if (this.isAmmo) {
-        this.ammoDamages = ammoDamages;
-      }
-      return this;
-    }
-    
-    public Builder setWeaponType(
-        String weaponType) {
-      if (this.isAmmo || this.isWeapon) {
-        this.weaponType = weaponType;
-      }
-      return this;
-    }
-    
-    private Builder setArmor(
-        boolean isArmor) {
-      this.isArmor = isArmor;
-      return this;
-    }
-    
-    public Builder setArmorSlots(
-        List<String> strings) {
-      if (this.isArmor) {
-        this.armorSlots = strings;
-      }
-      return this;
-    }
-
-    public Builder setResistances(
-        int[] resistances) {
-      if (this.isArmor) {
-        this.resistances = resistances;
-      }
-      return this;
-    }
-    
-    private Builder setDurable(
-        boolean isDurable) {
-      if (this.isWeapon || this.isArmor) {
-        this.isDurable = isDurable;
-      }
-      return this;
-    }
-    
-    public Builder setDurabilityUses(
-        int durabilityUses) {
-      if (this.isWeapon || this.isArmor) {
-        if (durabilityUses > 0) {
-          this.durabilityUses = durabilityUses;
-          setDurable(true);
-        } else {
-          this.durabilityUses = 0;
-          setDurable(false);
-        }
-      }
-      return this;
-    }
-    
-    public Builder setConsumable(
-        boolean isConsumable) {
-      this.isConsumable = isConsumable;
-      this.isDurable = true;
-      this.durabilityUses = 1;
-      return this;
-    }
-    
-    private Builder setIngredient(
-        boolean isIngredient) {
-      this.isIngredient = isIngredient;
-      return this;
-    }
-    
-    public Item create() {
-      return create(null);
-    }
-    
-    public Item create(
-        SaveCallback callback) {
-      rootView = null;
-      return Item.makeItem(this, callback);
-    }
   }
 
   public void setName(String name) {
@@ -630,41 +276,372 @@ import com.parse.SaveCallback;
     }
   }
   
-  private static final String[] COLUMNS = { "name", "baseValue", "type", "inGame" };
-  private boolean isHeader = false;
+  private static final AbsBanditObject.Column[] COLUMNS = { 
+    new Column("name", _DataType.String),
+    new Column("baseValue", _DataType.Integer),
+    new Column("type", _DataType.String),
+    new Column("usableInGame", _DataType.Relation) };
 
-  @Override public String get(
+  @Override public AbsBanditObject.Column get(
       int columnPosition) {
-    switch (columnPosition) {
-    case 0:
-      return this.getString("name");
-    case 1:
-      return "$ "
-          + this.getInt("baseValue");
-    case 2:
-      return this.getString("type");
-    case 3:
-      return "N/A";
-    default:
-      return "none";
-    }
+    return COLUMNS[columnPosition];
   }
 
   @Override public int getColumnCount() {
     return COLUMNS.length;
   }
 
-  @Override public String getColumnHeader(
-      int columnPosition) {
-    return COLUMNS[columnPosition];
-  }
-
-  @Override public void useAsHeaderView(
-      boolean b) {
-    isHeader = b;
-  }
-
-  @Override public boolean isHeaderView() {
-    return isHeader;
+  public static class Builder {
+    
+    public static Builder getNewSetReference(
+        Type referenceType) {
+      Builder setBuilder = new Builder();
+      setBuilder.setType(Item.Type.valueOfIgnoreCase("Setreference_"
+          + referenceType.name()));
+      setBuilder.setSubType(referenceType);
+      return setBuilder;
+    }
+  
+    public static Builder getNewItem(
+        Item.Type type) {
+      Builder builder = new Builder().setType(type).setSubType(type);
+      return builder;
+    }
+  
+    private static final int NUMBER_OF_DAMAGE_TYPES = 10;
+    
+    String name;
+    int baseValue;
+    Item.Type type;
+    
+    boolean isWeapon;
+    List<String> weaponSlots;
+    int[] weaponDamages;
+    
+    boolean isAmmo;
+    int[] ammoDamages;
+    String weaponType;
+    
+    boolean isArmor;
+    List<String> armorSlots;
+    int[] resistances;
+    
+    boolean isDurable;
+    int durabilityUses;
+    
+    boolean isConsumable;
+    
+    boolean isIngredient;
+    
+    //
+    // public static Builder start() {
+    // return new Builder();
+    // }
+    
+    private Builder() {}
+    
+    private View rootView;
+  
+    public Builder from(View rootView) {
+      this.rootView = rootView;
+      return this;
+    }
+     
+    
+    public Builder loadView()
+        throws NumberFormatException {
+      setName(sFromET(R.id.et_name));
+      setBaseValue(iFromET(R.id.et_base_value));
+      // setType(type);
+      setWeaponDamages(iaFromET(R.id.et_weapon_damages));
+      setAmmoDamages(iaFromET(R.id.et_ammo_damages));
+      setResistances(iaFromET(R.id.et_resistances));
+      setDurable(isDurable);
+      setDurabilityUses(iFromET(R.id.et_durability));
+      
+      // TODO setConsumable()
+      String ammoWeaponType = sFirstFromMSS(R.id.mss_ammo_weapons);
+      String meleeWeaponType = sFirstFromMSS(R.id.mss_weapon_type);
+      String weaponType = (meleeWeaponType == null) ? ammoWeaponType : meleeWeaponType;
+      setWeaponType(weaponType);
+      setArmorSlots(lsFromMSS(R.id.mss_armor_slots));
+      return this;
+    }
+    
+    
+    
+    private String sFromET(int res) {
+      EditText editText = (EditText) rootView.findViewById(res);
+      return editText.getText().toString();
+    }
+    
+    private int iFromET(int res) {
+      EditText editText = (EditText) rootView.findViewById(res);
+      String input = editText.getText().toString();
+      if (input.length() < 1) { return 0; }
+      return Integer.decode(input);
+    }
+    
+    private int[] iaFromET(int res) {
+      int[] results = new int[NUMBER_OF_DAMAGE_TYPES];
+      
+      EditText editText = (EditText) rootView.findViewById(res);
+      // sanitize damage types
+      String toClean = editText.getText().toString();
+      // if (LOG)
+      // Log.i(TAG, "toClean: "
+      // + toClean);
+      String[] split = toClean.split(",");
+      for (int i = 0; i < split.length; i++) {
+        String section = split[i];
+        section = section.trim();
+        if (section.length() == 0) {
+          break;
+        }
+        // distribute
+        String distribute = section.substring(0, 1).toLowerCase(Locale.US);
+        int amount = Integer.decode(section.substring(1));
+        int location = -1;
+        // if (LOG)
+        // Log.i(TAG, "distribute: "
+        // + distribute);
+        // if (LOG)
+        // Log.i(TAG, "distribute: "
+        // + distribute);
+        if (distribute.equalsIgnoreCase("s")) {
+          location = 0;
+        }
+        if (distribute.equalsIgnoreCase("f")) {
+          location = 1;
+        }
+        if (distribute.equalsIgnoreCase("i")) {
+          location = 2;
+        }
+        if (distribute.equalsIgnoreCase("p")) {
+          location = 3;
+        }
+        if (distribute.equalsIgnoreCase("l")) {
+          location = 4;
+        }
+        if (distribute.equalsIgnoreCase("m")) {
+          location = 5;
+        }
+        if (distribute.equalsIgnoreCase("h")) {
+          location = 6;
+        }
+        if (distribute.equalsIgnoreCase("d")) {
+          location = 7;
+        }
+        if (distribute.equalsIgnoreCase("x")) {
+          location = 8;
+        }
+        if (distribute.equalsIgnoreCase("y")) {
+          location = 9;
+        }
+        
+        // populate results
+        results[location] = amount;
+      }
+      // if (LOG) {
+      //
+      // StringBuilder sb = new StringBuilder().append("results: ");
+      // for (int r : results) {
+      // sb.append(r + " ");
+      // }
+      // // Log.i(TAG, "distribute: "
+      // // + sb.toString());
+      // }
+      return results;
+    }
+    
+    private String sFirstFromMSS(int res) {
+      List<String> selectedStrings = lsFromMSS(res);
+      if (selectedStrings != null
+          && selectedStrings.size() > 0) { return selectedStrings.get(0); }
+      return null;
+    }
+    
+    private List<String> lsFromMSS(
+        int res) {
+      MultiSelectSpinner mss = (MultiSelectSpinner) rootView.findViewById(res);
+      if (mss != null) { return mss.getSelectedStrings(); }
+      return null;
+    }
+     
+  
+    public Builder multiplyCost(
+        float variant) {
+      setBaseValue(modify(baseValue, variant));
+      return this;
+    }
+  
+    public Builder multiplyValue(
+        float variant) {
+      if (this.isWeapon) {
+        setWeaponDamages(modifyArray(weaponDamages, variant));
+      }
+      if (this.isAmmo) {
+        setAmmoDamages(modifyArray(ammoDamages, variant));
+      }
+      if (this.isArmor) {
+        setResistances(modifyArray(resistances, variant));
+      }
+      return this;
+    }
+  
+    private int[] modifyArray(
+        int[] array, float variant) {
+      for (int i = 0; i < array.length; i++) {
+        array[i] = modify(array[i], variant);
+      }
+      return array;
+    }
+  
+    private int modify(int value,
+        float variant) {
+      float target = value;
+      target = target * variant;
+      return Math.round(target);
+    }
+  
+    public Builder setName(String name) {
+      this.name = name;
+      return this;
+    }
+    
+    public Builder setBaseValue(
+        int baseValue) {
+      this.baseValue = baseValue;
+      return this;
+    }
+    
+    protected Builder setType(
+        Item.Type type) {
+      this.type = type;
+      return this;
+    }
+    
+    protected Builder setSubType(
+        Item.Type type) {
+      setWeapon(type == Type.Weapon);
+      setArmor(type == Type.Armor);
+      setAmmo(type == Type.Ammo);
+      setIngredient(type == Type.Ingredient);
+      return this;
+    }
+    
+    private Builder setWeapon(
+        boolean isWeapon) {
+      this.isWeapon = isWeapon;
+      return this;
+    }
+    
+    public Builder setWeaponSlots(
+        List<String> strings) {
+      if (this.isWeapon) {
+        this.weaponSlots = strings;
+      }
+      return this;
+    }
+    
+    public Builder setWeaponDamages(
+        int[] weaponDamages) {
+      if (this.isWeapon) {
+        this.weaponDamages = weaponDamages;
+      }
+      return this;
+    }
+    
+    private Builder setAmmo(
+        boolean isAmmo) {
+      this.isAmmo = isAmmo;
+      this.isDurable = true;
+      this.durabilityUses = 1;
+      return this;
+    }
+    
+    public Builder setAmmoDamages(
+        int[] ammoDamages) {
+      if (this.isAmmo) {
+        this.ammoDamages = ammoDamages;
+      }
+      return this;
+    }
+    
+    public Builder setWeaponType(
+        String weaponType) {
+      if (this.isAmmo || this.isWeapon) {
+        this.weaponType = weaponType;
+      }
+      return this;
+    }
+    
+    private Builder setArmor(
+        boolean isArmor) {
+      this.isArmor = isArmor;
+      return this;
+    }
+    
+    public Builder setArmorSlots(
+        List<String> strings) {
+      if (this.isArmor) {
+        this.armorSlots = strings;
+      }
+      return this;
+    }
+  
+    public Builder setResistances(
+        int[] resistances) {
+      if (this.isArmor) {
+        this.resistances = resistances;
+      }
+      return this;
+    }
+    
+    private Builder setDurable(
+        boolean isDurable) {
+      if (this.isWeapon || this.isArmor) {
+        this.isDurable = isDurable;
+      }
+      return this;
+    }
+    
+    public Builder setDurabilityUses(
+        int durabilityUses) {
+      if (this.isWeapon || this.isArmor) {
+        if (durabilityUses > 0) {
+          this.durabilityUses = durabilityUses;
+          setDurable(true);
+        } else {
+          this.durabilityUses = 0;
+          setDurable(false);
+        }
+      }
+      return this;
+    }
+    
+    public Builder setConsumable(
+        boolean isConsumable) {
+      this.isConsumable = isConsumable;
+      this.isDurable = true;
+      this.durabilityUses = 1;
+      return this;
+    }
+    
+    private Builder setIngredient(
+        boolean isIngredient) {
+      this.isIngredient = isIngredient;
+      return this;
+    }
+    
+    public Item create() {
+      return create(null);
+    }
+    
+    public Item create(
+        SaveCallback callback) {
+      rootView = null;
+      return Item.makeItem(this, callback);
+    }
   }
 }

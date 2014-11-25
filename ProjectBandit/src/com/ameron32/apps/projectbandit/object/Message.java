@@ -9,8 +9,9 @@ import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 
-@ParseClassName("Message") public class Message
-    extends BanditObject {
+@ParseClassName("Message") 
+public class Message
+    extends AbsBanditObject<AbsBanditObject.Column> {
   
   private ParseUser user;
   private String message = "(no message)";
@@ -127,5 +128,28 @@ import com.parse.ParseUser;
   
   public Character getCharacter() {
     return (Character) this.getParseObject("character");
+  }
+
+  private static final AbsBanditObject.Column[] COLUMNS = {
+    new Column("action", _DataType.String),
+    new Column("canon", _DataType.Boolean),
+    new Column("channel", _DataType.String),
+    new Column("inSession", _DataType.Integer),
+    new Column("message", _DataType.String),
+    new Column("type", _DataType.String),
+    new Column("character", _DataType.Pointer),
+    new Column("actionO", _DataType.Pointer),
+    new Column("ofGame", _DataType.Relation),
+    new Column("receivedBy", _DataType.Relation),
+    new Column("user", _DataType.Pointer)
+  };
+  
+  @Override public AbsBanditObject.Column get(
+      int columnPosition) {
+    return COLUMNS[columnPosition]; 
+  }
+
+  @Override public int getColumnCount() {
+    return COLUMNS.length;
   }
 }

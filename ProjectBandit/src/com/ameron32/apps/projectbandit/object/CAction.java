@@ -5,7 +5,7 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 @ParseClassName("CAction")
-public class CAction extends BanditObject {
+public class CAction extends AbsBanditObject<AbsBanditObject.Column> {
   
   public CAction() {}
   
@@ -15,5 +15,18 @@ public class CAction extends BanditObject {
   
   public ParseFile getActionPic() {
     return getParseFile("actionPic");
+  }
+  
+  private static final AbsBanditObject.Column[] COLUMNS = {
+    new Column("action", _DataType.String)
+  };
+
+  @Override public AbsBanditObject.Column get(
+      int columnPosition) {
+    return COLUMNS[columnPosition];
+  }
+
+  @Override public int getColumnCount() {
+    return COLUMNS.length;
   }
 }

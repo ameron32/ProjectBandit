@@ -1,16 +1,16 @@
 package com.ameron32.apps.projectbandit.core.fragment;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.drawable.Drawable;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,32 +22,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 import com.ameron32.apps.projectbandit.R;
-import com.ameron32.apps.projectbandit._retired.CharacterSelectorAdapter;
 import com.ameron32.apps.projectbandit.adapter.ContentAdapter;
 import com.ameron32.apps.projectbandit.manager.CharacterManager;
-import com.ameron32.apps.projectbandit.manager.GameManager;
-import com.ameron32.apps.projectbandit.manager.UserManager;
-import com.ameron32.apps.projectbandit.manager.CharacterManager.OnCharacterChangeListener;
 import com.ameron32.apps.projectbandit.manager.ContentManager;
-import com.ameron32.apps.projectbandit.manager.ContentManager.ContentItem;
+import com.ameron32.apps.projectbandit.manager.GameManager;
 import com.ameron32.apps.projectbandit.object.Character;
 import com.ameron32.apps.projectbandit.object.Game;
-import com.jess.ui.TwoWayGridView;
 import com.squareup.picasso.Picasso;
 
 public class NavigationDrawerFragment

@@ -1,38 +1,25 @@
 package com.ameron32.apps.projectbandit.core;
 
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 import butterknife.OnClick;
 
 import com.ameron32.apps.projectbandit.ChatService;
 import com.ameron32.apps.projectbandit.ChatService.MyBinder;
 import com.ameron32.apps.projectbandit.R;
-import com.ameron32.apps.projectbandit._retired.CharacterSelectorAdapter;
-import com.ameron32.apps.projectbandit.adapter.CharacterClickListener;
-import com.ameron32.apps.projectbandit.adapter.CharacterClickListener.OnCharacterClickListener;
-import com.ameron32.apps.projectbandit.adapter.CharacterSelectorAdapter_v2;
+import com.ameron32.apps.projectbandit.adapter.CharacterSelectorAdapter;
 import com.ameron32.apps.projectbandit.core.fragment.ChatManagerFragment;
 import com.ameron32.apps.projectbandit.core.fragment.NavigationDrawerFragment;
 import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment;
 import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment.OnResetCallbacks;
 import com.ameron32.apps.projectbandit.manager.UserManager;
-import com.jess.ui.TwoWayAdapterView;
-import com.jess.ui.TwoWayAdapterView.OnItemSelectedListener;
-import com.jess.ui.TwoWayGridView;
 import com.parse.ParseUser;
 
 public class ExpandedCoreActivity
@@ -84,7 +71,7 @@ public class ExpandedCoreActivity
   }
   
   public MyServiceConnection mConn;
-  private CharacterSelectorAdapter_v2 mAdapter;
+  private CharacterSelectorAdapter mAdapter;
   
   public static class MyServiceConnection
       implements ServiceConnection {

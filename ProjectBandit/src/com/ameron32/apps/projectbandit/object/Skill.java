@@ -8,7 +8,7 @@ import com.parse.ParseObject;
 
 
  @ParseClassName("CSkill3GURPS")
-public class Skill extends BanditObject implements Columnable<Skill.Column> {
+public class Skill extends AbsBanditObject<Skill.Column> {
 	
 	/*
 	 * OUTDATED:
@@ -112,7 +112,7 @@ public class Skill extends BanditObject implements Columnable<Skill.Column> {
 	}
 	*/
 
-  public static class Column extends BanditObject.Column {
+  public static class Column extends AbsBanditObject.Column {
     
     public Column(String key, _DataType dataType) {
       super(key, dataType);
@@ -197,20 +197,5 @@ public class Skill extends BanditObject implements Columnable<Skill.Column> {
 
   @Override public int getColumnCount() {
     return columns.length;
-  }
-
-  @Override public String getColumnHeader(
-      int columnPosition) {
-    return get(columnPosition).key;
-  }
-  
-  boolean isHeader = false;
-  @Override public void useAsHeaderView(
-      boolean b) {
-    isHeader = b;
-  }
-
-  @Override public boolean isHeaderView() {
-    return isHeader;
   }
 }

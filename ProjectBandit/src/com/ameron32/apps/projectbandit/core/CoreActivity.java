@@ -1,29 +1,21 @@
 package com.ameron32.apps.projectbandit.core;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 import com.ameron32.apps.projectbandit.R;
-import com.ameron32.apps.projectbandit._retired.CharacterSelectorAdapter;
 import com.ameron32.apps.projectbandit.core.fragment.NavigationDrawerFragment;
 import com.ameron32.apps.projectbandit.core.fragment.ToolbarFragment;
 import com.ameron32.apps.projectbandit.manager.ContentManager;
 import com.crashlytics.android.Crashlytics;
-import com.jess.ui.TwoWayGridView;
 
 public class CoreActivity extends
     ActionBarActivity

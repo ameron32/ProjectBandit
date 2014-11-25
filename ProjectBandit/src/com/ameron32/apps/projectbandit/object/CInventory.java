@@ -2,14 +2,16 @@ package com.ameron32.apps.projectbandit.object;
 
 import org.json.JSONArray;
 
+import com.ameron32.apps.projectbandit.object.AbsBanditObject.Column;
 import com.ameron32.lib.recyclertableview.TableAdapter.Columnable;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseRelation;
 
-@ParseClassName("CInventory") public class CInventory
-    extends BanditObject implements
-    Columnable<String> {
+@ParseClassName("CInventory") 
+public class CInventory
+  extends AbsBanditObject<AbsBanditObject.Column>
+{
   
   private int baseValue;
   private int currentDurability;
@@ -68,40 +70,53 @@ import com.parse.ParseRelation;
     return this;
   }
   
-  String[] columns = new String[] {
-      "name", "quantity", "baseValue",
-      "currentDurability",
-      "characterOwners" };
+//  String[] columns = new String[] {
+//      "name", "quantity", "baseValue",
+//      "currentDurability",
+//      "characterOwners" };
+//  
+//  @Override public String get(
+//      int columnPosition) {
+//    switch (columnPosition) {
+//    case 0:
+//      return this.getString(columns[columnPosition]);
+//    case 1:
+//    case 2:
+//    case 3:
+//      return this.getInt(columns[columnPosition]) + "";
+//    default:
+//      return "N/A";
+//    }
+//  }
+//  
+//  private boolean isHeader = false;
+//  @Override public void useAsHeaderView(boolean b) {
+//    isHeader = b;
+//  }
+//  
+//  @Override public boolean isHeaderView() {
+//    return isHeader;
+//  }
+//
+//  @Override public int getColumnCount() {
+//    return columns.length;
+//  }
+//
+//  @Override public String getColumnHeader(
+//      int columnPosition) {
+//    return columns[columnPosition];
+//  }
   
-  @Override public String get(
+  private static final AbsBanditObject.Column[] COLUMNS = {
+    new Column("name", _DataType.String)
+  };
+  
+  @Override public AbsBanditObject.Column get(
       int columnPosition) {
-    switch (columnPosition) {
-    case 0:
-      return this.getString(columns[columnPosition]);
-    case 1:
-    case 2:
-    case 3:
-      return this.getInt(columns[columnPosition]) + "";
-    default:
-      return "N/A";
-    }
+    return COLUMNS[columnPosition];
   }
   
-  private boolean isHeader = false;
-  @Override public void useAsHeaderView(boolean b) {
-    isHeader = b;
-  }
-  
-  @Override public boolean isHeaderView() {
-    return isHeader;
-  }
-
   @Override public int getColumnCount() {
-    return columns.length;
-  }
-
-  @Override public String getColumnHeader(
-      int columnPosition) {
-    return columns[columnPosition];
+    return COLUMNS.length;
   }
 }
