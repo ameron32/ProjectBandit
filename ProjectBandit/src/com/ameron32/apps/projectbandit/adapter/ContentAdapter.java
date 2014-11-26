@@ -5,6 +5,7 @@ import java.util.List;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,7 +17,7 @@ import com.ameron32.apps.projectbandit.manager.ContentManager;
 import com.ameron32.apps.projectbandit.manager.ContentManager.ContentItem;
 
 public class ContentAdapter
-    extends RecyclerView.Adapter<ContentAdapter.ViewHolder> {
+    extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
   
   private List<ContentItem> mData;
   private int mSelectedPosition;
@@ -28,17 +29,48 @@ public class ContentAdapter
     mData = data;
   }
   
-  @Override public ContentAdapter.ViewHolder onCreateViewHolder(
-      ViewGroup viewGroup, int i) {
-    View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_nav_text_drawer, viewGroup, false);
+  
+  private static final int TYPE_SPACER_HEADER = 0;
+  private static final int POSITION_SPACER_HEADER = 0;
+  private static final int TYPE_ITEM = 1;
+  
+  @Override public RecyclerView.ViewHolder onCreateViewHolder(
+      ViewGroup viewGroup, int viewType) {
+    LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+    if (viewType == TYPE_SPACER_HEADER) {
+      View v = inflater.inflate(R.layout.view_spacer, viewGroup, false);
+      return new HeaderViewHolder(v);
+    }
+    
+    View v = inflater.inflate(R.layout.row_nav_text_drawer, viewGroup, false);
     return new ViewHolder(v);
   }
   
+  @Override public int getItemViewType(
+      int position) {
+    if (isPositionHeader(position)) { return TYPE_SPACER_HEADER; }
+    return TYPE_ITEM;
+  }
+  
+  private boolean isPositionHeader(int position) {
+      return position == POSITION_SPACER_HEADER;
+  }
+
+  private ContentItem getItem(int itemPosition) {
+      return mData.get(itemPosition);
+  }
+  
   @Override public void onBindViewHolder(
-      ContentAdapter.ViewHolder holder,
-      final int position) {
-    holder.textView.setText(mData.get(position).title);
-    Drawable d = holder.textView.getContext().getResources().getDrawable(mData.get(position).imageResource);
+      RecyclerView.ViewHolder viewHolder,
+      int p) {
+    if (viewHolder instanceof HeaderViewHolder) {
+      return;
+    }
+    
+    ContentAdapter.ViewHolder holder = (ViewHolder) viewHolder;
+    final int position = p - 1;
+    holder.textView.setText(getItem(position).title);
+    Drawable d = holder.textView.getContext().getResources().getDrawable(getItem(position).imageResource);
     holder.textView.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
     
     holder.itemView.setOnTouchListener(new View.OnTouchListener() {
@@ -69,8 +101,7 @@ public class ContentAdapter
     });
     
     // TODO: selected menu position, change layout accordingly
-    if (mSelectedPosition == position
-        || mTouchedPosition == position) {
+    if (mSelectedPosition == position || mTouchedPosition == position) {
       holder.itemView.setBackgroundColor(holder.itemView.getContext().getResources().getColor(R.color.selected_gray));
     } else {
       holder.itemView.setBackgroundColor(Color.TRANSPARENT);
@@ -78,35 +109,42 @@ public class ContentAdapter
   }
   
   private void touchPosition(
-      int position) {
+      int itemPosition) {
     int lastPosition = mTouchedPosition;
-    mTouchedPosition = position;
+    mTouchedPosition = itemPosition;
+    Log.d("itt", lastPosition + " / " + itemPosition);
     if (lastPosition >= 0)
-      notifyItemChanged(lastPosition);
-    if (position >= 0)
-      notifyItemChanged(position);
+      notifyItemChanged(lastPosition+1);
+    if (itemPosition >= 0)
+      notifyItemChanged(itemPosition+1);
   }
   
   public void selectPosition(
-      int position) {
-    int previousPosition = mSelectedPosition;
-    mSelectedPosition = position;
-    notifyItemChanged(previousPosition);
-    notifyItemChanged(position);
+      int itemPosition) {
+    int prevItemPosition = mSelectedPosition;
+    mSelectedPosition = itemPosition;
+    Log.d("its", prevItemPosition + " / " + itemPosition);
+    notifyItemChanged(prevItemPosition+1);
+    notifyItemChanged(itemPosition+1);
   }
   
   @Override public int getItemCount() {
-    return mData != null ? mData.size()
-        : 0;
+    // +1 for header
+    return (mData != null ? mData.size() + 1 : 1);
   }
   
-  public static class ViewHolder extends
-      RecyclerView.ViewHolder {
+  public static class ViewHolder extends RecyclerView.ViewHolder {
     public TextView textView;
     
     public ViewHolder(View itemView) {
       super(itemView);
       textView = (TextView) itemView.findViewById(R.id.item_name);
+    }
+  }
+  
+  public static class HeaderViewHolder extends RecyclerView.ViewHolder {
+    public HeaderViewHolder(View itemView) {
+      super(itemView);
     }
   }
 }

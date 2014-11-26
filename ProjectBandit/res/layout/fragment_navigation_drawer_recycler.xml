@@ -4,62 +4,19 @@
     android:layout_height="match_parent"
     android:background="@color/myDrawerBackground" >
 
-    <ImageView
-        android:id="@+id/imageview_character_image_full_size"
-        android:layout_width="360dp"
-        android:layout_height="160dp" />
-
     <android.support.v7.widget.RecyclerView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/lv_navigation_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/imageview_character_image_full_size"
         android:background="@color/myDrawerBackground"
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:scrollbars="vertical" />
 
-    <ImageButton
-        android:id="@+id/imagebutton_navigation_drawer_up_arrow"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha" />
-
-    <ImageButton
-        android:id="@+id/imagebutton_navigation_drawer_logout"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_logout" />
-
-    <LinearLayout
-        android:id="@+id/layout_title_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/background_transparent_overlay_navigation_drawer"
-        android:layout_alignLeft="@+id/imageview_character_image_full_size"
-        android:layout_alignRight="@+id/imageview_character_image_full_size"
-        android:gravity="center"
-        android:layout_above="@+id/lv_navigation_list" >
-
-        <TextView
-            android:id="@+id/textview_character_navtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Character"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:id="@+id/textview_game_navtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="GAME" />
-
-    </LinearLayout>
+    <include layout="@layout/merg_nav_header"  
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>
