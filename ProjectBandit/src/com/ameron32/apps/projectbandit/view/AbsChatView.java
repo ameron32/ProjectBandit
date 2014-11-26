@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ameron32.apps.projectbandit.R;
-import com.ameron32.apps.projectbandit.adapter.fmwk.AbsMessageAdapter;
+import com.ameron32.apps.projectbandit.adapter.AbsMessageAdapter;
 import com.ameron32.apps.projectbandit.core.FrameRecyclerView;
 import com.ameron32.apps.projectbandit.manager.MessageManager;
 import com.ameron32.apps.projectbandit.manager.UserManager;
@@ -73,7 +73,7 @@ public abstract class AbsChatView extends
   }
   
   public void requeryMessagesFromServer() {
-    AbsMessageAdapter adapter = (AbsMessageAdapter) getAdapter();
+    AbsMessageAdapter adapter = getAdapter();
     adapter.loadObjects();
   }
   
@@ -92,13 +92,13 @@ public abstract class AbsChatView extends
   }
   
   private void registerAsListener() {
-    AbsMessageAdapter adapter = (AbsMessageAdapter) getAdapter();
+    AbsMessageAdapter adapter = getAdapter();
     adapter.addOnQueryLoadListener(this);
     MessageManager.get().addMessageListener(this);
   }
   
   private void unregisterAsListener() {
-    AbsMessageAdapter adapter = (AbsMessageAdapter) getAdapter();
+    AbsMessageAdapter adapter = getAdapter();
     adapter.removeOnQueryLoadListener(this);
     MessageManager.get().removeMessageListener(this);
   }
@@ -125,7 +125,7 @@ public abstract class AbsChatView extends
     
   }
   
-  @Override protected RecyclerView.Adapter<AbsMessageAdapter.ViewHolder> createAdapter(
+  @Override protected AbsMessageAdapter createAdapter(
       Context context) {
     // TODO Auto-generated method stub
     return null;

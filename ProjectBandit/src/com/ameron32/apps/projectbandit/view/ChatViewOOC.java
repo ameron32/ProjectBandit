@@ -7,8 +7,9 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ameron32.apps.projectbandit.adapter.AbsMessageAdapter;
+import com.ameron32.apps.projectbandit.adapter.AbsMessageAdapter.ViewHolder;
 import com.ameron32.apps.projectbandit.adapter.ChatViewOOCPQAdapter;
-import com.ameron32.apps.projectbandit.adapter.fmwk.AbsMessageAdapter.ViewHolder;
 
 public class ChatViewOOC extends AbsChatView {
   
@@ -35,7 +36,7 @@ public class ChatViewOOC extends AbsChatView {
 	}
 
 	@Override
-	protected Adapter<ViewHolder> createAdapter(Context context) {
+	protected AbsMessageAdapter createAdapter(Context context) {
 		return new ChatViewOOCPQAdapter(context);
 	}
 

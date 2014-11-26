@@ -10,6 +10,7 @@ import java.util.Locale;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.audiofx.Visualizer.OnDataCaptureListener;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,8 +39,8 @@ import com.squareup.picasso.Picasso;
 
 
 public abstract class AbsMessageAdapter
-    extends
-    RecyclerView.Adapter<AbsMessageAdapter.ViewHolder> {
+    extends RecyclerView.Adapter<AbsMessageAdapter.ViewHolder> 
+{
   
   
   
@@ -48,6 +49,7 @@ public abstract class AbsMessageAdapter
   private int systemLayout;
   private int gameLayout;
   private QueryFactory<Message> factory;
+
   
   public AbsMessageAdapter(
       Context context,
@@ -58,8 +60,31 @@ public abstract class AbsMessageAdapter
     this.itemLayout = itemLayout;
     this.systemLayout = systemLayout;
     this.gameLayout = gameLayout;
+    mListeners = new ArrayList<OnDataSetChangedListener>();
     
     loadObjects();
+  }
+  
+  private List<OnDataSetChangedListener> mListeners;
+  
+  public void addOnDataSetChangedListener(OnDataSetChangedListener listener) {
+    mListeners.add(listener);
+  }
+  
+  public void removeOnDataSetChangedListener(OnDataSetChangedListener listener) {
+    if (mListeners.contains(listener)) {
+      mListeners.remove(listener);
+    }
+  }
+  
+  private void fireOnDataSetChanged() {
+    for (int i = 0; i < mListeners.size(); i++) {
+      mListeners.get(i).onDataSetChanged();
+    }
+  }
+  
+  public interface OnDataSetChangedListener {
+    public void onDataSetChanged();
   }
   
   @Override public ViewHolder onCreateViewHolder(
@@ -175,6 +200,7 @@ public abstract class AbsMessageAdapter
         if (e == null) {
           items = messages;
           notifyDataSetChanged();
+          fireOnDataSetChanged();
         }
       }
     });

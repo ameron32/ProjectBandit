@@ -3,7 +3,7 @@ package com.ameron32.apps.projectbandit.adapter;
 import android.content.Context;
 
 import com.ameron32.apps.projectbandit.R;
-import com.ameron32.apps.projectbandit.adapter.fmwk.AbsMessageAdapter;
+import com.ameron32.apps.projectbandit.adapter.AbsMessageAdapter;
 import com.ameron32.apps.projectbandit.object.Message;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;

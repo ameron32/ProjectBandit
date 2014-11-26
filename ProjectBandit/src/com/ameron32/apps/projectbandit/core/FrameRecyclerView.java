@@ -1,7 +1,7 @@
 package com.ameron32.apps.projectbandit.core;
 
 import com.ameron32.apps.projectbandit.R;
-import com.ameron32.apps.projectbandit.adapter.fmwk.AbsMessageAdapter;
+import com.ameron32.apps.projectbandit.adapter.AbsMessageAdapter;
 import com.ameron32.lib.recyclertableview.TableAdapter;
 import com.ameron32.lib.recyclertableview.TableLayoutManager;
 
@@ -18,12 +18,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public abstract class FrameRecyclerView
-    extends RelativeLayout {
+    extends RelativeLayout 
+    implements AbsMessageAdapter.OnDataSetChangedListener 
+{
   
   private RecyclerView mRecyclerView;
   private final Context context;
   private LinearLayoutManager mLayoutManager;
-  private RecyclerView.Adapter<AbsMessageAdapter.ViewHolder> mAdapter;
+  private AbsMessageAdapter mAdapter;
   
   public FrameRecyclerView(
       Context context,
@@ -77,27 +79,14 @@ public abstract class FrameRecyclerView
     
     mAdapter = createAdapter(context);
     mRecyclerView.setAdapter(mAdapter);
-    
-    // mAdapter = new TableAdapter(null,
-    // // rootview must be TableRowLayout
-    // R.layout.simple_table_row_layout,
-    // // rootview must contain id
-    // R.layout.simple_table_cell_textview_container, R.id.textview);
-    // mRecyclerView.setAdapter(mAdapter);
-    
-    // mRecyclerView.addOnItemTouchListener(
-    // new TableLayoutManager.RecyclerCellClickListener(context,
-    // new TableLayoutManager.RecyclerCellClickListener.OnCellClickListener() {
-    //
-    // @Override public void onCellClick(
-    // View view, int rowPosition,
-    // int columnPosition) {
-    // // implement logic
-    // }
-    // }));
+    mAdapter.addOnDataSetChangedListener(this);
   }
   
-  protected abstract RecyclerView.Adapter<AbsMessageAdapter.ViewHolder> createAdapter(
+  @Override public void onDataSetChanged() {
+    mRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
+  }
+  
+  protected abstract AbsMessageAdapter createAdapter(
       Context context);
   
   protected void onDestroy() {}
@@ -105,10 +94,11 @@ public abstract class FrameRecyclerView
   protected void onCreate() {}
   
   public void destroy() {
+    mAdapter.removeOnDataSetChangedListener(this);
     onDestroy();
   }
   
-  protected RecyclerView.Adapter<AbsMessageAdapter.ViewHolder> getAdapter() {
+  protected AbsMessageAdapter getAdapter() {
     return mAdapter;
   }
   

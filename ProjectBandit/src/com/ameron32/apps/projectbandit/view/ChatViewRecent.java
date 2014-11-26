@@ -13,8 +13,9 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.parse.ParseObject;
+import com.ameron32.apps.projectbandit.adapter.AbsMessageAdapter.ViewHolder;
+import com.ameron32.apps.projectbandit.adapter.AbsMessageAdapter;
 import com.ameron32.apps.projectbandit.adapter.ChatViewRecentPQAdapter;
-import com.ameron32.apps.projectbandit.adapter.fmwk.AbsMessageAdapter.ViewHolder;
 import com.ameron32.apps.projectbandit.manager.GameManager;
 import com.ameron32.apps.projectbandit.object.Game;
 
@@ -43,7 +44,7 @@ public class ChatViewRecent extends AbsChatView {
 	}
 
 	@Override
-	protected Adapter<ViewHolder> createAdapter(Context context) {
+	protected AbsMessageAdapter createAdapter(Context context) {
 		return new ChatViewRecentPQAdapter(context);
 	}
 

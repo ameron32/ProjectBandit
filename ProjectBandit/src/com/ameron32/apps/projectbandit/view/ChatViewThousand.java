@@ -7,8 +7,9 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ameron32.apps.projectbandit.adapter.AbsMessageAdapter.ViewHolder;
+import com.ameron32.apps.projectbandit.adapter.AbsMessageAdapter;
 import com.ameron32.apps.projectbandit.adapter.ChatViewThousandPQAdapter;
-import com.ameron32.apps.projectbandit.adapter.fmwk.AbsMessageAdapter.ViewHolder;
 
 public class ChatViewThousand extends
     AbsChatView {
@@ -45,7 +46,7 @@ public class ChatViewThousand extends
   }
   
   
-  @Override protected Adapter<ViewHolder> createAdapter(
+  @Override protected AbsMessageAdapter createAdapter(
       Context context) {
     return new ChatViewThousandPQAdapter(context);
   }
