@@ -12,7 +12,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-public class GameManager {
+public class GameManager extends AbsManager {
   
   private static final String TAG = GameManager.class.getSimpleName();
   private static final boolean TOAST = false;
@@ -38,6 +38,13 @@ public class GameManager {
   protected GameManager() {}
   
   public void initialize(final OnGameManagerInitializationCompleteListener listener) {
+    initialize();
+    if (listener != null) {
+      listener.onGameManagerInitializationComplete();
+    }
+  }
+  
+  public void initialize() {
     try {
       List<User> gamemasters = currentGame.getGM();
       if (LOG) {
@@ -55,13 +62,10 @@ public class GameManager {
           isCurrentUserGM = true;
         }
       }
-      
-      if (listener != null) {
-        listener.onGameManagerInitializationComplete();
-      }
     } catch (ParseException e) {
       e.printStackTrace();
     }
+    setInitialized(true);
   }
   
   public void selectAGame(

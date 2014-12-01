@@ -24,7 +24,7 @@ import com.ameron32.apps.projectbandit.core.trial.SkillsTestFragment;
 import com.ameron32.apps.projectbandit.core.trial.StatsTestFragment;
 import com.ameron32.apps.projectbandit.core.trial.TableTestFragment;
 
-public class ContentManager {
+public class ContentManager extends AbsManager {
   
   private static ContentManager contentManager;
   
@@ -45,10 +45,10 @@ public class ContentManager {
   
   private ContentManager() {}
   
-  
-  private void initialize() {
+  public void initialize() {
     listeners = new ArrayList<OnContentChangeListener>();
     contentItems = createContentItems();
+    setInitialized(true);
   }
   
   private List<ContentItem> createContentItems() {

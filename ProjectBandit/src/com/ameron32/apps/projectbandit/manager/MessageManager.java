@@ -8,7 +8,7 @@ import com.ameron32.apps.projectbandit.SaveObjectAsyncTask.OnSaveCallbacks;
 import com.ameron32.apps.projectbandit.object.Message;
 import com.parse.ParseException;
 
-public class MessageManager {
+public class MessageManager extends AbsManager {
   
   private static MessageManager messageManager;
   
@@ -22,6 +22,10 @@ public class MessageManager {
   }
   
   private List<MessageListener> listeners;
+  
+  public void initialize() {
+    setInitialized(true);
+  }
   
   public void addMessageListener(MessageListener listener) {
     if (listeners == null) {

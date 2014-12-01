@@ -19,6 +19,9 @@ import com.ameron32.apps.projectbandit.core.fragment.ChatManagerFragment;
 import com.ameron32.apps.projectbandit.core.fragment.NavigationDrawerFragment;
 import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment;
 import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment.OnResetCallbacks;
+import com.ameron32.apps.projectbandit.manager.AbsManager;
+import com.ameron32.apps.projectbandit.manager.CharacterManager;
+import com.ameron32.apps.projectbandit.manager.GameManager;
 import com.ameron32.apps.projectbandit.manager.UserManager;
 import com.parse.ParseUser;
 
@@ -46,8 +49,15 @@ public class ExpandedCoreActivity
     super.onCreate(savedInstanceState);
     loadSavedState(savedInstanceState);
     
-    loadChatFragment();
-    setChatFragmentVisibleState(isChatManagerHidden);
+    if (!isCoreInitializationComplete()) {
+      CharacterManager.get().initialize();
+      UserManager.get().initialize();
+      GameManager.get().initialize();
+    }
+  }
+  
+  private boolean isCoreInitializationComplete() {
+    return AbsManager.isInitializationComplete(CharacterManager.get(), UserManager.get(), GameManager.get());
   }
   
   private void loadSavedState(
@@ -124,15 +134,19 @@ public class ExpandedCoreActivity
   }
   
   private void hideChatFragment() {
+    if (mChatFragment != null) {
     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
     ft.setCustomAnimations(R.anim.slide_in_right, android.R.anim.slide_out_right);
     ft.hide(mChatFragment).commit();
+    }
   }
   
   private void showChatFragment() {
+    if (mChatFragment != null) {
     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
     ft.setCustomAnimations(R.anim.slide_in_right, android.R.anim.slide_out_right);
     ft.show(mChatFragment).commit();
+    }
   }
   
   @OnClick(R.id.button_toggle_show_hide) public void toggleChatManagerFragment() {
@@ -148,6 +162,8 @@ public class ExpandedCoreActivity
   
   @Override protected void onResume() {
     super.onResume();
+    loadChatFragment();
+    setChatFragmentVisibleState(isChatManagerHidden);
     startChatService();
   }
   

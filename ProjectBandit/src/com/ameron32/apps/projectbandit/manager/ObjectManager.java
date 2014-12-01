@@ -5,7 +5,7 @@ import com.ameron32.apps.projectbandit.object.CInventory;
 import com.parse.FindCallback;
 import com.parse.ParseQuery;
 
-public class ObjectManager {
+public class ObjectManager extends AbsManager {
   
   public static ObjectManager objectManager;
   
@@ -17,6 +17,10 @@ public class ObjectManager {
   }
   
   private ObjectManager() {}
+  
+  public void initialize() {
+    setInitialized(true);
+  }
   
   public static void destroy() {
     objectManager = null;

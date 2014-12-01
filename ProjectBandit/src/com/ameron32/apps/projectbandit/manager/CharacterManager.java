@@ -13,7 +13,7 @@ import com.ameron32.apps.projectbandit.adapter._QueryManager;
 import com.ameron32.apps.projectbandit.manager.ContentManager.OnContentChangeListener;
 import com.ameron32.apps.projectbandit.object.Character;
 
-public class CharacterManager {
+public class CharacterManager extends AbsManager {
   protected static final String TAG = CharacterManager.class.getSimpleName();
   
   private static CharacterManager characterManager;
@@ -25,10 +25,15 @@ public class CharacterManager {
     return characterManager;
   }
   
-  private OnCharacterManagerInitializationCompleteListener mInitializationListener;
   public void initialize(
       final OnCharacterManagerInitializationCompleteListener listener) {
-    mInitializationListener = listener;
+    initialize();
+    if (listener != null) {
+      listener.onCharacterManagerInitializationComplete();
+    }
+  }
+  
+  public void initialize() {
     try {
       if (mCurrentCharacter == null) {
         findPlayableCharacters();
@@ -39,10 +44,7 @@ public class CharacterManager {
     } catch (ParseException e) {
       e.printStackTrace();
     }
-    if (mInitializationListener != null) {
-      mInitializationListener.onCharacterManagerInitializationComplete();
-      mInitializationListener = null;
-    }
+    setInitialized(true);
   }
   
   private void findPlayableCharacters() throws ParseException {

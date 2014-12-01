@@ -6,8 +6,6 @@ import butterknife.ButterKnife.Finder;
 
 public class GameFragment$$ViewInjector {
   public static void inject(Finder finder, final com.ameron32.apps.projectbandit.core.trial.GameFragment target, Object source) {
-    com.ameron32.apps.projectbandit.core.fragment.AbsContentFragment$$ViewInjector.inject(finder, target, source);
-
     View view;
     view = finder.findRequiredView(source, 2131296456, "field 'gm'");
     target.gm = (com.ameron32.library.floatingtext.FloatingHintTextView) view;
@@ -20,8 +18,6 @@ public class GameFragment$$ViewInjector {
   }
 
   public static void reset(com.ameron32.apps.projectbandit.core.trial.GameFragment target) {
-    com.ameron32.apps.projectbandit.core.fragment.AbsContentFragment$$ViewInjector.reset(target);
-
     target.gm = null;
     target.players = null;
     target.user = null;

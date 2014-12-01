@@ -195,10 +195,14 @@ public class ChatManagerFragment
     characterAdapter.addOnQueryLoadListener(new OnQueryLoadListener<Character>() {
 
       @Override public void onLoaded(
-          List<Character> arg0,
-          Exception arg1) {
-        int selection = CharacterManager.get().getChatCharacterPosition();
-        characterSpinner.setSelection(selection, false);
+          List<Character> character,
+          Exception e) {
+        if (e == null) {
+          int selection = CharacterManager.get().getChatCharacterPosition();
+          if (characterSpinner != null) {
+            characterSpinner.setSelection(selection, false);
+          }
+        }
       }
 
       @Override public void onLoading() {

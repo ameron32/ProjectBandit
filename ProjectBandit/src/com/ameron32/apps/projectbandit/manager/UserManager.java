@@ -15,7 +15,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 
-public class UserManager {
+public class UserManager extends AbsManager {
   
   private static UserManager userManager = null;
   
@@ -28,23 +28,26 @@ public class UserManager {
   
   public void initialize(
       final OnUserManagerInitializationCompleteListener listener) {
+    initialize();
+    if (listener != null) {
+      listener.onUserManagerInitializationComplete();
+    }
+  }
+  
+  public void initialize() {
     Character lastChatCharacter = getCurrentUser().getLastChatCharacter();
     if (lastChatCharacter == null) {
-      if (listener != null) {
-        listener.onUserManagerInitializationComplete();
-      }
+
       return;
     }
-
+    
     // lastChatCharacter is not null
     try {
       Character lcc = lastChatCharacter.fetchIfNeeded();
-      if (listener != null) {
-        listener.onUserManagerInitializationComplete();
-      }
     } catch (ParseException e) {
       e.printStackTrace();
     }
+    setInitialized(true);
   }
   
   public interface OnUserManagerInitializationCompleteListener {
