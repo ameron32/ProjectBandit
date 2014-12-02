@@ -57,4 +57,8 @@ public abstract class AbsBanditObject<T extends AbsBanditObject.Column>
   @Override public boolean isHeaderView() {
     return isHeader;
   }
+  
+  public String getName() {
+    return this.getString("name");
+  }
 }

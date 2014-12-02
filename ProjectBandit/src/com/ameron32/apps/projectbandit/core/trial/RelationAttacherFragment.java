@@ -7,12 +7,16 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnFocusChangeListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.ameron32.apps.projectbandit.MultiSelectSpinner;
 import com.ameron32.apps.projectbandit.R;
@@ -122,7 +126,9 @@ public class RelationAttacherFragment
   }
   
   private void init() {
+    
     final EditText object1TypeET = (EditText) getActivity().findViewById(R.id.edittext_parse_objects_1);
+    
     object1TypeET.setOnFocusChangeListener(new OnFocusChangeListener() {
       
       @Override public void onFocusChange(
@@ -130,59 +136,27 @@ public class RelationAttacherFragment
         if (!hasFocus
             && (v.getId() == R.id.edittext_parse_objects_1)) {
           EditText objectTypeEditText = (EditText) v;
-          String type = objectTypeEditText.getText().toString();
-          Log.e("RELATION", "type: "
-              + type);
-          if (type.equals("_User")) {
-            ParseQuery<ParseUser> userQuery = new ParseQuery<ParseUser>(type);
-            userQuery.orderByAscending("username");
-            userQuery.findInBackground(new FindCallback<ParseUser>() {
-              
-              @Override public void done(
-                  List<ParseUser> objects,
-                  ParseException e) {
-                if (e == null
-                    && objects.size() > 0) {
-                  List<String> names = new ArrayList<String>();
-                  for (ParseUser user : objects) {
-                    names.add(user.getString("username"));
-                  }
-                  
-                  MultiSelectSpinner objectSpinner = (MultiSelectSpinner) getActivity().findViewById(R.id.mss_query_objects_1);
-                  items1s = names.toArray(new String[names.size()]);
-                  objectSpinner.setItems(items1s);
-                  Log.d("PIA", "ready");
-                }
-              }
-            });
-          } else {
-            ParseQuery<ParseObject> objectQuery = new ParseQuery<ParseObject>(type);
-            objectQuery.orderByAscending("name");
-            objectQuery.findInBackground(new FindCallback<ParseObject>() {
-              
-              @Override public void done(
-                  List<ParseObject> objects,
-                  ParseException e) {
-                if (e == null
-                    && objects.size() > 0) {
-                  List<String> names = new ArrayList<String>();
-                  for (ParseObject object : objects) {
-                    names.add(object.getString("name"));
-                  }
-                  
-                  MultiSelectSpinner objectSpinner = (MultiSelectSpinner) getActivity().findViewById(R.id.mss_query_objects_1);
-                  items1s = names.toArray(new String[names.size()]);
-                  objectSpinner.setItems(items1s);
-                  Log.d("PIA", "ready");
-                }
-              }
-            });
-          }
+          refreshDropDownList(objectTypeEditText);
         }
       }
     });
     
+    object1TypeET.setOnEditorActionListener(new OnEditorActionListener() {
+      
+      @Override public boolean onEditorAction(
+          TextView v, int actionId,
+          KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_NEXT) {
+          EditText objectTypeEditText = (EditText) v;
+          refreshDropDownList(objectTypeEditText);
+          return true;
+        }
+        return false;
+      }
+    });
+    
     final EditText object2TypeET = (EditText) getActivity().findViewById(R.id.edittext_parse_objects_2);
+    
     object2TypeET.setOnFocusChangeListener(new OnFocusChangeListener() {
       
       @Override public void onFocusChange(
@@ -190,59 +164,131 @@ public class RelationAttacherFragment
         if (!hasFocus
             && (v.getId() == R.id.edittext_parse_objects_2)) {
           EditText objectTypeEditText = (EditText) v;
-          String type = objectTypeEditText.getText().toString();
-          Log.e("RELATION", "type: "
-              + type);
-          if (type.equals("_User")) {
-            ParseQuery<ParseUser> userQuery = new ParseQuery<ParseUser>(type);
-            userQuery.orderByAscending("username");
-            userQuery.findInBackground(new FindCallback<ParseUser>() {
-              
-              @Override public void done(
-                  List<ParseUser> objects,
-                  ParseException e) {
-                if (e == null
-                    && objects.size() > 0) {
-                  List<String> names = new ArrayList<String>();
-                  for (ParseUser user : objects) {
-                    names.add(user.getString("username"));
-                  }
-                  
-                  MultiSelectSpinner objectSpinner = (MultiSelectSpinner) getActivity().findViewById(R.id.mss_query_objects_2);
-                  items2s = names.toArray(new String[names.size()]);
-                  objectSpinner.setItems(items2s);
-                  Log.d("PIA", "ready");
-                }
-              }
-            });
-          } else {
-            ParseQuery<ParseObject> objectQuery = new ParseQuery<ParseObject>(type);
-            objectQuery.orderByAscending("name");
-            objectQuery.findInBackground(new FindCallback<ParseObject>() {
-              
-              @Override public void done(
-                  List<ParseObject> objects,
-                  ParseException e) {
-                if (e == null
-                    && objects.size() > 0) {
-                  List<String> names = new ArrayList<String>();
-                  for (ParseObject object : objects) {
-                    names.add(object.getString("name"));
-                  }
-                  
-                  MultiSelectSpinner objectSpinner = (MultiSelectSpinner) getActivity().findViewById(R.id.mss_query_objects_2);
-                  items2s = names.toArray(new String[names.size()]);
-                  objectSpinner.setItems(items2s);
-                  Log.d("PIA", "ready");
-                }
-              }
-            });
-          }
+          refreshDropDownList2(objectTypeEditText);
         }
+      }
+    });
+    
+    object2TypeET.setOnEditorActionListener(new OnEditorActionListener() {
+      
+      @Override public boolean onEditorAction(
+          TextView v, int actionId,
+          KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_NEXT) {
+          EditText objectTypeEditText = (EditText) v;
+          refreshDropDownList(objectTypeEditText);
+          return true;
+        }
+        return false;
       }
     });
   }
 
+  private void refreshDropDownList(EditText objectTypeEditText) {
+    
+    String type = objectTypeEditText.getText().toString();
+    Log.e("RELATION", "type: "
+        + type);
+    if (type.equals("_User")) {
+      ParseQuery<ParseUser> userQuery = new ParseQuery<ParseUser>(type);
+      userQuery.orderByAscending("username");
+      userQuery.findInBackground(new FindCallback<ParseUser>() {
+        
+        @Override public void done(
+            List<ParseUser> objects,
+            ParseException e) {
+          if (e == null
+              && objects.size() > 0) {
+            List<String> names = new ArrayList<String>();
+            for (ParseUser user : objects) {
+              names.add(user.getString("username"));
+            }
+            
+            MultiSelectSpinner objectSpinner = (MultiSelectSpinner) getActivity().findViewById(R.id.mss_query_objects_1);
+            items1s = names.toArray(new String[names.size()]);
+            objectSpinner.setItems(items1s);
+            Log.d("PIA", "ready");
+          }
+        }
+      });
+    } else {
+      ParseQuery<ParseObject> objectQuery = new ParseQuery<ParseObject>(type);
+      objectQuery.orderByAscending("name");
+      objectQuery.findInBackground(new FindCallback<ParseObject>() {
+        
+        @Override public void done(
+            List<ParseObject> objects,
+            ParseException e) {
+          if (e == null
+              && objects.size() > 0) {
+            List<String> names = new ArrayList<String>();
+            for (ParseObject object : objects) {
+              names.add(object.getString("name"));
+            }
+            
+            MultiSelectSpinner objectSpinner = (MultiSelectSpinner) getActivity().findViewById(R.id.mss_query_objects_1);
+            items1s = names.toArray(new String[names.size()]);
+            objectSpinner.setItems(items1s);
+            Log.d("PIA", "ready");
+          }
+        }
+      });
+    }
+  }
+  
+  private void refreshDropDownList2(EditText objectTypeEditText) {
+
+    String type = objectTypeEditText.getText().toString();
+    Log.e("RELATION", "type: "
+        + type);
+    if (type.equals("_User")) {
+      ParseQuery<ParseUser> userQuery = new ParseQuery<ParseUser>(type);
+      userQuery.orderByAscending("username");
+      userQuery.findInBackground(new FindCallback<ParseUser>() {
+        
+        @Override public void done(
+            List<ParseUser> objects,
+            ParseException e) {
+          if (e == null
+              && objects.size() > 0) {
+            List<String> names = new ArrayList<String>();
+            for (ParseUser user : objects) {
+              names.add(user.getString("username"));
+            }
+            
+            MultiSelectSpinner objectSpinner = (MultiSelectSpinner) getActivity().findViewById(R.id.mss_query_objects_2);
+            items2s = names.toArray(new String[names.size()]);
+            objectSpinner.setItems(items2s);
+            Log.d("PIA", "ready");
+          }
+        }
+      });
+    } else {
+      ParseQuery<ParseObject> objectQuery = new ParseQuery<ParseObject>(type);
+      objectQuery.orderByAscending("name");
+      objectQuery.findInBackground(new FindCallback<ParseObject>() {
+        
+        @Override public void done(
+            List<ParseObject> objects,
+            ParseException e) {
+          if (e == null
+              && objects.size() > 0) {
+            List<String> names = new ArrayList<String>();
+            for (ParseObject object : objects) {
+              names.add(object.getString("name"));
+            }
+            
+            MultiSelectSpinner objectSpinner = (MultiSelectSpinner) getActivity().findViewById(R.id.mss_query_objects_2);
+            items2s = names.toArray(new String[names.size()]);
+            objectSpinner.setItems(items2s);
+            Log.d("PIA", "ready");
+          }
+        }
+      });
+    }
+  
+  }
+  
   @Override public int provideClickViewId() {
     return R.id.button_attach;
   }

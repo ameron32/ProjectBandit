@@ -1,9 +1,13 @@
 package com.ameron32.apps.projectbandit.manager;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import android.util.Log;
 
+import com.ameron32.apps.projectbandit.object.Game;
+import com.ameron32.apps.projectbandit.object.User;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -21,6 +25,15 @@ public class _ParseUtils {
       sb.append(obj.getString(useKey));
     }
     return sb.toString();
+  }
+  
+  public static List<String> toListOfStrings(List<? extends ParseObject> list, String key) {
+    List<String> strings = new ArrayList<String>();
+    for (int i = 0; i < list.size(); i++) {
+      ParseObject o = list.get(i);
+      strings.add(o.getString(key));
+    }
+    return strings;
   }
   
   public static ParseObject addUserRelationToObject(String object1Type, String object1Name, String relation, String user2Type, String user2Name) {
@@ -57,5 +70,14 @@ public class _ParseUtils {
       Log.d("PIA", relation + " [" + object2Name + "{" +object2Type+ "} into " + object1Name + "{" +object1Type+ "}] failed");
     }
     return targetCharacter1;
+  }
+  
+  public static void addPlayerToGame(User user, Game game) {
+    addRelation(user, "players", game);
+  }
+  
+  private static void addRelation(ParseObject object, String relation, ParseObject objectToAdd) {
+    ParseRelation<ParseObject> relation1 = object.getRelation(relation);
+    relation1.add(objectToAdd);
   }
 }

@@ -17,6 +17,7 @@
             style="@style/Widget.FloatingHintEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
             android:ems="10"
             android:hint="ParseObject" >
 
@@ -34,6 +35,7 @@
             style="@style/Widget.FloatingHintEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
             android:ems="10"
             android:hint="Relation" />
 
@@ -42,6 +44,7 @@
             style="@style/Widget.FloatingHintEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
             android:ems="10"
             android:hint="ObjectsToAttach" />
 

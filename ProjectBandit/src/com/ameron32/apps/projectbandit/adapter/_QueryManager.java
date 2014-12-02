@@ -18,6 +18,7 @@ import com.ameron32.apps.projectbandit.object.Character;
 import com.ameron32.apps.projectbandit.object.Game;
 import com.ameron32.apps.projectbandit.object.Item;
 import com.ameron32.apps.projectbandit.object.Message;
+import com.ameron32.apps.projectbandit.object.User;
 import com.parse.FindCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -274,6 +275,27 @@ public class _QueryManager {
     
     public static ParseQuery<Item> getAllInventory() {
       ParseQuery<Item> query = create();
+      
+      setLimit(query, 1000);
+      
+      return query;
+    }
+  }
+  
+  public static class _User {
+    
+    private static ParseQuery<User> create() {
+      return new ParseQuery<User>(User.class);
+    }
+
+    public static ParseQuery<User> getUsersQuery() {
+      ParseQuery<User> query = create();
+      
+      return query;
+    }
+    
+    public static ParseQuery<User> getAllUsers() {
+      ParseQuery<User> query = create();
       
       setLimit(query, 1000);
       

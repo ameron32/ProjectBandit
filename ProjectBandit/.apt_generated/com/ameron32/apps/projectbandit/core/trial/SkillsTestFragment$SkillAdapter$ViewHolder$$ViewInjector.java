@@ -9,10 +9,10 @@ public class SkillsTestFragment$SkillAdapter$ViewHolder$$ViewInjector {
     View view;
     view = finder.findRequiredView(source, 2131296431, "field 'objectId'");
     target.objectId = (android.widget.TextView) view;
-    view = finder.findRequiredView(source, 2131296439, "field 'name'");
-    target.name = (android.widget.TextView) view;
     view = finder.findRequiredView(source, 2131296430, "field 'createdTime'");
     target.createdTime = (android.widget.TextView) view;
+    view = finder.findRequiredView(source, 2131296439, "field 'name'");
+    target.name = (android.widget.TextView) view;
     view = finder.findRequiredView(source, 2131296440, "field 'description'");
     target.description = (android.widget.TextView) view;
     view = finder.findRequiredView(source, 2131296441, "field 'skillImage'");
@@ -21,8 +21,8 @@ public class SkillsTestFragment$SkillAdapter$ViewHolder$$ViewInjector {
 
   public static void reset(com.ameron32.apps.projectbandit.core.trial.SkillsTestFragment.SkillAdapter.ViewHolder target) {
     target.objectId = null;
-    target.name = null;
     target.createdTime = null;
+    target.name = null;
     target.description = null;
     target.skillImage = null;
   }

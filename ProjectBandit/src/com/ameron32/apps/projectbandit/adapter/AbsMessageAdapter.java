@@ -91,6 +91,25 @@ public abstract class AbsMessageAdapter
 //    public void onDataSetChanged();
 //  }
   
+  
+  private static final int MESSAGE_TYPE_GAME = 2;
+  private static final int MESSAGE_TYPE_SYSTEM = 1;
+  private static final int MESSAGE_TYPE_STANDARD = 0;
+  
+  @Override public int getItemViewType(
+      int position) {
+    Message message = getItem(position);
+    String messageType = message.getString("type");
+    if (messageType != null && messageType.equals("System")) {
+      return MESSAGE_TYPE_SYSTEM;
+    } 
+    else
+    if (message.getCharacter().isPlayable()) {
+      return MESSAGE_TYPE_GAME;
+    }
+    return MESSAGE_TYPE_STANDARD;
+  }
+  
   @Override public ViewHolder onCreateViewHolder(
       ViewGroup parent, int viewType) {
     
@@ -112,23 +131,6 @@ public abstract class AbsMessageAdapter
     
     v = LayoutInflater.from(parent.getContext()).inflate(itemLayout, parent, false);
     return new ViewHolder(v);
-  }
-  
-  private static final int MESSAGE_TYPE_GAME = 2;
-  private static final int MESSAGE_TYPE_SYSTEM = 1;
-  private static final int MESSAGE_TYPE_STANDARD = 0;
-  @Override public int getItemViewType(
-      int position) {
-    Message message = getItem(position);
-    String messageType = message.getString("type");
-    if (messageType != null && messageType.equals("System")) {
-      return MESSAGE_TYPE_SYSTEM;
-    } 
-    else
-    if (message.getCharacter().isPlayable()) {
-      return MESSAGE_TYPE_GAME;
-    }
-    return MESSAGE_TYPE_STANDARD;
   }
   
   @Override public void onBindViewHolder(
