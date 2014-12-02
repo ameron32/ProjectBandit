@@ -46,8 +46,7 @@
                 android:layout_width="@dimen/chat_manager_width"
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/toolbar_actionbar_container" />
+                android:layout_alignParentRight="true" />
 
             <ImageButton
                 android:id="@+id/button_toggle_show_hide"
@@ -63,7 +62,7 @@
 
         <fragment
             android:id="@+id/navigation_drawer"
-            android:name="com.ameron32.apps.projectbandit.core.fragment.TextNavigationDrawerFragment"
+            android:name="com.ameron32.apps.projectbandit.core.fragment.NavigationDrawerFragment"
             android:layout_width="@dimen/navigation_drawer_width"
             android:layout_height="match_parent"
             android:layout_gravity="start"

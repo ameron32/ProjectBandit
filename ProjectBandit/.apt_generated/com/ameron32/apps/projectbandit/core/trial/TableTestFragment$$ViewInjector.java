@@ -6,6 +6,8 @@ import butterknife.ButterKnife.Finder;
 
 public class TableTestFragment$$ViewInjector {
   public static void inject(Finder finder, final com.ameron32.apps.projectbandit.core.trial.TableTestFragment target, Object source) {
+    com.ameron32.apps.projectbandit.core.fragment.AbsContentFragment$$ViewInjector.inject(finder, target, source);
+
     View view;
     view = finder.findRequiredView(source, 2131296387, "field 'mHeaderView'");
     target.mHeaderView = (android.widget.FrameLayout) view;
@@ -14,6 +16,8 @@ public class TableTestFragment$$ViewInjector {
   }
 
   public static void reset(com.ameron32.apps.projectbandit.core.trial.TableTestFragment target) {
+    com.ameron32.apps.projectbandit.core.fragment.AbsContentFragment$$ViewInjector.reset(target);
+
     target.mHeaderView = null;
     target.mRecyclerView = null;
   }

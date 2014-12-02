@@ -11,10 +11,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter.QueryFactory;
 
-public abstract class 
-ParseRecyclerQueryAdapter<T extends ParseObject, U extends RecyclerView.ViewHolder>
-    extends
-    RecyclerView.Adapter<U>
+public abstract class ParseRecyclerQueryAdapter<T extends ParseObject, U extends RecyclerView.ViewHolder>
+    extends RecyclerView.Adapter<U>
 {
 
   
@@ -25,6 +23,8 @@ ParseRecyclerQueryAdapter<T extends ParseObject, U extends RecyclerView.ViewHold
   public ParseRecyclerQueryAdapter(final QueryFactory<T> factory) {
     this.factory = factory;
     this.items = new ArrayList<T>();
+    mListeners = new ArrayList<OnDataSetChangedListener>();
+    
     loadObjects();
   }
   
@@ -73,8 +73,9 @@ ParseRecyclerQueryAdapter<T extends ParseObject, U extends RecyclerView.ViewHold
           ParseException e) {
         if (e == null) {
           items = queriedItems;
-          notifyDataSetChanged();
           dispatchOnLoaded(queriedItems, e);
+          notifyDataSetChanged();
+          fireOnDataSetChanged();
         }
       }
     });
@@ -82,7 +83,27 @@ ParseRecyclerQueryAdapter<T extends ParseObject, U extends RecyclerView.ViewHold
   
   
   
+  public interface OnDataSetChangedListener {
+    public void onDataSetChanged();
+  }
   
+  private List<OnDataSetChangedListener> mListeners;
+  
+  public void addOnDataSetChangedListener(OnDataSetChangedListener listener) {
+    mListeners.add(listener);
+  }
+  
+  public void removeOnDataSetChangedListener(OnDataSetChangedListener listener) {
+    if (mListeners.contains(listener)) {
+      mListeners.remove(listener);
+    }
+  }
+  
+  protected void fireOnDataSetChanged() {
+    for (int i = 0; i < mListeners.size(); i++) {
+      mListeners.get(i).onDataSetChanged();
+    }
+  }
   
   public interface OnQueryLoadListener<T> {
     
@@ -92,30 +113,30 @@ ParseRecyclerQueryAdapter<T extends ParseObject, U extends RecyclerView.ViewHold
     public void onLoading();
   }
   
-  private List<OnQueryLoadListener<T>> listeners = new ArrayList<OnQueryLoadListener<T>>();
+  private List<OnQueryLoadListener<T>> mQueryListeners = new ArrayList<OnQueryLoadListener<T>>();
   
   public void addOnQueryLoadListener(
       OnQueryLoadListener<T> listener) {
-    if (!(listeners.contains(listener))) {
-      listeners.add(listener);
+    if (!(mQueryListeners.contains(listener))) {
+      mQueryListeners.add(listener);
     }
   }
   
   public void removeOnQueryLoadListener(
       OnQueryLoadListener<T> listener) {
-    if (listeners.contains(listener)) {
-      listeners.remove(listener);
+    if (mQueryListeners.contains(listener)) {
+      mQueryListeners.remove(listener);
     }
   }
   
   private void dispatchOnLoading() {
-    for (OnQueryLoadListener<T> l : listeners) {
+    for (OnQueryLoadListener<T> l : mQueryListeners) {
       l.onLoading();
     }
   }
   
   private void dispatchOnLoaded(List<T> objects, ParseException e) {
-    for (OnQueryLoadListener<T> l : listeners) {
+    for (OnQueryLoadListener<T> l : mQueryListeners) {
       l.onLoaded(objects, e);
     }
   }

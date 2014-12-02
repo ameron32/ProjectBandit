@@ -60,6 +60,7 @@ public class _QueryManager {
       withinCurrentGame_CurrentSession(query);
       orderNewestFirst(query);
       recentOnly(query);
+      setLimit(query, 1000);
       standardIncludes(query);
       
       return query;
@@ -70,7 +71,7 @@ public class _QueryManager {
       
       withinCurrentGame_CurrentSession(query);
       orderNewestFirst(query);
-      setLimit(query, 100);
+      setLimit(query, 1000);
       standardIncludes(query);
       
       query.whereMatchesQuery("character", _Character.getOOCQuery());
@@ -84,6 +85,7 @@ public class _QueryManager {
       withinCurrentGame_All(query);
       orderNewestFirst(query);
       storyOnly(query);
+      setLimit(query, 1000);
       standardIncludes(query);
       
       return query;
@@ -106,6 +108,7 @@ public class _QueryManager {
       withinCurrentGame_CurrentSession(query);
       orderNewestFirst(query);
       since(query, ChatService.getLastSystemTimeWhenAppOff());
+      setLimit(query, 1000);
       standardIncludes(query);
       
       return query;

@@ -24,6 +24,7 @@ import butterknife.Optional;
 
 import com.ameron32.apps.projectbandit.Loggy;
 import com.ameron32.apps.projectbandit.R;
+import com.ameron32.apps.projectbandit.adapter.fmwk.ParseRecyclerQueryAdapter;
 import com.ameron32.apps.projectbandit.object.Message;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -39,53 +40,56 @@ import com.squareup.picasso.Picasso;
 
 
 public abstract class AbsMessageAdapter
-    extends RecyclerView.Adapter<AbsMessageAdapter.ViewHolder> 
+    extends
+      ParseRecyclerQueryAdapter<Message, AbsMessageAdapter.ViewHolder>
+//    RecyclerView.Adapter<AbsMessageAdapter.ViewHolder> 
 {
   
   
   
-  private List<Message> items = new ArrayList<Message>();
+//  private List<Message> items = new ArrayList<Message>();
+//  private QueryFactory<Message> factory;
   private int itemLayout;
   private int systemLayout;
   private int gameLayout;
-  private QueryFactory<Message> factory;
 
   
   public AbsMessageAdapter(
       Context context,
       QueryFactory<Message> factory,
       int itemLayout, int systemLayout, int gameLayout) {
+	  super(factory);
     this.context = context;
-    this.factory = factory;
+//    this.factory = factory;
     this.itemLayout = itemLayout;
     this.systemLayout = systemLayout;
     this.gameLayout = gameLayout;
-    mListeners = new ArrayList<OnDataSetChangedListener>();
+//    mListeners = new ArrayList<OnDataSetChangedListener>();
     
-    loadObjects();
+//    loadObjects();
   }
   
-  private List<OnDataSetChangedListener> mListeners;
-  
-  public void addOnDataSetChangedListener(OnDataSetChangedListener listener) {
-    mListeners.add(listener);
-  }
-  
-  public void removeOnDataSetChangedListener(OnDataSetChangedListener listener) {
-    if (mListeners.contains(listener)) {
-      mListeners.remove(listener);
-    }
-  }
-  
-  private void fireOnDataSetChanged() {
-    for (int i = 0; i < mListeners.size(); i++) {
-      mListeners.get(i).onDataSetChanged();
-    }
-  }
-  
-  public interface OnDataSetChangedListener {
-    public void onDataSetChanged();
-  }
+//  private List<OnDataSetChangedListener> mListeners;
+//  
+//  public void addOnDataSetChangedListener(OnDataSetChangedListener listener) {
+//    mListeners.add(listener);
+//  }
+//  
+//  public void removeOnDataSetChangedListener(OnDataSetChangedListener listener) {
+//    if (mListeners.contains(listener)) {
+//      mListeners.remove(listener);
+//    }
+//  }
+//  
+//  private void fireOnDataSetChanged() {
+//    for (int i = 0; i < mListeners.size(); i++) {
+//      mListeners.get(i).onDataSetChanged();
+//    }
+//  }
+//  
+//  public interface OnDataSetChangedListener {
+//    public void onDataSetChanged();
+//  }
   
   @Override public ViewHolder onCreateViewHolder(
       ViewGroup parent, int viewType) {
@@ -115,7 +119,7 @@ public abstract class AbsMessageAdapter
   private static final int MESSAGE_TYPE_STANDARD = 0;
   @Override public int getItemViewType(
       int position) {
-    Message message = items.get(position);
+    Message message = getItem(position);
     String messageType = message.getString("type");
     if (messageType != null && messageType.equals("System")) {
       return MESSAGE_TYPE_SYSTEM;
@@ -132,22 +136,22 @@ public abstract class AbsMessageAdapter
     
     switch(getItemViewType(position)) {
     case MESSAGE_TYPE_SYSTEM:
-      getSystemItemView(items.get(position), holder.itemView);
+      getSystemItemView(getItem(position), holder.itemView);
       break;
     case MESSAGE_TYPE_GAME:
-      bindItemView(items.get(position), holder);
+      bindItemView(getItem(position), holder);
       break;
     case MESSAGE_TYPE_STANDARD:
-      bindItemView(items.get(position), holder);
+      bindItemView(getItem(position), holder);
       break;
     default:
       // none yet
     }
   }
   
-  @Override public int getItemCount() {
-    return items.size();
-  }
+//  @Override public int getItemCount() {
+//    return items.size();
+//  }
   
   public static class ViewHolder extends
       RecyclerView.ViewHolder {
@@ -191,20 +195,20 @@ public abstract class AbsMessageAdapter
   
   private final Context context;
   
-  public void loadObjects() {
-    factory.create().findInBackground(new FindCallback<Message>() {
-      
-      @Override public void done(
-          List<Message> messages,
-          ParseException e) {
-        if (e == null) {
-          items = messages;
-          notifyDataSetChanged();
-          fireOnDataSetChanged();
-        }
-      }
-    });
-  }
+//  public void loadObjects() {
+//    factory.create().findInBackground(new FindCallback<Message>() {
+//      
+//      @Override public void done(
+//          List<Message> messages,
+//          ParseException e) {
+//        if (e == null) {
+//          items = messages;
+//          notifyDataSetChanged();
+////          fireOnDataSetChanged();
+//        }
+//      }
+//    });
+//  }
 
   
   // Customize the layout by overriding getItemView
@@ -448,29 +452,29 @@ public abstract class AbsMessageAdapter
   
   
   
-  public interface OnQueryLoadListener<T> {
-    
-    public void onLoaded(
-        List<T> objects, Exception e);
-    
-    public void onLoading();
-  }
-  
-  private List<OnQueryLoadListener> listeners = new ArrayList<OnQueryLoadListener>();
-  
-  public void addOnQueryLoadListener(
-      OnQueryLoadListener listener) {
-    if (!(listeners.contains(listener))) {
-      listeners.add(listener);
-    }
-  }
-  
-  public void removeOnQueryLoadListener(
-      OnQueryLoadListener listener) {
-    if (listeners.contains(listener)) {
-      listeners.remove(listener);
-    }
-  }
+//  public interface OnQueryLoadListener<T> {
+//    
+//    public void onLoaded(
+//        List<T> objects, Exception e);
+//    
+//    public void onLoading();
+//  }
+//  
+//  private List<OnQueryLoadListener> listeners = new ArrayList<OnQueryLoadListener>();
+//  
+//  public void addOnQueryLoadListener(
+//      OnQueryLoadListener listener) {
+//    if (!(listeners.contains(listener))) {
+//      listeners.add(listener);
+//    }
+//  }
+//  
+//  public void removeOnQueryLoadListener(
+//      OnQueryLoadListener listener) {
+//    if (listeners.contains(listener)) {
+//      listeners.remove(listener);
+//    }
+//  }
   
   
   
