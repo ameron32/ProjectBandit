@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <com.ameron32.apps.projectbandit.MultiSelectSpinner
+    <com.ameron32.apps.projectbandit.MultiSelectObjectSpinner
         android:id="@+id/mss_query_results"
         style="@style/multiselectspinner_tall"
         android:layout_alignParentRight="true"

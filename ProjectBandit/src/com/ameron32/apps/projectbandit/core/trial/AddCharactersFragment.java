@@ -14,21 +14,19 @@ import butterknife.InjectView;
 
 import com.ameron32.apps.projectbandit.MultiSelectObjectSpinner;
 import com.ameron32.apps.projectbandit.MultiSelectObjectSpinner.Item;
-import com.ameron32.apps.projectbandit.MultiSelectSpinner;
 import com.ameron32.apps.projectbandit.R;
 import com.ameron32.apps.projectbandit.adapter._QueryManager;
 import com.ameron32.apps.projectbandit.manager.GameManager;
 import com.ameron32.apps.projectbandit.manager._ParseUtils;
+import com.ameron32.apps.projectbandit.object.Character;
 import com.ameron32.apps.projectbandit.object.Game;
 import com.ameron32.apps.projectbandit.object.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
 
 
-public class AddPlayersFragment extends
+public class AddCharactersFragment extends
     AbsResettingContentFragment
     implements
     AbsResettingContentFragment.OnPerformTaskListener,
@@ -37,7 +35,7 @@ public class AddPlayersFragment extends
   
   
   @InjectView(R.id.button_save) Button saveButton;
-  @InjectView(R.id.mss_query_results) MultiSelectObjectSpinner<User> mPlayers;
+  @InjectView(R.id.mss_query_results) MultiSelectObjectSpinner<Character> mPlayers;
   @InjectView(R.id.edittext_filter) EditText mFilter;
   
   
@@ -67,27 +65,27 @@ public class AddPlayersFragment extends
   
   private void loadMSS() {
     final String filter = mFilter.getText().toString();
-    _QueryManager._User.getAllUsers()
-        .whereStartsWith("username", filter)
-        .findInBackground(new FindCallback<User>() {
+    _QueryManager._Character.getAllLibraryCharacters()
+        .whereStartsWith("name", filter)
+        .findInBackground(new FindCallback<Character>() {
       
       @Override public void done(
-          List<User> users,
+          List<Character> characters,
           ParseException e) {
         if (e == null) {
 //          List<String> strings = _ParseUtils.toListOfStrings(users, "username");
-          mPlayers.setItems(makeItems(users));
+          mPlayers.setItems(makeItems(characters));
         }
       }
     });
   }
   
-  private List<Item<User>> makeItems(List<User> users) {
-    List<Item<User>> items = new ArrayList<Item<User>>();
-    for (int i = 0; i < users.size(); i++) {
-      User user = users.get(i);
-      Item<User> userWrapper = new Item<User>(user.getUsername(), user);
-      items.add(userWrapper);
+  private List<Item<Character>> makeItems(List<Character> characters) {
+    List<Item<Character>> items = new ArrayList<Item<Character>>();
+    for (int i = 0; i < characters.size(); i++) {
+      Character character = characters.get(i);
+      Item<Character> characterWrapper = new Item<Character>(character.getName(), character);
+      items.add(characterWrapper);
     }
     return items;
   }
@@ -106,11 +104,12 @@ public class AddPlayersFragment extends
   
   @Override public void doTaskInBackground() {
     try {
-      List<String> selectedStrings = mPlayers.getSelectedStrings();
-      List<User> users = ParseQuery.getQuery(User.class).whereContainsAll("username", selectedStrings).find();
+      List<Character> characters = mPlayers.getSelectedItems();
+//      List<Character> characters = ParseQuery.getQuery(Character.class).whereContainsAll("name", selectedStrings).find();
       Game currentGame = GameManager.get().getCurrentGame();
-      for (User u : users) {
-        _ParseUtils.addPlayerToGame(u, currentGame);
+      for (Character c : characters) {
+        _ParseUtils.addGameToCharacter(c, currentGame);
+        c.save();
       }
     } catch (ParseException e) {
       e.printStackTrace();

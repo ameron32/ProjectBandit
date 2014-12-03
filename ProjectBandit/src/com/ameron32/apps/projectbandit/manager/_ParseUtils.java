@@ -1,13 +1,13 @@
 package com.ameron32.apps.projectbandit.manager;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import android.util.Log;
 
 import com.ameron32.apps.projectbandit.object.Game;
 import com.ameron32.apps.projectbandit.object.User;
+import com.ameron32.apps.projectbandit.object.Character;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -72,8 +72,14 @@ public class _ParseUtils {
     return targetCharacter1;
   }
   
-  public static void addPlayerToGame(User user, Game game) {
+  public static Game addPlayerToGame(User user, Game game) {
     addRelation(user, "players", game);
+    return game;
+  }
+  
+  public static Character addGameToCharacter(Character character, Game game) {
+    addRelation(character, "ofGame", game);
+    return character;
   }
   
   private static void addRelation(ParseObject object, String relation, ParseObject objectToAdd) {

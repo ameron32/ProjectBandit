@@ -24,6 +24,10 @@ public class Game extends AbsBanditObject<AbsBanditObject.Column> {
     return getString("name");
   }
   
+  public String getDescription() {
+    return getString("description");
+  }
+  
   
   
   public void getGMInBackground(FindCallback<User> callback) {

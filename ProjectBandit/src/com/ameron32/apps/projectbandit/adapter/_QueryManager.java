@@ -154,6 +154,14 @@ public class _QueryManager {
       return query;
     }
     
+    public static ParseQuery<Character> getAllLibraryCharacters() {
+      final ParseQuery<Character> query = create();
+      
+      orderPlayableLast_AZ(query);
+      
+      return query;
+    }
+    
     public static ParseQuery<Character> getChatCharacters() {
       final ParseQuery<Character> query = create();
       

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -20,6 +21,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
   class ViewHolder extends RecyclerView.ViewHolder {
 
     @InjectView(android.R.id.button1) Button button;
+    @InjectView(R.id.textview_description) TextView description;
     
     public ViewHolder(View itemView) {
       super(itemView);
@@ -43,6 +45,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
       ViewHolder holder, int position) {
     final Game game = mGames.get(position);
     holder.button.setText(game.getName());
+    holder.description.setText(game.getDescription());
     holder.itemView.setOnClickListener(new OnClickListener() {
       
       /**
