@@ -65,6 +65,7 @@ public class GatewayActivity extends
      * LOGIN. WILL ABORT--finish()--IF CANCELLED.
      */
     if (!UserManager.get().isLoggedIn()) {
+      UserManager.destroy();
       GameManager.destroy();
       CharacterManager.destroy();
       ObjectManager.destroy();
@@ -169,7 +170,6 @@ public class GatewayActivity extends
           }
         }
       });
-      
     }
   }
   
@@ -213,7 +213,7 @@ public class GatewayActivity extends
   }
   
   private void changeGame(Game game) {
-    GameManager.changeGame(game);
+    GameManager.get().changeGame(game);
     performLoading();
   }
   

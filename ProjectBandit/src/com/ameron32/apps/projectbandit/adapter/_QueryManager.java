@@ -220,6 +220,7 @@ public class _QueryManager {
       ParseQuery<Game> query = create();
       
       currentUserIsPlayer(query);
+      orderAZ(query);
       
       return query;
     }

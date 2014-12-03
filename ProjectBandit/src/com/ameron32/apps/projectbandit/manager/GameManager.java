@@ -27,9 +27,8 @@ public class GameManager extends AbsManager {
     return gameManager;
   }
   
-  public static void changeGame(
-      Game newGame) {
-    gameManager.currentGame = newGame;
+  public static void destroy() {
+    gameManager = null;
   }
   
   private Game currentGame;
@@ -68,6 +67,11 @@ public class GameManager extends AbsManager {
     setInitialized(true);
   }
   
+  public void changeGame(
+      Game newGame) {
+    currentGame = newGame;
+  }
+  
   public void selectAGame(
       FindCallback<Game> callback) {
     _QueryManager._Game.getCurrentGamesQuery().findInBackground(callback);
@@ -83,10 +87,6 @@ public class GameManager extends AbsManager {
     // IllegalStateException("Must initialize a game. Use GameManager#initialize.");
     // }
     return currentGame;
-  }
-  
-  public static void destroy() {
-    gameManager = null;
   }
   
   public interface OnGameManagerInitializationCompleteListener {

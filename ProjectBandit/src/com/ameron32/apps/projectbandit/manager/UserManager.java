@@ -26,6 +26,8 @@ public class UserManager extends AbsManager {
     return userManager;
   }
   
+  List<Game> gamesUserIsPlayer = new ArrayList<Game>();
+  
   public void initialize(
       final OnUserManagerInitializationCompleteListener listener) {
     initialize();
@@ -63,8 +65,6 @@ public class UserManager extends AbsManager {
     // currentUser.getObjectId());
     return currentUser;
   }
-  
-  List<Game> gamesUserIsPlayer = new ArrayList<Game>();
   
   public void setGamesOfCurrentUser(
       List<Game> games) {

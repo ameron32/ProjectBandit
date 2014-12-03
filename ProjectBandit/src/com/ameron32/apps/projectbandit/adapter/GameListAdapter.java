@@ -29,6 +29,25 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
     }
   }
 
+  public static class GameClickListener implements OnClickListener {
+  
+    private Game mGame;
+    private GameChangeListener mListener;
+  
+    public GameClickListener(Game game, GameChangeListener listener) {
+      mGame = game;
+      mListener = listener;
+    }
+    
+    @Override public void onClick(View v) {
+      mListener.onGameChange(mGame);
+    }
+  }
+
+  public interface GameChangeListener {
+    public void onGameChange(Game game);
+  }
+
   private List<Game> mGames;
   private GameChangeListener mListener;
   
@@ -40,31 +59,20 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
   @Override public int getItemCount() {
     return mGames.size();
   }
-
-  @Override public void onBindViewHolder(
-      ViewHolder holder, int position) {
-    final Game game = mGames.get(position);
-    holder.button.setText(game.getName());
-    holder.description.setText(game.getDescription());
-    holder.itemView.setOnClickListener(new OnClickListener() {
-      
-      /**
-       * TODO: Convert to OnItemClickListener in GatewayActivity
-       */
-      @Override public void onClick(View v) {
-        mListener.onGameChange(game);
-      }
-    });
-  }
-
+  
   @Override public ViewHolder onCreateViewHolder(
       ViewGroup parent, int viewType) {
     View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_game_listitem_textview, parent, false);
     ViewHolder holder = new ViewHolder(v);
     return holder;
   }
-  
-  public interface GameChangeListener {
-    public void onGameChange(Game game);
+
+  @Override public void onBindViewHolder(
+      ViewHolder holder, int position) {
+    final Game game = mGames.get(position);
+    holder.button.setText(game.getName());
+    holder.description.setText(game.getDescription());
+    holder.itemView.setOnClickListener(new GameClickListener(game, mListener));
+    holder.button.setOnClickListener(new GameClickListener(game, mListener));
   }
 }
