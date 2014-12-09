@@ -167,7 +167,7 @@ public class _QueryManager {
       
       withinCurrentGame_All(query);
       currentUserIsOwner(query);
-      orderPlayableLast_AZ(query);
+      orderNPCLast_AZ(query);
       
       return query;
     }
@@ -178,14 +178,23 @@ public class _QueryManager {
       withinCurrentGame_All(query);
       currentUserIsOwner(query);
       playableCharactersOnly(query);
-      orderAZ(query);
+      orderNPCLast_AZ(query);
+//      orderAZ(query);
       
       return query;
     }
     
     private static void orderPlayableLast_AZ(
         ParseQuery<Character> query) {
-      query.orderByDescending("ooc");
+      query.orderByAscending("ooc");
+//      query.addAscendingOrder("isNPC");
+      query.addAscendingOrder("name");
+    }
+    
+    private static void orderNPCLast_AZ(
+        ParseQuery<Character> query) {
+      query.orderByAscending("isNPC");
+      query.addAscendingOrder("ooc");
       query.addAscendingOrder("name");
     }
     

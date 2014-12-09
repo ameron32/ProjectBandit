@@ -303,4 +303,8 @@ public class Character
       return Character.makeCharacter(this, callback);
     }
   }
+
+  public String getProfilePicUrl() {
+    return this.getString("profilePicUrl");
+  }
 }

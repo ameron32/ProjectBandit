@@ -17,13 +17,13 @@ import com.ameron32.apps.projectbandit.core.fragment.ToolbarFragment;
 import com.ameron32.apps.projectbandit.manager.ContentManager;
 import com.crashlytics.android.Crashlytics;
 
-public class CoreActivity extends
-    ActionBarActivity
-    implements
-    ContentManager.OnContentChangeListener,
-    ToolbarFragment.OnToolbarFragmentCallbacks {
+public class CoreActivity 
+    extends ActionBarActivity
+    implements 
+      ContentManager.OnContentChangeListener,
+      ToolbarFragment.OnToolbarFragmentCallbacks 
+{
   
-  // @InjectView(R.id.drawer_layout)
   DrawerLayout mDrawerLayout;
   private Toolbar mToolbar;
   
@@ -56,9 +56,8 @@ public class CoreActivity extends
   
   @Override public void onToolbarCreated(
       Toolbar toolbar) {
-    Log.d("Core", "onToolbarCreated()");
+//    Log.d("Core", "onToolbarCreated()");
 
-//    mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
     mToolbar = toolbar;
     setSupportActionBar(mToolbar);
     getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -120,9 +119,9 @@ public class CoreActivity extends
     return super.onCreateOptionsMenu(menu);
   }
 
-  private void inflateCoreMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.core, menu);
-  }
+//  private void inflateCoreMenu(Menu menu) {
+//    getMenuInflater().inflate(R.menu.core, menu);
+//  }
   
   @Override public boolean onOptionsItemSelected(
       MenuItem item) {
@@ -133,9 +132,4 @@ public class CoreActivity extends
     if (id == R.id.action_settings) { return true; }
     return super.onOptionsItemSelected(item);
   }
-//  
-//  private final Context getActivityContext() {
-//    return CoreActivity.this;
-//  }
-  
 }

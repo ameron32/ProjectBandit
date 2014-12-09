@@ -4,6 +4,9 @@ import com.ameron32.apps.projectbandit.R;
 import com.ameron32.apps.projectbandit.adapter.CharacterClickListener;
 import com.ameron32.apps.projectbandit.adapter.CharacterSelectorAdapter;
 import com.ameron32.apps.projectbandit.adapter.CharacterClickListener.OnCharacterClickListener;
+import com.ameron32.apps.projectbandit.manager.CharacterManager;
+import com.ameron32.apps.projectbandit.manager.CharacterManager.OnCharacterChangeListener;
+import com.ameron32.apps.projectbandit.object.Character;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,8 +19,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ToolbarFragment extends
-    Fragment {
+public class ToolbarFragment 
+    extends Fragment 
+    implements OnCharacterChangeListener 
+{
   
   private Toolbar mToolbar;
   private CharacterSelectorAdapter mAdapter;
@@ -57,7 +62,6 @@ public class ToolbarFragment extends
   private void addCharacterIcons_v2(
       Toolbar toolbar) {
     final Context context = getActivity();
-    
     mCharacterRecyclerView.setHasFixedSize(true);
     
     LinearLayoutManager mLayoutManager = new LinearLayoutManager(context);
@@ -93,5 +97,29 @@ public class ToolbarFragment extends
   
   public interface OnToolbarFragmentCallbacks {
     public void onToolbarCreated(Toolbar toolbar);
+  }
+  
+  @Override public void onResume() {
+    super.onResume();
+    CharacterManager.get().addOnCharacterChangeListener(this);
+  }
+  
+  @Override public void onPause() {
+    super.onPause();
+    CharacterManager.get().removeOnCharacterChangeListener(this);
+  }
+
+  @Override public void onCharacterChange(
+      CharacterManager manager,
+      Character newCharacter) {
+    // TODO When Characters change, Toolbar doesn't know
+    
+  }
+
+  @Override public void onChatCharacterChange(
+      CharacterManager manager,
+      Character newCharacter) {
+    // TODO Auto-generated method stub
+    
   }
 }

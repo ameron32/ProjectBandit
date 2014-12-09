@@ -2,15 +2,12 @@ package com.ameron32.apps.projectbandit.adapter;
 
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.audiofx.Visualizer.OnDataCaptureListener;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,8 +22,8 @@ import butterknife.Optional;
 import com.ameron32.apps.projectbandit.Loggy;
 import com.ameron32.apps.projectbandit.R;
 import com.ameron32.apps.projectbandit.adapter.fmwk.ParseRecyclerQueryAdapter;
+import com.ameron32.apps.projectbandit.object.Character;
 import com.ameron32.apps.projectbandit.object.Message;
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -176,12 +173,9 @@ public abstract class AbsMessageAdapter
     public ParseImageView characterImageView; 
     @Optional @InjectView(R.id.imageview_action)
     public ParseImageView actionImageView; 
-
-//    public View itemView;
     
     public ViewHolder(View v) {
       super(v);
-//      this.itemView = v;
       ButterKnife.inject(this, v);
     }
   }
@@ -238,10 +232,10 @@ public abstract class AbsMessageAdapter
     String time = new SimpleDateFormat("h:mm aa M/d/yyyy", Locale.US).format(createdAt);
     
     // ParseUser user;
-    int logID = 0;
-    if (LOG) {
-      logID = Loggy.start("getItemView()--fetch");
-    }
+//    int logID = 0;
+//    if (LOG) {
+//      logID = Loggy.start("getItemView()--fetch");
+//    }
     
     pullAdditionalQueryData(objectId, 
         vh.usernameText, 
@@ -251,7 +245,7 @@ public abstract class AbsMessageAdapter
         vh.actionImageView, 
         messageObject);
     
-    if (LOG) Loggy.stop(logID);
+//    if (LOG) Loggy.stop(logID);
     
     vh.messageText.setText(messageStr + "");
     vh.channelText.setText(channel + "");
@@ -570,10 +564,9 @@ public abstract class AbsMessageAdapter
       if (characterText == null) {
         // listview has moved on
         if (LOG)
-          Log.d(TAG, "characterText or imageView is null: ["
+          Log.d(TAG, "characterText is null: ["
               + characterText
-              + "],["
-              + imageView + "]");
+              + "]");
         return;
       }
       
@@ -602,13 +595,21 @@ public abstract class AbsMessageAdapter
       }
       
       // CHARACTER PIC -- IMAGE
-      ParseFile characterPic = characterObject.getParseFile("profilePic");
-      if (characterPic == null) {
-        Log.d("MPQA", "characterPic is null");
+      if (imageView == null) {
         return;
       }
       
-      if (imageView == null) {
+      ParseFile characterPic = characterObject.getParseFile("profilePic");
+      Character character = (Character) characterObject;
+      String profilePicUrl = character.getProfilePicUrl();
+      if (characterPic == null && profilePicUrl == null) {
+        Log.d("MPQA", "characterPic & profilePicUrl are null");
+        return;
+      }
+      
+      if (characterPic == null) {
+        Log.d("MPQA", "characterPic is null, using profilePicUrl");
+        Picasso.with(context).load(profilePicUrl).into(imageView);
         return;
       }
       

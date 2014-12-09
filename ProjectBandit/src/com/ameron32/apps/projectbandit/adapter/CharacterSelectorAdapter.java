@@ -28,8 +28,9 @@ import com.parse.ParseQueryAdapter;
 import com.parse.ParseQueryAdapter.QueryFactory;
 import com.squareup.picasso.Picasso;
 
-public class CharacterSelectorAdapter extends
-    RecyclerView.Adapter<CharacterSelectorAdapter.ViewHolder> {
+public class CharacterSelectorAdapter 
+    extends RecyclerView.Adapter<CharacterSelectorAdapter.ViewHolder> 
+{
   
   class ViewHolder extends RecyclerView.ViewHolder {
 

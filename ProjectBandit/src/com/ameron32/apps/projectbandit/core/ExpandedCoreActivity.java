@@ -29,15 +29,14 @@ public class ExpandedCoreActivity
     extends CoreActivity
     // TODO remove if unneeded
     implements
-    NavigationDrawerFragment.NavigationDrawerCallbacks,
-    ChatManagerFragment.OnChatManagerListener,
-    OnResetCallbacks 
+      NavigationDrawerFragment.NavigationDrawerCallbacks,
+      ChatManagerFragment.OnChatManagerListener,
+      OnResetCallbacks 
 {
   
   private static final String STATE_CHAT_VISIBLE = "state_chat_fragment_visibility";
   private static final String CURRENT_CHATVIEW_POSITION_KEY = "CurrentViewPosition";
   
-//  private ToolbarFragment mToolbarFragment;
   private ChatManagerFragment mChatFragment;
   
   private boolean isChatManagerHidden;
@@ -127,7 +126,6 @@ public class ExpandedCoreActivity
       boolean visible) {
     if (visible) {
       hideChatFragment();
-      // chatFragment = ChatManagerFragment.newInstance(null, null);
     } else {
       showChatFragment();
     }
@@ -193,10 +191,6 @@ public class ExpandedCoreActivity
   private void logout() {
     startGatewayActivityAndLogout();
   }
-//  
-//  private final Context getActivityContext() {
-//    return ExpandedCoreActivity.this;
-//  }
   
   @Override public void onRequestReset(
     AbsResettingContentFragment fragment) {
