@@ -56,7 +56,7 @@ public abstract class ParseRecyclerQueryAdapter<T extends ParseObject, U extends
     return items.size();
   }
   
-  protected T getItem(int position) { return items.get(position); }
+  public T getItem(int position) { return items.get(position); }
 
   protected void onFilterQuery(ParseQuery<T> query) { 
     // provide override for filtering query
@@ -140,4 +140,6 @@ public abstract class ParseRecyclerQueryAdapter<T extends ParseObject, U extends
       l.onLoaded(objects, e);
     }
   }
+  
+  
 }

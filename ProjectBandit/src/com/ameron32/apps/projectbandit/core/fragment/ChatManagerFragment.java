@@ -23,6 +23,7 @@ import com.ameron32.apps.projectbandit.SaveObjectAsyncTask;
 import com.ameron32.apps.projectbandit.adapter.ChatCActionSpinnerAdapter;
 import com.ameron32.apps.projectbandit.adapter.ChatCharacterSpinnerAdapter;
 import com.ameron32.apps.projectbandit.adapter.ChatViewPagerAdapter;
+import com.ameron32.apps.projectbandit.adapter.fmwk.ParseRecyclerQueryAdapter;
 import com.ameron32.apps.projectbandit.manager.CharacterManager;
 import com.ameron32.apps.projectbandit.manager.MessageManager;
 import com.ameron32.apps.projectbandit.manager.CharacterManager.OnCharacterChangeListener;
@@ -208,7 +209,8 @@ public class ChatManagerFragment
       @Override public void onLoading() {
         // none
       }});;
-
+    characterSpinner.setSelection(1);
+    
     
     final ParseQueryAdapter<CAction> actionAdapter = new ChatCActionSpinnerAdapter(getActivity());
     actionAdapter.setTextKey("action");
