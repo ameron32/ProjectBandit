@@ -41,7 +41,7 @@ public class _QueryManager {
     if (parseClassName.equalsIgnoreCase("Item")) {
       FindCallback<Item> cCallback = (FindCallback<Item>) callback;
       // TODO: ItemManager().get().queryAllItems(cCallback); ?
-      _QueryManager._Item.getAllInventory().findInBackground(cCallback);
+      _QueryManager._Item.getFullItemQuery().findInBackground(cCallback);
     } else { 
       if (LOG) {
         final String eMessage = "getDefaultQuery(): parseClassName does not correspond to an appropriate default query";
@@ -157,6 +157,15 @@ public class _QueryManager {
     public static ParseQuery<Character> getAllLibraryCharacters() {
       final ParseQuery<Character> query = create();
       
+      orderPlayableLast_AZ(query);
+      
+      return query;
+    }
+    
+    public static ParseQuery<Character> getAllLibraryCharactersInCurrentGame() {
+      final ParseQuery<Character> query = create();
+      
+      withinCurrentGame_All(query);
       orderPlayableLast_AZ(query);
       
       return query;
@@ -288,15 +297,29 @@ public class _QueryManager {
     public static ParseQuery<Item> getItemQuery() {
       ParseQuery<Item> query = create();
       
+      withinCurrentGame_All(query);
+      setLimit(query, 1000);
+      
       return query;
     }
     
-    public static ParseQuery<Item> getAllInventory() {
+    public static ParseQuery<Item> getFullItemQuery() {
       ParseQuery<Item> query = create();
       
       setLimit(query, 1000);
       
       return query;
+    }
+    
+    private static void withinCurrentGame_All(
+        ParseQuery<? extends ParseObject> query) {
+      Game game = null;
+      game = GameManager.get().getCurrentGame();
+      if (game != null) {
+        query.whereEqualTo("usableInGame", game);
+      } else {
+        query.whereDoesNotExist("usableInGame");
+      }
     }
   }
   

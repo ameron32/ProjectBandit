@@ -28,15 +28,18 @@
             android:id="@+id/b_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/cb_verify"
-            android:text="Submit" />
+            android:text="Submit"
+            android:layout_below="@+id/cb_verify" />
 
         <CheckBox
             android:id="@+id/cb_verify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Add to this Game"
             android:checked="false" />
+
     </RelativeLayout>
 
 </RelativeLayout>

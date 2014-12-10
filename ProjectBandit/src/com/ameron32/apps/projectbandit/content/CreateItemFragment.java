@@ -1,27 +1,25 @@
 package com.ameron32.apps.projectbandit.content;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.Toast;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 import com.ameron32.apps.projectbandit.MultiSelectSpinner;
 import com.ameron32.apps.projectbandit.R;
 import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment;
-import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment.OnPerformTaskListener;
-import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment.TaskWorker;
+import com.ameron32.apps.projectbandit.manager.GameManager;
+import com.ameron32.apps.projectbandit.manager._ParseUtils;
 import com.ameron32.apps.projectbandit.object.Item;
 import com.parse.ParseException;
-import com.parse.SaveCallback;
 
 
 /**
@@ -66,8 +64,11 @@ public class CreateItemFragment
     return R.layout.fragment_create_item;
   }
   
+  @InjectView(R.id.cb_verify) CheckBox addToGame;
+  
   public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    ButterKnife.inject(this, view);
     mRootView = view;
     
     Spinner spinnerItemTypes = (Spinner) mRootView.findViewById(R.id.s_item_type);
@@ -168,6 +169,9 @@ public class CreateItemFragment
       Item.Type type = Item.Type.valueOfIgnoreCase(string);
       Item.Builder builder = Item.Builder.getNewItem(type).from(mRootView).loadView();
       Item createdItem = builder.create();
+      if (addToGame.isChecked()) {
+        _ParseUtils.addItemToGame(createdItem, GameManager.get().getCurrentGame());
+      }
       createdItem.save();
       if (LOG)
         Log.i(TAG, "item created & saved.");

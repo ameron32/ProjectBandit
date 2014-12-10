@@ -5,9 +5,10 @@ import java.util.List;
 
 import android.util.Log;
 
-import com.ameron32.apps.projectbandit.object.Game;
-import com.ameron32.apps.projectbandit.object.User;
 import com.ameron32.apps.projectbandit.object.Character;
+import com.ameron32.apps.projectbandit.object.Game;
+import com.ameron32.apps.projectbandit.object.Item;
+import com.ameron32.apps.projectbandit.object.User;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -85,5 +86,10 @@ public class _ParseUtils {
   private static void addRelation(ParseObject object, String relation, ParseObject objectToAdd) {
     ParseRelation<ParseObject> relation1 = object.getRelation(relation);
     relation1.add(objectToAdd);
+  }
+  
+  public static void addItemToGame(Item item, Game game) {
+    ParseRelation<Game> relation = item.getRelation("usableInGame");
+    relation.add(game);
   }
 }

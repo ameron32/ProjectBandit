@@ -9,7 +9,7 @@ public class InventoryTestFragment$$ViewInjector {
     com.ameron32.apps.projectbandit.core.fragment.AbsContentFragment$$ViewInjector.inject(finder, target, source);
 
     View view;
-    view = finder.findRequiredView(source, 2131296446, "field 'gridView1'");
+    view = finder.findRequiredView(source, 2131296448, "field 'gridView1'");
     target.gridView1 = (android.widget.GridView) view;
   }
 

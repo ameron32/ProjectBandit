@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -30,6 +31,8 @@ import com.ameron32.apps.projectbandit.R;
 import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment;
 import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment.OnPerformTaskListener;
 import com.ameron32.apps.projectbandit.core.trial.AbsResettingContentFragment.TaskWorker;
+import com.ameron32.apps.projectbandit.manager.GameManager;
+import com.ameron32.apps.projectbandit.manager._ParseUtils;
 import com.ameron32.apps.projectbandit.object.Item;
 import com.ameron32.apps.projectbandit.object.ItemSet;
 import com.ameron32.apps.projectbandit.object.ItemSet.Template;
@@ -99,12 +102,12 @@ public class CreateSetItemsFragment
     ButterKnife.reset(this);
   }
   
-  @Override public void onViewCreated(
-      View view,
-      Bundle savedInstanceState) {
+  @InjectView(R.id.cb_verify) CheckBox addToGame;
+  
+  public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    ButterKnife.inject(this, view);
     mRootView = view;
-    ButterKnife.inject(this, mRootView);
 
     armorSlots.setItems(getResources().getStringArray(R.array.rules_armor_slots));
     armorSlots.setSelectedIndex(0);
@@ -262,6 +265,11 @@ public class CreateSetItemsFragment
       setBuilder.ofTemplate(templates.get(templatePosition));
       // setBuilder.named("Test Leather"); // FIXME ? maybe
       List<Item> createdItems = setBuilder.create();
+      if (addToGame.isChecked()) {
+        for (Item i : createdItems) {
+          _ParseUtils.addItemToGame(i, GameManager.get().getCurrentGame());
+        }
+      }
       ParseObject.saveAll(createdItems);
       if (LOG)
         Log.i(TAG, "item created & saved.");
