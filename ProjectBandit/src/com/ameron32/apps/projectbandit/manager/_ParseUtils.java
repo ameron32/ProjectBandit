@@ -92,4 +92,8 @@ public class _ParseUtils {
     ParseRelation<Game> relation = item.getRelation("usableInGame");
     relation.add(game);
   }
+  
+  public static void saveObjects(List<ParseObject> objects) {
+	  
+  }
 }

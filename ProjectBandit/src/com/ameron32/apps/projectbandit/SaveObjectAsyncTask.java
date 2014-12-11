@@ -1,13 +1,14 @@
 package com.ameron32.apps.projectbandit;
 
 import java.util.Arrays;
+import java.util.List;
 
 import android.os.AsyncTask;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
 
-public class SaveObjectAsyncTask {
+public class SaveObjectAsyncTask extends AsyncTask<ParseObject, Void, List<ParseObject>> {
   
   private static boolean LOGGY = false;
   
@@ -17,21 +18,8 @@ public class SaveObjectAsyncTask {
       OnSaveCallbacks listener) {
     this.listener = listener;
     listener.onBegin();
-    
   }
-  
-  public void execute(
-      ParseObject... params) {
-    final int length = params.length;
-    // final Boolean[] results = new Boolean[length];
-    // for (int i = 0; i < length; i++) {
-    // results[i] = Boolean.valueOf(sendMessage(params[i]));
-    // }
-    ParseObject.saveAllInBackground(Arrays.asList(params));
-    
-    listener.onComplete();
-  }
-  
+
   private boolean sendMessage(
       ParseObject object) {
     int saveObject = 0;
@@ -54,10 +42,30 @@ public class SaveObjectAsyncTask {
     return true;
   }
   
+  @Override
+	protected void onPostExecute(List<ParseObject> result) {
+		super.onPostExecute(result);
+	    listener.onComplete();
+	}
+  
   public interface OnSaveCallbacks {
     
     public void onBegin();
     
     public void onComplete();
   }
+
+
+
+@Override
+protected List<ParseObject> doInBackground(ParseObject... params) {
+	for (ParseObject o : params) {
+		try {
+			o.save();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+	return Arrays.asList(params);
+}
 }
