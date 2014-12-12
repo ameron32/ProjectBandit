@@ -9,7 +9,7 @@ public class SkillsTestFragment$$ViewInjector {
     com.ameron32.apps.projectbandit.core.fragment.AbsContentFragment$$ViewInjector.inject(finder, target, source);
 
     View view;
-    view = finder.findRequiredView(source, 2131296463, "field 'mRecyclerView'");
+    view = finder.findRequiredView(source, 2131296464, "field 'mRecyclerView'");
     target.mRecyclerView = (android.support.v7.widget.RecyclerView) view;
   }
 

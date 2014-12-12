@@ -173,6 +173,9 @@ public class ExpandableTextView
     mTextHeightWithMaxLines = getRealTextViewHeight(mTv);
     
     // doesn't fit in collapsed mode, show button
+    if (mCollapsed) {
+      mTv.setMaxLines(mMaxCollapsedLines);
+    }
     mButton.setVisibility(View.VISIBLE);
     
     // remeasure with new setup

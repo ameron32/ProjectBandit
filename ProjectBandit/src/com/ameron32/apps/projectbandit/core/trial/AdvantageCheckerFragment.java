@@ -2,23 +2,25 @@ package com.ameron32.apps.projectbandit.core.trial;
 
 import java.util.List;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.Optional;
 
+import com.ameron32.apps.projectbandit.ExpandableTextView;
+import com.ameron32.apps.projectbandit.ExpandableTextView2;
 import com.ameron32.apps.projectbandit.R;
 import com.ameron32.apps.projectbandit.core.fragment.AbsContentFragment;
 import com.ameron32.apps.projectbandit.object.Advantage;
@@ -59,10 +61,8 @@ public class AdvantageCheckerFragment
             
             @Override public void onItemClick(
                 View view, int position) {
-              
             }
           }));
-          
         }
       }
     });
@@ -71,22 +71,35 @@ public class AdvantageCheckerFragment
   public static class AdvantageAdapter extends RecyclerView.Adapter<AdvantageAdapter.ViewHolder> {
 
     private List<Advantage> advs;
+    SparseBooleanArray mCollapsedStatus;
 
     public AdvantageAdapter(List<Advantage> advs) {
       this.advs = advs;
+      mCollapsedStatus = new SparseBooleanArray();
     }
     
     public class ViewHolder extends RecyclerView.ViewHolder 
 //        implements OnClickListener 
     {
-      private int mOriginalHeight = 0;
-      private boolean mIsViewExpanded = false;
+//      private int mOriginalHeight = 0;
+//      private boolean mIsViewExpanded = false;
+//      
+//      private ValueAnimator sizeAnimator;
+//      private ValueAnimator alphaAnimator;
       
-      private ValueAnimator sizeAnimator;
-      private ValueAnimator alphaAnimator;
+//      @InjectView(R.id.expand_collapse) 
+//      ImageButton mButton;
+//      @InjectView(R.id.expandable_text) 
+//      TextView mTextView;
+      @InjectView(R.id.expand_text_view) 
+      ExpandableTextView mExpandableTextView;
       
       public ViewHolder(View v) {
         super(v);
+//        mExpandableTextView = (ExpandableTextView2) v;
+        ButterKnife.inject(this, v);
+//        mButton = (ImageButton) v.findViewById(R.id.expand_collapse);
+//        mTextView = (TextView) v.findViewById(R.id.expandable_text);
 //        v.setOnClickListener(this);
       }
 
@@ -138,13 +151,15 @@ public class AdvantageCheckerFragment
     @Override public void onBindViewHolder(
         ViewHolder holder, int position) {
       Advantage advantage = advs.get(position);
-      TextView tv = ((TextView) holder.itemView.findViewById(android.R.id.text1));
-      tv.setText(advantage.toString());
+      final CharSequence adv = advantage.toString();
+      holder.mExpandableTextView.setText(adv, mCollapsedStatus, position);
+//      TextView tv = ((TextView) holder.itemView.findViewById(android.R.id.text1));
+//      tv.setText(advantage.toString());
     }
 
     @Override public ViewHolder onCreateViewHolder(
         ViewGroup parent, int viewType) {
-      View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_simple_textview, parent, false);
+      View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_expanding_text, parent, false);
       return new AdvantageAdapter.ViewHolder(v);
     }
   }
