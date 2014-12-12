@@ -19,6 +19,7 @@ import com.ameron32.apps.projectbandit.core.trial.EquipmentTestFragment;
 import com.ameron32.apps.projectbandit.core.trial.GameFragment;
 import com.ameron32.apps.projectbandit.core.trial.InventoryTestFragment;
 import com.ameron32.apps.projectbandit.core.trial.RelationAttacherFragment;
+import com.ameron32.apps.projectbandit.core.trial.RollDiceFragment;
 import com.ameron32.apps.projectbandit.core.trial.SectionContainerTestFragment;
 import com.ameron32.apps.projectbandit.core.trial.SkillCheckerFragment;
 import com.ameron32.apps.projectbandit.core.trial.SkillsTestFragment;
@@ -103,6 +104,7 @@ public class ContentManager extends AbsManager {
       items.add(new ContentItem("GM: Add Characters", R.drawable.ic_gm, new AddCharactersFragment()));
       items.add(new ContentItem("GM: Create Item", R.drawable.ic_gm, new CreateItemFragment()));
       items.add(new ContentItem("GM: Issue Item", R.drawable.ic_gm, new IssueItemFragment()));
+      items.add(new ContentItem("GM: Roll Dice", R.drawable.ic_gm, new RollDiceFragment()));
       items.add(new ContentItem("Database: Create Item Set", R.drawable.ic_gm, new CreateSetItemsFragment()));
       items.add(new ContentItem("Database: Attach Relation", R.drawable.ic_gm, new RelationAttacherFragment()));
     }

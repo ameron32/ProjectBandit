@@ -1,14 +1,20 @@
 package com.ameron32.apps.projectbandit.manager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.ameron32.apps.projectbandit.object.Character;
 import com.ameron32.apps.projectbandit.object.Game;
 import com.ameron32.apps.projectbandit.object.Item;
+import com.ameron32.apps.projectbandit.object.Message;
+import com.ameron32.apps.projectbandit.object.Message.MessageType;
 import com.ameron32.apps.projectbandit.object.User;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -95,5 +101,34 @@ public class _ParseUtils {
   
   public static void saveObjects(List<ParseObject> objects) {
 	  
+  }
+  
+  public static void rollDice() {
+    HashMap<String, ParseObject> map = new HashMap<String, ParseObject>();
+//  map.put("user", ParseUser.getCurrentUser());
+  ParseCloud.callFunctionInBackground("roll", map, new FunctionCallback<String>() {
+    
+    public void done(String result,
+        ParseException e) {
+      if (e == null) {
+        // result is "Hello world!"
+//        Toast.makeText(MainPushActivity.this, result, Toast.LENGTH_SHORT).show();
+        
+        try {
+          ParseObject oAttempts = new ParseQuery<ParseObject>("CAction").get("QJJa4LdZUV");
+          
+          Message.create()
+            .setMessage(result)
+            .setAction(oAttempts)
+            .setChannel("root")
+            .setType(MessageType.SYSTEM)
+            .setCharacter(CharacterManager.get().getChatCharacter())
+            .send();
+        } catch (ParseException e1) {
+          e1.printStackTrace();
+        } finally {}
+      }
+    }
+  });
   }
 }

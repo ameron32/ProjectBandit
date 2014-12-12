@@ -1,5 +1,7 @@
 package com.ameron32.apps.projectbandit.object;
 
+import java.util.Locale;
+
 import com.ameron32.apps.projectbandit.SaveObjectAsyncTask;
 import com.ameron32.apps.projectbandit.manager.GameManager;
 import com.ameron32.apps.projectbandit.manager.UserManager;
@@ -20,6 +22,7 @@ public class Message
   private boolean canon = false;
   private ParseObject actionO = null;
   private String action = "says";
+  private MessageType type = MessageType.STANDARD;
   
   public static Message create() {
     return new Message().setUser();
@@ -64,6 +67,13 @@ public class Message
     return this;
   }
   
+  public Message setType(MessageType type) {
+    if (type != null) {
+      this.type = type;
+    }
+    return this;
+  }
+  
   public void send() {
     send(new SaveObjectAsyncTask.OnSaveCallbacks() {
       
@@ -101,6 +111,7 @@ public class Message
     this.put("canon", canon);
     this.put("action", action);
     this.put("actionO", actionO);
+    this.put("type", type.toString());
     
     Game currentGame = GameManager.get().getCurrentGame();
     this.put("ofGame", currentGame);
@@ -151,5 +162,14 @@ public class Message
 
   @Override public int getColumnCount() {
     return COLUMNS.length;
+  }
+  
+  public enum MessageType {
+    STANDARD, SYSTEM;
+    
+    public String toString() {
+      return this.name().substring(0, 1).toUpperCase(Locale.ENGLISH) 
+          + this.name().substring(1).toLowerCase(Locale.ENGLISH);
+    }
   }
 }

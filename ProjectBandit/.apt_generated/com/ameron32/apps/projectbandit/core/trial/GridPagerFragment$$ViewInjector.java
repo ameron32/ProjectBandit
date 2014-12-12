@@ -9,7 +9,7 @@ public class GridPagerFragment$$ViewInjector {
     com.ameron32.apps.projectbandit.core.fragment.AbsContentFragment$$ViewInjector.inject(finder, target, source);
 
     View view;
-    view = finder.findRequiredView(source, 2131296392, "field 'gridView'");
+    view = finder.findRequiredView(source, 2131296394, "field 'gridView'");
     target.gridView = (com.jess.ui.TwoWayGridView) view;
   }
 

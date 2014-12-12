@@ -7,23 +7,23 @@ import butterknife.ButterKnife.Finder;
 public class SkillsTestFragment$SkillAdapter$ViewHolder$$ViewInjector {
   public static void inject(Finder finder, final com.ameron32.apps.projectbandit.core.trial.SkillsTestFragment.SkillAdapter.ViewHolder target, Object source) {
     View view;
-    view = finder.findRequiredView(source, 2131296443, "field 'name'");
+    view = finder.findRequiredView(source, 2131296445, "field 'name'");
     target.name = (android.widget.TextView) view;
-    view = finder.findRequiredView(source, 2131296444, "field 'skillImage'");
+    view = finder.findRequiredView(source, 2131296446, "field 'skillImage'");
     target.skillImage = (android.widget.ImageView) view;
-    view = finder.findRequiredView(source, 2131296435, "field 'objectId'");
-    target.objectId = (android.widget.TextView) view;
-    view = finder.findRequiredView(source, 2131296425, "field 'description'");
-    target.description = (android.widget.TextView) view;
-    view = finder.findRequiredView(source, 2131296434, "field 'createdTime'");
+    view = finder.findRequiredView(source, 2131296436, "field 'createdTime'");
     target.createdTime = (android.widget.TextView) view;
+    view = finder.findRequiredView(source, 2131296437, "field 'objectId'");
+    target.objectId = (android.widget.TextView) view;
+    view = finder.findRequiredView(source, 2131296427, "field 'description'");
+    target.description = (android.widget.TextView) view;
   }
 
   public static void reset(com.ameron32.apps.projectbandit.core.trial.SkillsTestFragment.SkillAdapter.ViewHolder target) {
     target.name = null;
     target.skillImage = null;
+    target.createdTime = null;
     target.objectId = null;
     target.description = null;
-    target.createdTime = null;
   }
 }

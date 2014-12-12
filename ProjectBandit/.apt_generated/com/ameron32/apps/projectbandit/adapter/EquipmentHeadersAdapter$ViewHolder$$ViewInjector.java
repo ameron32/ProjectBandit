@@ -7,23 +7,23 @@ import butterknife.ButterKnife.Finder;
 public class EquipmentHeadersAdapter$ViewHolder$$ViewInjector {
   public static void inject(Finder finder, final com.ameron32.apps.projectbandit.adapter.EquipmentHeadersAdapter.ViewHolder target, Object source) {
     View view;
-    view = finder.findRequiredView(source, 2131296420, "field 'itemName'");
-    target.itemName = (android.widget.TextView) view;
-    view = finder.findRequiredView(source, 2131296424, "field 'durabilityBar'");
-    target.durabilityBar = (android.widget.ProgressBar) view;
-    view = finder.findRequiredView(source, 2131296423, "field 'equipmentSlot'");
-    target.equipmentSlot = (android.widget.TextView) view;
-    view = finder.findRequiredView(source, 2131296422, "field 'itemValue'");
-    target.itemValue = (android.widget.Button) view;
-    view = finder.findRequiredView(source, 2131296421, "field 'itemDurability'");
+    view = finder.findRequiredView(source, 2131296423, "field 'itemDurability'");
     target.itemDurability = (android.widget.TextView) view;
+    view = finder.findRequiredView(source, 2131296424, "field 'itemValue'");
+    target.itemValue = (android.widget.Button) view;
+    view = finder.findRequiredView(source, 2131296422, "field 'itemName'");
+    target.itemName = (android.widget.TextView) view;
+    view = finder.findRequiredView(source, 2131296426, "field 'durabilityBar'");
+    target.durabilityBar = (android.widget.ProgressBar) view;
+    view = finder.findRequiredView(source, 2131296425, "field 'equipmentSlot'");
+    target.equipmentSlot = (android.widget.TextView) view;
   }
 
   public static void reset(com.ameron32.apps.projectbandit.adapter.EquipmentHeadersAdapter.ViewHolder target) {
+    target.itemDurability = null;
+    target.itemValue = null;
     target.itemName = null;
     target.durabilityBar = null;
     target.equipmentSlot = null;
-    target.itemValue = null;
-    target.itemDurability = null;
   }
 }

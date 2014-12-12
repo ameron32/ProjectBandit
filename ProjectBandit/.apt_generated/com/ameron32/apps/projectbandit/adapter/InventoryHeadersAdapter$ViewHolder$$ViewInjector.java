@@ -7,20 +7,20 @@ import butterknife.ButterKnife.Finder;
 public class InventoryHeadersAdapter$ViewHolder$$ViewInjector {
   public static void inject(Finder finder, final com.ameron32.apps.projectbandit.adapter.InventoryHeadersAdapter.ViewHolder target, Object source) {
     View view;
-    view = finder.findRequiredView(source, 2131296426, "field 'itemImage'");
+    view = finder.findRequiredView(source, 2131296428, "field 'itemImage'");
     target.itemImage = (android.widget.ImageButton) view;
-    view = finder.findRequiredView(source, 2131296429, "field 'itemValue'");
-    target.itemValue = (android.widget.TextView) view;
-    view = finder.findRequiredView(source, 2131296428, "field 'itemQuantity'");
+    view = finder.findRequiredView(source, 2131296430, "field 'itemQuantity'");
     target.itemQuantity = (android.widget.TextView) view;
-    view = finder.findRequiredView(source, 2131296427, "field 'itemName'");
+    view = finder.findRequiredView(source, 2131296429, "field 'itemName'");
     target.itemName = (android.widget.TextView) view;
+    view = finder.findRequiredView(source, 2131296431, "field 'itemValue'");
+    target.itemValue = (android.widget.TextView) view;
   }
 
   public static void reset(com.ameron32.apps.projectbandit.adapter.InventoryHeadersAdapter.ViewHolder target) {
     target.itemImage = null;
-    target.itemValue = null;
     target.itemQuantity = null;
     target.itemName = null;
+    target.itemValue = null;
   }
 }

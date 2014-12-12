@@ -27,8 +27,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 public class AdvantageCheckerFragment 
-  extends
-    AbsContentFragment
+  extends AbsContentFragment
 {
 
   @Override protected int getCustomLayoutResource() {
@@ -77,7 +76,9 @@ public class AdvantageCheckerFragment
       this.advs = advs;
     }
     
-    public class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder 
+//        implements OnClickListener 
+    {
       private int mOriginalHeight = 0;
       private boolean mIsViewExpanded = false;
       
@@ -86,48 +87,48 @@ public class AdvantageCheckerFragment
       
       public ViewHolder(View v) {
         super(v);
-        v.setOnClickListener(this);
+//        v.setOnClickListener(this);
       }
 
-      @Override public void onClick(
-          final View view) {
-        if (mOriginalHeight == 0) {
-          mOriginalHeight = view.getHeight();
-        }
-        if (!mIsViewExpanded) {
-          mIsViewExpanded = true;
-          sizeAnimator = ValueAnimator.ofInt((int) (mOriginalHeight
-              * 0.1), mOriginalHeight);
-          alphaAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
-        } else {
-          mIsViewExpanded = false;
-          sizeAnimator = ValueAnimator.ofInt(mOriginalHeight, (int) (mOriginalHeight
-              * 0.1));
-          alphaAnimator = ValueAnimator.ofFloat(1.0f, 0.0f);
-        }
-        sizeAnimator.setDuration(300);
-        alphaAnimator.setDuration(300);
-        sizeAnimator.setInterpolator(new LinearInterpolator());
-        alphaAnimator.setInterpolator(new LinearInterpolator());
-        sizeAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-          public void onAnimationUpdate(
-              ValueAnimator animation) {
-            Integer value = (Integer) animation.getAnimatedValue();
-            view.getLayoutParams().height = value.intValue();
-            view.requestLayout();
-          }
-        });
-        alphaAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-          
-          @Override public void onAnimationUpdate(
-              ValueAnimator animation) {
-            Float value = (Float) animation.getAnimatedValue();
-            view.setAlpha(value);
-          }
-        });
-        sizeAnimator.start();
-        alphaAnimator.start();
-      }
+//      @Override public void onClick(
+//          final View view) {
+//        if (mOriginalHeight == 0) {
+//          mOriginalHeight = view.getHeight();
+//        }
+//        if (!mIsViewExpanded) {
+//          mIsViewExpanded = true;
+//          sizeAnimator = ValueAnimator.ofInt((int) (mOriginalHeight
+//              * 0.1), mOriginalHeight);
+//          alphaAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
+//        } else {
+//          mIsViewExpanded = false;
+//          sizeAnimator = ValueAnimator.ofInt(mOriginalHeight, (int) (mOriginalHeight
+//              * 0.1));
+//          alphaAnimator = ValueAnimator.ofFloat(1.0f, 0.0f);
+//        }
+//        sizeAnimator.setDuration(300);
+//        alphaAnimator.setDuration(300);
+//        sizeAnimator.setInterpolator(new LinearInterpolator());
+//        alphaAnimator.setInterpolator(new LinearInterpolator());
+//        sizeAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//          public void onAnimationUpdate(
+//              ValueAnimator animation) {
+//            Integer value = (Integer) animation.getAnimatedValue();
+//            view.getLayoutParams().height = value.intValue();
+//            view.requestLayout();
+//          }
+//        });
+//        alphaAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//          
+//          @Override public void onAnimationUpdate(
+//              ValueAnimator animation) {
+//            Float value = (Float) animation.getAnimatedValue();
+//            view.setAlpha(value);
+//          }
+//        });
+//        sizeAnimator.start();
+//        alphaAnimator.start();
+//      }
     }
     
     @Override public int getItemCount() {
