@@ -13,10 +13,10 @@ public class GameFragment$$ViewInjector {
     target.gm = (com.ameron32.library.floatingtext.FloatingHintTextView) view;
     view = finder.findRequiredView(source, 2131296460, "field 'user'");
     target.user = (com.ameron32.library.floatingtext.FloatingHintTextView) view;
-    view = finder.findRequiredView(source, 2131296463, "field 'players'");
-    target.players = (com.ameron32.library.floatingtext.FloatingHintTextView) view;
     view = finder.findRequiredView(source, 2131296461, "field 'game'");
     target.game = (com.ameron32.library.floatingtext.FloatingHintTextView) view;
+    view = finder.findRequiredView(source, 2131296463, "field 'players'");
+    target.players = (com.ameron32.library.floatingtext.FloatingHintTextView) view;
   }
 
   public static void reset(com.ameron32.apps.projectbandit.core.trial.GameFragment target) {
@@ -24,7 +24,7 @@ public class GameFragment$$ViewInjector {
 
     target.gm = null;
     target.user = null;
-    target.players = null;
     target.game = null;
+    target.players = null;
   }
 }

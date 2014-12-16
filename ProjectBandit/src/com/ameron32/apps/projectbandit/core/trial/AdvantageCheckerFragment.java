@@ -20,8 +20,8 @@ import butterknife.InjectView;
 import butterknife.Optional;
 
 import com.ameron32.apps.projectbandit.ExpandableTextView;
-import com.ameron32.apps.projectbandit.ExpandableTextView2;
 import com.ameron32.apps.projectbandit.R;
+import com.ameron32.apps.projectbandit._retired.ExpandableTextView2;
 import com.ameron32.apps.projectbandit.core.fragment.AbsContentFragment;
 import com.ameron32.apps.projectbandit.object.Advantage;
 import com.parse.FindCallback;

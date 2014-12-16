@@ -1,40 +1,5 @@
 package com.ameron32.apps.projectbandit._retired;
 
-import java.lang.ref.WeakReference;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.audiofx.Visualizer.OnDataCaptureListener;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.Optional;
-
-import com.ameron32.apps.projectbandit.Loggy;
-import com.ameron32.apps.projectbandit.R;
-import com.ameron32.apps.projectbandit.object.Message;
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.GetDataCallback;
-import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseImageView;
-import com.parse.ParseObject;
-import com.parse.ParseQueryAdapter.QueryFactory;
-import com.parse.ParseUser;
-import com.squareup.picasso.Picasso;
 
 
 
