@@ -1,20 +1,30 @@
-apply plugin: 'android-library'
+apply plugin: 'android'
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
+    compile project(':StickyGridHeaders_Library')
+    compile project(':StickyListHeaders_Library')
+    compile project(':ViewPager_Library')
+    compile project(':TwoWayGridView_Library')
+    compile project(':RecyclerView_Library')
+    compile project(':appcompat_v7')
+    compile project(':FloatingText_Library')
+    compile project(':NineOldAndroids_Library')
+    compile project(':ParseLoginUI')
+    compile project(':RecyclerTableView_Library')
 }
 
 android {
-    compileSdkVersion 20
+    compileSdkVersion 21
     buildToolsVersion "21.1.1"
 
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
-            resources.srcDirs = ['src']
-            aidl.srcDirs = ['src']
-            renderscript.srcDirs = ['src']
+            java.srcDirs = ['.apt_generated','src']
+            resources.srcDirs = ['.apt_generated','src']
+            aidl.srcDirs = ['.apt_generated','src']
+            renderscript.srcDirs = ['.apt_generated','src']
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
         }
